@@ -1,0 +1,69 @@
+<div>
+    <button (click)="openDialog()">New Masked Email</button>
+</div>
+
+<div>
+    <label>Search: </label> <input [(ngModel)]="searchAddress" placeholder="email address" />
+    <button (click)="onClearSearchAddress()">x</button>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Description</th>
+            <th>Enabled</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let address of addresses" [class.js-switch]="true">
+            <td> {{ address.name }} </td>
+            <td> {{ address.emailAddress }} 
+                <button class="far fa-copy" (click)="copyToClipboard(address.emailAddress)">copy</button>
+            </td>
+            <td> {{ address.description }} </td>
+            <td>
+
+                <angular-switchery [(ngModel)]="address.forwardingEnabled" (change)="onToggleChecked(address)">
+                </angular-switchery>
+            </td>
+            <td><button (click)="openUpdateDialog(address)">u</button></td>
+            <td><button (click)="onDelete(address)">x</button></td>
+        </tr>
+    </tbody>
+</table>
+
+<jw-modal id="new-masked-email-address-dialog">
+    <h2>Create a new masked email address</h2>
+    <div>
+        <label>Name:</label>
+        <input [(ngModel)]="newAddressName" placeholder="new address name" />
+    </div>
+    <div>
+        <label>Description:</label>
+        <input [(ngModel)]="newAddressDescription" placeholder="description (optional)" />
+    </div>
+    <div>
+        <label>Password:</label>
+        <input [(ngModel)]="newAddressPassword" placeholder="password" />
+    </div>
+    <button (click)="closeDialog(true)" [disabled]="newAddressName === ''">OK</button>
+    <button (click)="closeDialog(false)">Cancel</button>
+</jw-modal>
+
+<jw-modal id="update-masked-email-address-dialog">
+    <h2>Update a masked email address</h2>
+    <div>
+        <label>Name:</label>
+        <input [(ngModel)]="newAddressName" placeholder="new address name" />
+    </div>
+    <div>
+        <label>Description:</label>
+        <input [(ngModel)]="newAddressDescription" placeholder="description (optional)" />
+    </div>
+    <button (click)="closeUpdateDialog(true)" [disabled]="newAddressName === ''">OK</button>
+    <button (click)="closeUpdateDialog(false)">Cancel</button>
+</jw-modal>

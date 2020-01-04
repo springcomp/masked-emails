@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "masked-emails": {
+      "commandName": "Project",
+      "commandLineArgs": "-u alice -p password",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Client.RO": {
+      "commandName": "Project",
+      "commandLineArgs": "https://masked-emails-identity.azurewebsites.net/ maxime password"
+    }
+  }
+}

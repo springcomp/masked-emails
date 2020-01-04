@@ -1,0 +1,9 @@
+[Bb]in/
+[Oo]bj/
+
+\.vs/
+node_modules/
+dist/
+
+*\.pubxml
+*\.pubxml\.user

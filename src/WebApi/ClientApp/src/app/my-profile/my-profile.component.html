@@ -1,0 +1,23 @@
+<h1>{{ my.displayName }}</h1>
+
+<div>
+    <p><span>Forwarding Address: </span> {{ my.forwardingAddress }}</p>
+    <button (click)="openDialog()">Update</button>
+</div>
+
+<jw-modal id="update-forwarding-address-dialog">
+    <h2>Update Forwarding Email Address</h2>
+    <div>
+        <label>Forwarding address:</label>
+        <input [(ngModel)]="newForwardingAddress" placeholder="email address" />
+    </div>
+    <div>
+        <p>
+        <em>Warning</em>: the update will be valid for new masked email addresses only.
+        Messages received by existing masked email addresses will still be forwarded to
+        the addresses set at the time of their creations.
+        </p>
+    </div>
+    <button (click)="closeDialog(true)" [disabled]="newForwardingAddress === ''">OK</button>
+    <button (click)="closeDialog(false)">Cancel</button>
+</jw-modal>
