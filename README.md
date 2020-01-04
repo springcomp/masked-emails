@@ -2,6 +2,8 @@
 
 This repository hosts the main application and API for the "masked emails".
 
+![image](https://user-images.githubusercontent.com/8488398/71770833-2bec5400-2f32-11ea-84c5-274bfd161754.png)
+
 ## Quick Overview
 
 To prevent SPAM, I wanted to be able to create as many single-purpose email addresses as requested.
