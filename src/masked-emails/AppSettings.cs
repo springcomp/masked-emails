@@ -2,7 +2,7 @@
 {
     public sealed class AppSettings
     {
-        public string Domain { get; set; } = "maskedbox.space";
+        public string Domain { get; set; } = "masked-emails.io";
     }
 
     public sealed class Endpoints
