@@ -14,6 +14,11 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
 
 import { AuthorizationGuard } from './core/authorization-guard';
 import { environment } from '../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+//Import material module
+import { MaterialModule } from './material.module';
+import { GravatarModule } from 'ngx-gravatar';
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
   return () => {
@@ -44,6 +49,9 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     CoreModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    GravatarModule
   ],
   providers: [
     AuthorizationGuard,
