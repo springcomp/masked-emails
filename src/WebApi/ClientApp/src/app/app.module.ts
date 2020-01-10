@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 //Import material module
 import { MaterialModule } from './material.module';
+import { LoginComponent } from './login/login.component'
 import { GravatarModule } from 'ngx-gravatar';
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
@@ -41,6 +42,7 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     AppComponent,
     MaskedEmailsComponent,
     MyProfileComponent,
+    LoginComponent,
   ],
   imports: [
     AppRoutingModule,
