@@ -3,7 +3,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
   selector: 'angular-switchery',
-  styleUrls: ['./angular-switchery.component.css'],
+  styleUrls: ['./angular-switchery.component.scss'],
   template: `<span (keydown)="onKeyDown($event)" tabindex="0"
   [class.switchery]="!isChecked()"
   [class.switchery-checked]="isChecked()"

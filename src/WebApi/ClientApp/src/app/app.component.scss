@@ -1,0 +1,12 @@
+@import '../scss/_custom.scss';
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.title {
+  text-transform: uppercase;
+  color: mat-color($accent);
+  font-family: "Roboto";
+  font-weight: 800;
+}

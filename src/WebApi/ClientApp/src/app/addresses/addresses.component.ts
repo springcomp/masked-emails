@@ -9,7 +9,7 @@ import { Address, MaskedEmail, MaskedEmailRequest, UpdateMaskedEmailRequest } fr
 @Component({
   selector: 'app-addresses',
   templateUrl: './addresses.component.html',
-  styleUrls: ['./addresses.component.css']
+  styleUrls: ['./addresses.component.scss']
 })
 export class AddressesComponent implements OnInit {
 
