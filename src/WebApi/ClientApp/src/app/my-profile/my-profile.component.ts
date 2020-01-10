@@ -37,6 +37,10 @@ export class MyProfileComponent implements OnInit {
     this.loadProfile();
   }
 
+  get forwardingAddress(): string {
+    return this.my && this.my.forwardingAddress ? this.my.forwardingAddress : "annecharlotte.bournigal@gmail.com";
+  }
+
   openDialog(): void {
     this.newForwardingAddress = "";
     this.modalService.open(this.UPDATE_FORWARDING_ADDRESS_DIALOG);

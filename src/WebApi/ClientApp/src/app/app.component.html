@@ -1,4 +1,27 @@
-<button *ngIf="!isAuthenticated" (click)="login()">Login</button>
+<mat-toolbar color="ClientApp-primary">
+
+  <mat-toolbar-row>
+    <span class="title" color="foreground">Masked-Emails</span>
+    <span class="spacer"></span>
+    <a mat-button *ngIf="!isAuthenticated" (click)="login()"><mat-icon class="example-icon" aria-hidden="false" aria-label="Login">perm_identity</mat-icon> Login</a>
+    <!--<a mat-button *ngIf="isAuthenticated" (click)="login()"><mat-icon class="example-icon" aria-hidden="false" aria-label="Login">perm_identity</mat-icon> Login</a>
+
+    <a mat-button [matMenuTriggerFor]="user">
+      <img class="user-picture" ngxGravatar [email]="userEmail" [preferGravatar]="true" [fallback]="'mp'" size="24">
+      <div class="user-informations">
+        <div class="username">{{username}}</div>
+        <div class="organization-name" *ngIf="currentOrganizationObject">{{currentOrganizationObject.name}}</div>
+      </div>
+      <i-chevron-down class="user-picture feather-sm"></i-chevron-down>
+
+    </a>-->
+
+    <app-my-profile *ngIf="isAuthenticated"></app-my-profile>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<!--<button *ngIf="!isAuthenticated" (click)="login()">Login</button>-->
 <button *ngIf="isAuthenticated" (click)="logout()">Logout</button>
 
 <router-outlet></router-outlet>

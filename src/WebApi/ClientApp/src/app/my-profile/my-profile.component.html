@@ -1,4 +1,20 @@
-<h1>{{ my.displayName }}</h1>
+
+  <button class="user-section" mat-button [matMenuTriggerFor]="user">
+    <img class="user-picture" ngxGravatar [email]="forwardingAddress" [preferGravatar]="true" [fallback]="'mp'" size="24">
+    <div class="user-informations">
+      <div class="username">{{my.displayName}}</div>
+    </div>
+    <!--<i-chevron-down class="user-picture feather-sm"></i-chevron-down>-->
+
+  </button>
+
+  <mat-menu #user="matMenu">
+    <button mat-menu-item>Item 1</button>
+    <button mat-menu-item>Item 2</button>
+  </mat-menu>
+
+
+<!--<h1>{{ my.displayName }}</h1>
 
 <div>
     <p><span>Forwarding Address: </span> {{ my.forwardingAddress }}</p>
@@ -20,4 +36,4 @@
     </div>
     <button (click)="closeDialog(true)" [disabled]="newForwardingAddress === ''">OK</button>
     <button (click)="closeDialog(false)">Cancel</button>
-</jw-modal>
+</jw-modal>-->
