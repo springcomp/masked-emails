@@ -78,7 +78,7 @@ namespace WebApi.Services
             return collection;
         }
 
-        public async Task<GetMaskedEmailPageResponse> GetMaskedEmails(string userId, int top, string cursor, string sort_by, string search_like)
+        public async Task<GetMaskedEmailPageResponse> GetMaskedEmails(string userId, int top, string cursor, string sort_by, string contains)
         {
             var descending = (sort_by.EndsWith("-desc"));
             if (descending)
@@ -102,10 +102,12 @@ namespace WebApi.Services
                 Total = await collection.CountAsync(),
             };
 
-            var expression = MakeSelectPageExpression(when, descending);
+            var selectPage = MakeSelectPageExpression(when, descending);
+            var searchExpression = MakeSearchExpression(contains);
 
             collection = collection
-                .Where(expression)
+                .Where(selectPage)
+                .Where(searchExpression)
                 .Take(top)
                 ;
 
@@ -294,6 +296,22 @@ namespace WebApi.Services
             return createdUtc.ToString(ISO8601_DATE_TIME_FORMAT);
         }
 
+        private static Expression<Func<Address, bool>> MakeSearchExpression(string contains)
+        {
+            Expression<Func<Address, bool>> where =
+                a => true;
+
+            if (string.IsNullOrEmpty(contains))
+                return where;
+
+            where = a =>
+                   EF.Functions.Like(a.Name, $"%{contains}%") 
+                || EF.Functions.Like(a.Description, $"%{contains}%")
+                || EF.Functions.Like(a.EmailAddress, $"%{contains}%")
+                ;
+
+            return where;
+        }
         private static Expression<Func<Address, bool>> MakeSelectPageExpression(DateTime when, bool descending)
         {
             Expression<Func<Address, bool>> where =

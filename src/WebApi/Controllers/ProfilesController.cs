@@ -76,8 +76,21 @@ namespace WebApi.Controllers
         }
 
         // GET profiles/my/adresses/pages
+        [HttpGet("my/search")]
+        public async Task<ActionResult> SearchMaskedEmails(string contains, int top = 25, string cursor = null, string sort_by = "created-utc-desc")
+        {
+            if (!GetAuthenticatedUserId(out var identifier))
+                return BadRequest();
+
+            var page = await service_
+                .GetMaskedEmails(identifier, top, cursor, sort_by, search: contains);
+
+            return Ok(page);
+        }
+
+        // GET profiles/my/adresses/pages
         [HttpGet("my/address-pages")]
-        public async Task<ActionResult> GetMaskedEmailsPaging(int top = 2, string cursor = null, string sort_by = "created-utc-desc")
+        public async Task<ActionResult> GetMaskedEmailsPaging(int top = 25, string cursor = null, string sort_by = "created-utc-desc")
         {
             if (!GetAuthenticatedUserId(out var identifier))
                 return BadRequest();
