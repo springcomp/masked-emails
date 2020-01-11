@@ -25,7 +25,7 @@ namespace masked_emails.Client
             return client_.GetProfileAsync();
         }
 
-        public Task<MaskedEmailWithPassword> CreateAddress(MaskedEmailRequest request)
+        public Task<MaskedEmailWithPassword> CreateAddress(CreateMaskedEmailRequest request)
         {
             return client_.CreateAddress(request);
         }

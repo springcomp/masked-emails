@@ -19,7 +19,7 @@ namespace masked_emails.Commands
             if (cmdLine.ShowUsage)
                 return;
 
-            var request = new MaskedEmailRequest {
+            var request = new CreateMaskedEmailRequest {
                 Description = cmdLine.Description ?? "",
                 EnableForwarding = true,
                 Name = cmdLine.Name,

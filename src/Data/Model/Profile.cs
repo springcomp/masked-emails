@@ -3,8 +3,13 @@ using System.Collections.Generic;
 
 namespace Data.Model
 {
-    public sealed class Profile
+    public class Profile
     {
+        public Profile()
+        {
+            Addresses = new HashSet<Address>();
+        }
+
         public string Id { get; set; }
 
         public string DisplayName { get; set; }
@@ -13,6 +18,6 @@ namespace Data.Model
         public DateTime CreatedUtc { get; set; }
 
         // navigation properties
-        public ICollection<Address> Addresses { get; set; }
+        public virtual ICollection<Address> Addresses { get; set; }
     }
 }

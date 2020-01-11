@@ -11,6 +11,7 @@ namespace WebApi.Services.Interop
         Task<User> UpdateProfile(string userId, string displayName, string forwardingAddress);
 
         Task<IEnumerable<MaskedEmail>> GetMaskedEmails(string userId);
+        Task<GetMaskedEmailPageResponse> GetMaskedEmails(string userId, int top, string cursor, string sort_by, string search);
         Task<MaskedEmail> GetMaskedEmail(string userId, string email);
 
         Task<MaskedEmail> ToggleMaskedEmailForwarding(string userId, string email);
