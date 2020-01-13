@@ -34,9 +34,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.oidcSecurityService.authorize();
     }
 
-    logout() {
-        this.oidcSecurityService.logoff();
-    }
 
     private doCallbackLogicIfRequired() {
         var url = window.location.toString();

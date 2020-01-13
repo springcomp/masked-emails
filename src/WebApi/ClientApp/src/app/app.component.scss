@@ -6,7 +6,11 @@
 
 .title {
   text-transform: uppercase;
-  color: mat-color($ClientApp-accent);
+  color: mat-color($accent);
   font-family: "Roboto";
   font-weight: 800;
+}
+
+.margin-left-text{
+      margin-left:10px;
 }

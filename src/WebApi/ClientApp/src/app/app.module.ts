@@ -16,6 +16,11 @@ import { AuthorizationGuard } from './core/authorization-guard';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+//Font Awesome Module
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+
 //Import material module
 import { MaterialModule } from './material.module';
 import { LoginComponent } from './login/login.component'
@@ -53,7 +58,8 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
-    GravatarModule
+    GravatarModule,
+    FontAwesomeModule
   ],
   providers: [
     AuthorizationGuard,
@@ -69,6 +75,8 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
 })
 export class AppModule {
   constructor(private openId: OidcSecurityService, private configService: OidcConfigService) {
+    library.add(fas);
+
     this.configService.onConfigurationLoaded.subscribe((configResult: ConfigResult) => {
 
       console.log(configResult.customConfig);
