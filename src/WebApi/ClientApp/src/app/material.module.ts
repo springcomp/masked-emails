@@ -4,11 +4,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatIconModule,
   MatButtonModule,
+  MatDialogModule,
   MatInputModule,
   MatToolbarModule,
   MatSidenavModule,
   MatCardModule,
-  MatMenuModule
+  MatMenuModule,
+  MatDividerModule
 } from '@angular/material/';
 import { FormsModule } from '@angular/forms';
 
@@ -19,22 +21,26 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     MatIconModule,
     MatButtonModule,
+    MatDialogModule,
     MatInputModule,
     MatToolbarModule,
     MatSidenavModule,
     MatCardModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDividerModule
   ], exports: [
     BrowserAnimationsModule,
     FormsModule,
     CommonModule,
     MatIconModule,
     MatButtonModule,
+    MatDialogModule,
     MatInputModule,
     MatToolbarModule,
     MatSidenavModule,
     MatCardModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDividerModule
   ],
   declarations: []
 })

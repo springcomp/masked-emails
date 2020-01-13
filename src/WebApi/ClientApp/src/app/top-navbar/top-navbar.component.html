@@ -1,0 +1,31 @@
+<mat-toolbar color="primary">
+
+    <mat-toolbar-row>
+        <span class="title" color="foreground">Masked-Emails</span>
+        <span class="spacer"></span>
+
+        <a mat-button *ngIf="!isAuthenticated" (click)="login()"><fa-icon [icon]="['fas', 'user']"></fa-icon> <span class="margin-left-text">Login</span></a>
+
+        <button *ngIf="isAuthenticated" class="user-section" mat-button [matMenuTriggerFor]="user">
+            <img class="user-picture" ngxGravatar [email]="forwardingAddress" [preferGravatar]="true" [fallback]="'mp'" size="24">
+            <div class="user-informations">
+                <div class="username">{{my.displayName}}</div>
+            </div>
+
+            <fa-icon [icon]="['fas', 'chevron-down']"></fa-icon>
+        </button>
+
+    </mat-toolbar-row>
+</mat-toolbar>
+
+
+<mat-menu class="user-menu" #user="matMenu">
+    <div mat-menu-item class="forwarding-address" (click)="$event.stopPropagation();">
+        <div class="title">Forwarding address:</div>
+        <div>{{ my.forwardingAddress }} <button mat-icon-button aria-label="Modify the forwarding address" (click)="openDialog()"><fa-icon class="icon-size" [icon]="['fas', 'pen']"></fa-icon></button></div>
+    </div>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="logout()">
+        <span class="logout-text">Logout</span>
+    </button>
+</mat-menu>

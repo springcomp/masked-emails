@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AddressesComponent } from '../addresses/addresses.component';
-import { MyProfileComponent } from '../my-profile/my-profile.component';
 
 @Component({
   selector: 'app-masked-emails',

@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AddressesComponent } from './addresses/addresses.component';
 import { MaskedEmailsComponent } from './masked-emails/masked-emails.component';
-import { MyProfileComponent } from './my-profile/my-profile.component';
+import { TopNavbarComponent } from './top-navbar/top-navbar.component';
 
 import { AuthorizationGuard } from './core/authorization-guard';
 import { environment } from '../environments/environment';
@@ -25,6 +25,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { MaterialModule } from './material.module';
 import { LoginComponent } from './login/login.component'
 import { GravatarModule } from 'ngx-gravatar';
+import { ProfileDialogComponent } from './top-navbar/profile-dialog/profile-dialog.component';
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
   return () => {
@@ -46,8 +47,12 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     AddressesComponent,
     AppComponent,
     MaskedEmailsComponent,
-    MyProfileComponent,
+    TopNavbarComponent,
     LoginComponent,
+    ProfileDialogComponent
+  ],
+  entryComponents: [
+    ProfileDialogComponent
   ],
   imports: [
     AppRoutingModule,
