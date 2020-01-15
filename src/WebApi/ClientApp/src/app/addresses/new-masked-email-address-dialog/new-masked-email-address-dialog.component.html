@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Create a new masked email address</h1>
+
+<div mat-dialog-content class="form-width">
+  <form [formGroup]="addressForm">
+
+    <mat-form-field class="full-width">
+      <mat-label>Address name</mat-label>
+      <input matInput formControlName="name" placeholder="Type address name" required>
+      <mat-error *ngIf="addressForm.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Address description</mat-label>
+      <textarea matInput formControlName="description" placeholder="type address description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Address password</mat-label>
+      <input matInput formControlName="password" placeholder="Type address password" type="password">
+    </mat-form-field>
+
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-stroked-button color="primary" [disabled]="addressForm.invalid" (click)="createAddress()">Create</button>
+  <button mat-stroked-button (click)="close()">Cancel</button>
+</div>
