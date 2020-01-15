@@ -2,15 +2,15 @@
 
 .title-content {
   height: 100%;
-  margin:auto;
+  text-align: center;
+
   .position {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
 
     .title {
-      font-size: 1.5em;
+      font-size: 20px;
       font-weight: bold;
+      color: mat-color($accent);
     }
   }
 }

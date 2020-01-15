@@ -50,9 +50,14 @@ export class AddressesComponent implements OnInit {
     });
   }
 
-  onToggleChecked(address: MaskedEmail): void {
+  onToggleChecked(address: MaskedEmail, $event): void {
     this.addressService.toggleAddressForwarding(address.emailAddress)
-      .subscribe(_ => { });
+      .subscribe(_ => {
+        address.forwardingEnabled = $event.checked;
+        this.snackBar.open(`Successfully ${address.forwardingEnabled ? 'enabled' : 'disabled'} the masked email ${address.emailAddress}.`, 'Undo', {
+          duration: 2000
+        });
+      });
   }
 
   onDelete(address: MaskedEmail): void {

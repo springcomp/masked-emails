@@ -68,7 +68,7 @@ export class TopNavbarComponent implements OnInit {
   }
 
   private loadProfile(): void {
-    this.profileService.getProfile()
+   this.profileService.getProfile()
       .subscribe(profile => this.my = profile);
     this.profileService.getClaims()
       .subscribe(claims => this.claims = claims);
