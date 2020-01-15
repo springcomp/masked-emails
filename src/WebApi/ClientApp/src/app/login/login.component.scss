@@ -1,0 +1,16 @@
+@import '../../custom-theme.scss';
+
+.title-content {
+  height: 100%;
+  margin:auto;
+  .position {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .title {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+  }
+}

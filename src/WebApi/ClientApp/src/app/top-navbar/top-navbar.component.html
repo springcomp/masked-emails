@@ -6,7 +6,7 @@
 
         <a mat-button *ngIf="!isAuthenticated" (click)="login()"><fa-icon [icon]="['fas', 'user']"></fa-icon> <span class="margin-left-text">Login</span></a>
 
-        <button *ngIf="isAuthenticated" class="user-section" mat-button [matMenuTriggerFor]="user">
+        <button *ngIf="userIsAuthenticated" class="user-section" mat-button [matMenuTriggerFor]="user">
             <img class="user-picture" ngxGravatar [email]="forwardingAddress" [preferGravatar]="true" [fallback]="'mp'" size="24">
             <div class="user-informations">
                 <div class="username">{{my.displayName}}</div>
@@ -19,10 +19,10 @@
 </mat-toolbar>
 
 
-<mat-menu class="user-menu" #user="matMenu">
-    <div mat-menu-item class="forwarding-address" (click)="$event.stopPropagation();">
+<mat-menu  class="user-menu" #user="matMenu">
+    <div *ngIf="userIsAuthenticated" mat-menu-item class="forwarding-address" (click)="$event.stopPropagation();">
         <div class="title">Forwarding address:</div>
-        <div>{{ my.forwardingAddress }} <button mat-icon-button aria-label="Modify the forwarding address" (click)="openDialog()"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button></div>
+        <div>{{ my.forwardingAddress}} <button mat-icon-button aria-label="Modify the forwarding address" (click)="openDialog()"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button></div>
     </div>
     <mat-divider></mat-divider>
     <button mat-menu-item (click)="logout()">

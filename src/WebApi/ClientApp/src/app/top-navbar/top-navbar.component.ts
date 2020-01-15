@@ -49,6 +49,10 @@ export class TopNavbarComponent implements OnInit {
     return this.my && this.my.forwardingAddress ? this.my.forwardingAddress : '';
   }
 
+  get userIsAuthenticated(): boolean {
+    return this.isAuthenticated && this.my != undefined;
+  }
+
   public login() {
     this.oidcSecurityService.authorize();
   }

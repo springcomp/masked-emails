@@ -13,6 +13,7 @@
     <AssemblyName>WebApi</AssemblyName>
     <RootNamespace>WebApi</RootNamespace>
     <UserSecretsId>ca1930a4-146b-4728-8205-42d24296da42</UserSecretsId>
+    <TypeScriptExperimentalDecorators>true</TypeScriptExperimentalDecorators>
   </PropertyGroup>
 
   <ItemGroup>
