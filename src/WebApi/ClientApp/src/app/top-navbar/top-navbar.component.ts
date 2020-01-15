@@ -22,7 +22,7 @@ export class TopNavbarComponent implements OnInit {
 
   constructor(
     private profileService: ProfileService,
-    public dialog: MatDialog,
+    private dialog: MatDialog,
     public oidcSecurityService: OidcSecurityService
   ) {
     if (this.oidcSecurityService.moduleSetup) {
