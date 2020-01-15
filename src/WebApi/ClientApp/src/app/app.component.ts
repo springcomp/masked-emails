@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { LoaderService } from './loader.service';
 
 @Component({
     selector: 'app-root',
@@ -11,8 +12,10 @@ export class AppComponent implements OnInit, OnDestroy {
     public isAuthenticated: boolean;
 
     constructor(
-        public oidcSecurityService: OidcSecurityService
-        ) {
+      public oidcSecurityService: OidcSecurityService,
+      public loaderSvc: LoaderService
+    ) {
+      this.loaderSvc.stopLoader();
         if (this.oidcSecurityService.moduleSetup) {
             this.doCallbackLogicIfRequired();
         } else {
@@ -20,6 +23,8 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.doCallbackLogicIfRequired();
             });
         }
+
+      
     }
 
     ngOnInit() {
@@ -34,6 +39,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.oidcSecurityService.authorize();
     }
 
+  get dataLoaded(): boolean {
+    return this.loaderSvc.dataLoaded;
+  }
 
     private doCallbackLogicIfRequired() {
         var url = window.location.toString();

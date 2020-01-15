@@ -20,6 +20,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule, FaIconLibrary  } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
+import {LoaderService} from './loader.service'
+
 //Import material module
 import { MaterialModule } from './material.module';
 import { LoginComponent } from './login/login.component'
@@ -81,6 +83,7 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
       deps: [OidcConfigService],
       multi: true,
     },
+    LoaderService
   ],
   bootstrap: [AppComponent],
 })
@@ -89,8 +92,6 @@ export class AppModule {
     library.addIconPacks(fas);
 
     this.configService.onConfigurationLoaded.subscribe((configResult: ConfigResult) => {
-
-      console.log(configResult.customConfig);
 
       this.openId.setupModule(
         configResult.customConfig,

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material';
 import { AddressService } from '../address.service';
-
+import { LoaderService } from '../loader.service'
 import { MatTableDataSource } from '@angular/material/table';
 
 import { UpdateMaskedEmailAddressDialogComponent } from './update-masked-email-address-dialog/update-masked-email-address-dialog.component'
@@ -15,7 +15,7 @@ import {MaskedEmail } from '../model';
   styleUrls: ['./addresses.component.scss']
 })
 export class AddressesComponent implements OnInit {
-
+  public dataLoaded: boolean = false;
   public displayedColumns: string[] = ['name', 'emailAddress', 'description', 'enabled', 'actions'];
   addresses: MaskedEmail[] = [];
   dataSource: MatTableDataSource<MaskedEmail>;
@@ -25,6 +25,7 @@ export class AddressesComponent implements OnInit {
     private addressService: AddressService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
+    private loaderSvc: LoaderService
   ) { }
 
   ngOnInit() {
@@ -90,6 +91,8 @@ export class AddressesComponent implements OnInit {
         this.addresses = addresses.map(a => MaskedEmail.fromAddress(a));
         // Assign the data to the data source for the table to render
         this.dataSource = new MatTableDataSource(this.addresses);
+        this.dataLoaded = true;
+        this.loaderSvc.stopLoader();
       });
 
   }

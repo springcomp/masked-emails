@@ -13,7 +13,8 @@ import {
   MatTableModule,
   MatSlideToggleModule,
   MatSnackBarModule,
-  MatFormFieldModule
+  MatFormFieldModule,
+  MatProgressSpinnerModule
 } from '@angular/material/';
 import { FormsModule } from '@angular/forms';
 
@@ -33,7 +34,8 @@ import { FormsModule } from '@angular/forms';
     MatTableModule,
     MatSlideToggleModule,
     MatSnackBarModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatProgressSpinnerModule
   ], exports: [
     BrowserAnimationsModule,
     FormsModule,
@@ -49,7 +51,8 @@ import { FormsModule } from '@angular/forms';
     MatTableModule,
     MatSlideToggleModule,
     MatSnackBarModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatProgressSpinnerModule
   ],
   declarations: []
 })

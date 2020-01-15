@@ -1,46 +1,47 @@
-<div class="header-container">
-  <div class="search-container">
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
-    </mat-form-field>
+  <div class="header-container">
+    <div class="search-container">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+      </mat-form-field>
+    </div>
+    <button mat-fab color="primary" (click)="openCreateDialog()"><fa-icon [icon]="['fas', 'plus']"></fa-icon></button>
   </div>
-  <button mat-fab color="primary" (click)="openCreateDialog()"><fa-icon [icon]="['fas', 'plus']"></fa-icon></button>
-</div>
 
-<div class="table-container">
-  <table mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let address"> {{address.name}} </td>
-    </ng-container>
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let address"> {{address.name}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="emailAddress">
-      <th mat-header-cell *matHeaderCellDef> Address </th>
-      <td mat-cell *matCellDef="let address"><button mat-icon-button aria-label="Copy the forwarding address" (click)="copyToClipboard(address.emailAddress)"><fa-icon [icon]="['fas', 'copy']"></fa-icon></button> {{address.emailAddress}} </td>
-    </ng-container>
+      <ng-container matColumnDef="emailAddress">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let address"><button mat-icon-button aria-label="Copy the forwarding address" (click)="copyToClipboard(address.emailAddress)"><fa-icon [icon]="['fas', 'copy']"></fa-icon></button> {{address.emailAddress}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef> Description </th>
-      <td mat-cell *matCellDef="let address"> {{address.description}} </td>
-    </ng-container>
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let address"> {{address.description}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="enabled">
-      <th mat-header-cell *matHeaderCellDef> Enabled </th>
-      <td mat-cell *matCellDef="let address">
-        <mat-slide-toggle [color]="'primary'" [checked]="address.forwardingEnabled" (change)="onToggleChecked(address)">
-        </mat-slide-toggle>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="enabled">
+        <th mat-header-cell *matHeaderCellDef> Enabled </th>
+        <td mat-cell *matCellDef="let address">
+          <mat-slide-toggle [color]="'primary'" [checked]="address.forwardingEnabled" (change)="onToggleChecked(address)">
+          </mat-slide-toggle>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> Actions </th>
-      <td mat-cell *matCellDef="let address">
-        <button mat-icon-button aria-label="Modify the forwarding address" (click)="openUpdateDialog(address)"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
-        <button mat-icon-button aria-label="Remove the forwarding address" (click)="onDelete(address)"><fa-icon [icon]="['fas', 'trash-alt']"></fa-icon></button>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let address">
+          <button mat-icon-button aria-label="Modify the forwarding address" (click)="openUpdateDialog(address)"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
+          <button mat-icon-button aria-label="Remove the forwarding address" (click)="onDelete(address)"><fa-icon [icon]="['fas', 'trash-alt']"></fa-icon></button>
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-</div>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
