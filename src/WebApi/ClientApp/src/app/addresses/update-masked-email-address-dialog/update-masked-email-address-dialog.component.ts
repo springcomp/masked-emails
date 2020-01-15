@@ -65,7 +65,7 @@ export class UpdateMaskedEmailAddressDialogComponent {
       description: address.description,
     };
     this.addressService.updateAddress(address.emailAddress, updateRequest)
-      .subscribe(_ => { });
+      .subscribe(_ => { this.close() });
   }
 
 }

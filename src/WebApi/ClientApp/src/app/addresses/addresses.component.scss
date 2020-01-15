@@ -1,61 +1,53 @@
-table {
- table-layout: fixed;
- width: 90%;
- border-collapse: collapse;
- margin-left: 25px;
- margin-bottom: 40px;
+@import '../../custom-theme.scss';
+
+.mat-table {
+  width: 100%;
+}
+tr.mat-row {
+  .mat-cell {
+    color: mat-color($accent, lighter);
+    font-size: 13px;
+  }
 }
 
-thead th:nth-child(1) {
-    width: 20%;
-    text-align: left;
-}
-thead th:nth-child(2) {
-    width: 30%;
-    text-align: left;
-}
-thead th:nth-child(3) {
-    width: 39%;
-    text-align: left;
-}
-thead th:nth-child(4) {
-    width: 5%;
-    text-align: right;
-}
-thead th:nth-child(5) {
-    width: 3%;
-    text-align: right;
-}
-thead th:nth-child(6) {
-    width: 3%;
-    text-align: right;
+.mat-row:nth-child(even) {
+  background-color: mat-color($background-color);
 }
 
-
-tbody td:nth-child(1){
-    text-align: left;
-}
-tbody td:nth-child(2){
-    text-align: left;
-}
-tbody td:nth-child(3){
-    text-align: left;
+.mat-row:nth-child(odd) {
+  background-color: mat-color($background-color, darker);
 }
 
-tbody td:nth-child(4){
-    text-align: right;
-}
-tbody td:nth-child(5){
-    text-align: right;
-}
-tbody td:nth-child(6){
-    text-align: right;
+tr.mat-header-row {
+  background-color: mat-color($background-color);
+
+  .mat-header-cell {
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 500;
+    color: mat-color($accent);
+  }
 }
 
-tbody tr:nth-child(odd){
-    background-color: rgb(217, 217, 248)
+::ng-deep .mat-icon-button {
+  color: mat-color($primary, darker) !important;
 }
 
-th, td {
-    padding: 0px;
+.table-container {
+  height: 500px;
+  overflow: auto;
 }
+
+::ng-deep .mat-fab {
+  color: #ffffff !important;
+  font-size:16px !important;
+}
+
+.header-container {
+  display: flex;
+
+  .search-container {
+    flex: 1 1 auto;
+  }
+}
+
