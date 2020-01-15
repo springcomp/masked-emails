@@ -7,10 +7,13 @@ import {
   MatDialogModule,
   MatInputModule,
   MatToolbarModule,
-  MatSidenavModule,
   MatCardModule,
   MatMenuModule,
-  MatDividerModule
+  MatDividerModule,
+  MatTableModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
+  MatFormFieldModule
 } from '@angular/material/';
 import { FormsModule } from '@angular/forms';
 
@@ -24,10 +27,13 @@ import { FormsModule } from '@angular/forms';
     MatDialogModule,
     MatInputModule,
     MatToolbarModule,
-    MatSidenavModule,
     MatCardModule,
     MatMenuModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTableModule,
+    MatSlideToggleModule,
+    MatSnackBarModule,
+    MatFormFieldModule
   ], exports: [
     BrowserAnimationsModule,
     FormsModule,
@@ -37,10 +43,13 @@ import { FormsModule } from '@angular/forms';
     MatDialogModule,
     MatInputModule,
     MatToolbarModule,
-    MatSidenavModule,
     MatCardModule,
     MatMenuModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTableModule,
+    MatSlideToggleModule,
+    MatSnackBarModule,
+    MatFormFieldModule
   ],
   declarations: []
 })

@@ -3,8 +3,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AuthModule, ConfigResult, OidcConfigService, OidcSecurityService } from 'angular-auth-oidc-client';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from './core';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
@@ -17,8 +17,7 @@ import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 //Font Awesome Module
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeModule, FaIconLibrary  } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
 //Import material module
@@ -26,6 +25,8 @@ import { MaterialModule } from './material.module';
 import { LoginComponent } from './login/login.component'
 import { GravatarModule } from 'ngx-gravatar';
 import { ProfileDialogComponent } from './top-navbar/profile-dialog/profile-dialog.component';
+import { UpdateMaskedEmailAddressDialogComponent } from './addresses/update-masked-email-address-dialog/update-masked-email-address-dialog.component';
+import { NewMaskedEmailAddressDialogComponent } from './addresses/new-masked-email-address-dialog/new-masked-email-address-dialog.component';
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
   return () => {
@@ -49,10 +50,14 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     MaskedEmailsComponent,
     TopNavbarComponent,
     LoginComponent,
-    ProfileDialogComponent
+    ProfileDialogComponent,
+    UpdateMaskedEmailAddressDialogComponent,
+    NewMaskedEmailAddressDialogComponent
   ],
   entryComponents: [
-    ProfileDialogComponent
+    ProfileDialogComponent,
+    UpdateMaskedEmailAddressDialogComponent,
+    NewMaskedEmailAddressDialogComponent
   ],
   imports: [
     AppRoutingModule,
@@ -60,6 +65,7 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     BrowserModule,
     CoreModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
@@ -79,8 +85,8 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor(private openId: OidcSecurityService, private configService: OidcConfigService) {
-    library.add(fas);
+  constructor(private openId: OidcSecurityService, private configService: OidcConfigService, library: FaIconLibrary) {
+    library.addIconPacks(fas);
 
     this.configService.onConfigurationLoaded.subscribe((configResult: ConfigResult) => {
 

@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Update a masked email address</h1>
+
+<div mat-dialog-content class="form-width">
+  <form [formGroup]="addressForm">
+
+    <mat-form-field class="full-width">
+      <mat-label>Address name</mat-label>
+      <input matInput formControlName="name" placeholder="Type address name" required>
+      <mat-error *ngIf="addressForm.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Address description</mat-label>
+      <textarea matInput formControlName="description" placeholder="type address description"></textarea>
+    </mat-form-field>
+
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-stroked-button color="primary" [disabled]="addressForm.invalid" (click)="update()">Save</button>
+  <button mat-stroked-button (click)="close()">Cancel</button>
+</div>
