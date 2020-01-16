@@ -8,9 +8,12 @@ import { AuthorizationGuard } from './core/authorization-guard';
 
 const routes: Routes = [
   { path: '', component: MaskedEmailsComponent, canActivate: [AuthorizationGuard] },
+  { path: 'login', component: LoginComponent },
   { path: 'forbidden', component: LoginComponent },
   { path: 'unauthorized', component: LoginComponent },
   { path: "masked-emails", component: MaskedEmailsComponent, canActivate: [AuthorizationGuard] },
+
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

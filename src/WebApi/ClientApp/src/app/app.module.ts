@@ -20,7 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule, FaIconLibrary  } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
-import {LoaderService} from './loader.service'
+import {LoaderService} from './shared/services/loader.service'
 
 //Import material module
 import { MaterialModule } from './material.module';

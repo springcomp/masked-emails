@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
-import { Profile } from '../../model';
-import { ProfileService } from '../../profile.service';
+import { Profile } from '../../shared/models/model';
+import { ProfileService } from '../../shared/services/profile.service';
 
 @Component({
   selector: 'app-profile-dialog',
@@ -15,7 +15,7 @@ export class ProfileDialogComponent {
 
   constructor(public dialogRef: MatDialogRef<ProfileDialogComponent>,
     private profileService: ProfileService,
-    @Inject(MAT_DIALOG_DATA) private profile) {
+    @Inject(MAT_DIALOG_DATA) private data: { profile: Profile } ) {
 
   }
 
@@ -30,13 +30,12 @@ export class ProfileDialogComponent {
   private onUpdateForwardingAddress(): void {
     console.log("updating forwarding address...");
     var profile: Profile = {
-      ...this.profile,
+      displayName: this.data.profile.displayName,
       forwardingAddress: this.newForwardingAddress
     };
 
     this.profileService.updateProfile(profile).subscribe(updated => {
-      this.profile = updated;
-      this.close();
+      this.dialogRef.close({ event: 'UpdateProfile', data: updated });
     });
   }
 

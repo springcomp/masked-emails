@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { MaskedEmail, MaskedEmailRequest } from '../../model';
-import { AddressService } from '../../address.service';
-import { HashService } from '../../hash.service';
+import { MaskedEmail, MaskedEmailRequest } from '../../shared/models/model';
+import { AddressService } from '../../shared/services/address.service';
+import { HashService } from '../../shared/services/hash.service';
 
 @Component({
   selector: 'app-new-masked-email-address-dialog',

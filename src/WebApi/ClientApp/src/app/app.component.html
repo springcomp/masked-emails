@@ -1,11 +1,11 @@
-<top-navbar></top-navbar>
+<top-navbar class="app-navbar"></top-navbar>
 
 <div class="app-content">
 
     <mat-spinner *ngIf="!dataLoaded" class="loader-position">
     </mat-spinner>
 
-    <router-outlet></router-outlet>
+    <router-outlet style="display:block;"></router-outlet>
 
 </div>
 

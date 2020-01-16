@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { AddressService } from '../../address.service';
-import { Address, MaskedEmail, MaskedEmailRequest, UpdateMaskedEmailRequest } from '../../model';
+import { AddressService } from '../../shared/services/address.service';
+import { MaskedEmail, UpdateMaskedEmailRequest } from '../../shared/models/model';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({

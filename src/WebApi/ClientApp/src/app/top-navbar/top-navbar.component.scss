@@ -41,9 +41,12 @@
   color: mat-color($warn);
 }
 
+::ng-deep .mat-menu-panel {
+  max-width: 400px !important;
+}
+
 ::ng-deep .user-menu .mat-menu-content .mat-menu-item {
   font-size: 13px;
-
 }
 
 
@@ -52,6 +55,7 @@
   height: 70px;
   padding-top: 7px;
   line-height: 20px;
+  max-width: 400px;
 
   .title {
     text-transform: uppercase;

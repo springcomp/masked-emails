@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { ProfileService, Claim } from '../profile.service';
-import { Profile } from '../model';
+import { ProfileService, Claim } from '../shared/services/profile.service';
+import { Profile } from '../shared/models/model';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { MatDialog } from '@angular/material';
 import { ProfileDialogComponent } from './profile-dialog/profile-dialog.component';
@@ -12,8 +12,6 @@ import { ProfileDialogComponent } from './profile-dialog/profile-dialog.componen
   styleUrls: ['./top-navbar.component.scss']
 })
 export class TopNavbarComponent implements OnInit {
-
-  private UPDATE_FORWARDING_ADDRESS_DIALOG: string = "update-forwarding-address-dialog";
 
   public isAuthenticated: boolean;
 
@@ -58,8 +56,14 @@ export class TopNavbarComponent implements OnInit {
   }
 
   public openDialog(): void {
-    this.dialog.open(ProfileDialogComponent, {
+    const dialogRef = this.dialog.open(ProfileDialogComponent, {
       data: { profile: this.my }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.event == 'UpdateProfile') {
+        this.my = result.data;
+      }
     });
   }
 
