@@ -1,7 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProfileService, Claim } from '../shared/services/profile.service';
 import { Profile } from '../shared/models/model';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { AuthService } from '../core/auth.service';
 import { MatDialog } from '@angular/material';
 import { ProfileDialogComponent } from './profile-dialog/profile-dialog.component';
 
@@ -11,7 +11,7 @@ import { ProfileDialogComponent } from './profile-dialog/profile-dialog.componen
   templateUrl: './top-navbar.component.html',
   styleUrls: ['./top-navbar.component.scss']
 })
-export class TopNavbarComponent implements OnInit {
+export class TopNavbarComponent {
 
   public isAuthenticated: boolean;
 
@@ -21,20 +21,9 @@ export class TopNavbarComponent implements OnInit {
   constructor(
     private profileService: ProfileService,
     private dialog: MatDialog,
-    public oidcSecurityService: OidcSecurityService
+    public authService: AuthService
   ) {
-    if (this.oidcSecurityService.moduleSetup) {
-      this.doCallbackLogicIfRequired();
-    } else {
-      this.oidcSecurityService.onModuleSetup.subscribe(() => {
-        this.doCallbackLogicIfRequired();
-      });
-    }
-
-  }
-
-  ngOnInit() {
-    this.oidcSecurityService.getIsAuthorized().subscribe(auth => {
+    this.authService.getIsAuthorized().subscribe(auth => {
       this.isAuthenticated = auth;
       if (auth) {
         this.loadProfile();
@@ -52,23 +41,25 @@ export class TopNavbarComponent implements OnInit {
   }
 
   public login() {
-    this.oidcSecurityService.authorize();
+    this.authService.login();
   }
 
   public openDialog(): void {
+    //Open dialog window to update profile
     const dialogRef = this.dialog.open(ProfileDialogComponent, {
       data: { profile: this.my }
     });
 
+    //Action to handle after closing the dialog window
     dialogRef.afterClosed().subscribe(result => {
-      if (result.event == 'UpdateProfile') {
+      if (result && result.event == 'UpdateProfile') {
         this.my = result.data;
       }
     });
   }
 
   public logout() {
-    this.oidcSecurityService.logoff();
+    this.authService.logout();
   }
 
   private loadProfile(): void {
@@ -76,11 +67,6 @@ export class TopNavbarComponent implements OnInit {
       .subscribe(profile => this.my = profile);
     this.profileService.getClaims()
       .subscribe(claims => this.claims = claims);
-  }
-
-  private doCallbackLogicIfRequired() {
-    var url = window.location.toString();
-    this.oidcSecurityService.authorizedCallbackWithCode(url);
   }
 
 }

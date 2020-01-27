@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../core/auth.service';
+import { Router, Route, CanActivate, CanLoad, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 @Component({
   selector: 'app-masked-emails',
@@ -6,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./masked-emails.component.scss']
 })
 export class MaskedEmailsComponent implements OnInit {
-  constructor() { }
+
+  public isAuthenticated: boolean = false;
+
+  constructor(private authService: AuthService,
+    private router: Router) { }
+
   ngOnInit(): void {
+    this.isAuthenticated = this.authService.isAuthorized;
+
   }
 }

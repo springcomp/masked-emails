@@ -1,6 +1,6 @@
 {
   "client_id": "client.JS",
-  "forbidden_route": "/forbidden",
+  "forbidden_route": "/login",
   "log_console_debug_active": true,
   "log_console_warning_active": true,
   "max_id_token_iat_offset_allowed_in_seconds": 10,
@@ -13,5 +13,5 @@
   "silent_renew": true,
   "start_checksession": true,
   "stsServer": "http://localhost:5000",
-  "unauthorized_route": "/unauthorized",
+  "unauthorized_route": "/login"
 }
