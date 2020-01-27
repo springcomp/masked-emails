@@ -80,7 +80,7 @@ export class AddressesComponent implements OnInit {
     const dialogRef = this.dialog.open(NewMaskedEmailAddressDialogComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result.event == 'Create') {
+      if (result && result.event == 'Create') {
         this.addresses.push(result.data);
         this.updateDatasource();
       } 
