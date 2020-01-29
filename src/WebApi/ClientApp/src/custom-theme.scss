@@ -22,11 +22,6 @@ $warn: mat-palette($mat-deep-orange, 800);
 // Create the theme object (a Sass map containing all of the palettes).
 $ClientApp-theme: mat-light-theme($primary, $accent, $warn);
 
-//Insert custom background color
-/*$background: map-get($ClientApp-theme, background);
-$background: map_merge($background, (background: $background-color));
-$theme: map_merge($ClientApp-theme, (background: $background));*/
-
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
