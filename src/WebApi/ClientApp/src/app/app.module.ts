@@ -1,4 +1,3 @@
-
 import { AppRoutingModule } from './app-routing.module';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AuthModule, ConfigResult, OidcConfigService, OidcSecurityService } from 'angular-auth-oidc-client';
@@ -6,29 +5,30 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from './core';
 import { HttpClientModule } from '@angular/common/http';
-
-import { AppComponent } from './app.component';
-import { AddressesComponent } from './addresses/addresses.component';
-import { MaskedEmailsComponent } from './masked-emails/masked-emails.component';
-import { TopNavbarComponent } from './top-navbar/top-navbar.component';
+import { GravatarModule } from 'ngx-gravatar';
 
 import { AuthorizationGuard } from './core/authorization-guard';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-//Font Awesome Module
-import { FontAwesomeModule, FaIconLibrary  } from '@fortawesome/angular-fontawesome';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-
-import {LoaderService} from './shared/services/loader.service'
 
 //Import material module
 import { MaterialModule } from './material.module';
+
+//Components
+import { AddressesComponent } from './addresses/addresses.component';
+import { AppComponent } from './app.component';
+import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
+import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component'
-import { GravatarModule } from 'ngx-gravatar';
-import { ProfileDialogComponent } from './top-navbar/profile-dialog/profile-dialog.component';
-import { UpdateMaskedEmailAddressDialogComponent } from './addresses/update-masked-email-address-dialog/update-masked-email-address-dialog.component';
+import { MaskedEmailsComponent } from './masked-emails/masked-emails.component';
 import { NewMaskedEmailAddressDialogComponent } from './addresses/new-masked-email-address-dialog/new-masked-email-address-dialog.component';
+import { ProfileDialogComponent } from './top-navbar/profile-dialog/profile-dialog.component';
+import { TopNavbarComponent } from './top-navbar/top-navbar.component';
+import { UpdateMaskedEmailAddressDialogComponent } from './addresses/update-masked-email-address-dialog/update-masked-email-address-dialog.component';
+
+import { LoaderService } from './shared/services/loader.service'
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
   return () => {
@@ -54,7 +54,9 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     LoginComponent,
     ProfileDialogComponent,
     UpdateMaskedEmailAddressDialogComponent,
-    NewMaskedEmailAddressDialogComponent
+    NewMaskedEmailAddressDialogComponent,
+    HomeComponent,
+    AuthCallbackComponent
   ],
   entryComponents: [
     ProfileDialogComponent,
