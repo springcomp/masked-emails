@@ -28,7 +28,6 @@ export class ProfileDialogComponent {
   }
 
   private onUpdateForwardingAddress(): void {
-    console.log("updating forwarding address...");
     var profile: Profile = {
       displayName: this.data.profile.displayName,
       forwardingAddress: this.newForwardingAddress

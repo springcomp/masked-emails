@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { UpdateMaskedEmailAddressDialogComponent } from './update-masked-email-address-dialog/update-masked-email-address-dialog.component'
 import { NewMaskedEmailAddressDialogComponent } from './new-masked-email-address-dialog/new-masked-email-address-dialog.component'
-import {MaskedEmail } from '../shared/models/model';
+import { MaskedEmail } from '../shared/models/model';
 
 @Component({
   selector: 'app-addresses',

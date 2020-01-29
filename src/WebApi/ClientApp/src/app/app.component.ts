@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-//import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { AuthService } from './core/auth.service'
 import { LoaderService } from './shared/services/loader.service';
 
@@ -15,6 +14,10 @@ export class AppComponent implements OnInit, OnDestroy {
     public loaderSvc: LoaderService
   ) {
     this.loaderSvc.stopLoader();
+  }
+
+  get dataLoaded(): boolean {
+    return this.loaderSvc.dataLoaded;
   }
 
   ngOnInit() {
