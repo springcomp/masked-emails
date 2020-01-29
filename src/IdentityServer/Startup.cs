@@ -37,7 +37,7 @@ namespace IdentityServer
 
             services.AddAspNetIdentity(connectionString, Configuration);
 
-            var cb = new DbConnectionStringBuilder {ConnectionString = connectionString, ["AccountKey"] = "***REDACTED***"};
+            var cb = new DbConnectionStringBuilder { ConnectionString = connectionString, ["AccountKey"] = "***REDACTED***" };
             Logger.LogDebug($"Configuring persistent storage for clients, resources, tokens and consents.\nConnectionString: \"{cb.ConnectionString}\".");
 
             var builder = services.AddIdentityServer(connectionString);
@@ -50,21 +50,30 @@ namespace IdentityServer
             {
                 Logger.LogDebug("Loading signing certificate...");
 
-                var password = Configuration["SigningCertificate:Password"];
-                var certificatePath = Path.Combine(Environment.ContentRootPath, @"App_Data\signing.pfx");
-                if (File.Exists(certificatePath))
+                try
                 {
-                    const X509KeyStorageFlags storageFlags = X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.EphemeralKeySet;
-                    var rawBytes = File.ReadAllBytes(certificatePath);
-                    var certificate = new X509Certificate2(rawBytes, password, storageFlags);
-                    builder.AddSigningCredential(certificate);
 
-                    Logger.LogDebug($"File '{certificatePath}' successfully loaded.");
+                    var password = Configuration["SigningCertificate:Password"];
+                    var certificatePath = Path.Combine(Environment.ContentRootPath, @"App_Data\signing.pfx");
+                    if (File.Exists(certificatePath))
+                    {
+                        const X509KeyStorageFlags storageFlags = X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.EphemeralKeySet;
+                        var rawBytes = File.ReadAllBytes(certificatePath);
+                        var certificate = new X509Certificate2(rawBytes, password, storageFlags);
+                        builder.AddSigningCredential(certificate);
+
+                        Logger.LogDebug($"File '{certificatePath}' successfully loaded.");
+                    }
+                    else
+                    {
+                        Logger.LogCritical($"Unable to load the required signing certificate. FileNotFound.");
+                        Logger.LogError($"File '{certificatePath}' not found.");
+                    }
                 }
-                else
+                catch (Exception e)
                 {
                     Logger.LogCritical($"Unable to load the required signing certificate. FileNotFound.");
-                    Logger.LogError($"File '{certificatePath}' not found.");
+                    Logger.LogError(e.Message);
                 }
             }
         }

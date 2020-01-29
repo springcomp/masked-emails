@@ -7,3 +7,5 @@ dist/
 
 *\.pubxml
 *\.pubxml\.user
+
+package\-lock\.json
