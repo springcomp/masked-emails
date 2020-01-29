@@ -1,0 +1,21 @@
+@import '../custom-theme.scss';
+
+.app-content {
+  flex: 1;
+  padding-top: 64px;
+}
+
+.app-navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.loader-position {
+  margin: auto;
+}
+
+.page-content {
+  display: block;
+}

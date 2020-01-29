@@ -1,69 +1,48 @@
-<div>
-    <button (click)="openDialog()">New Masked Email</button>
+<div *ngIf="dataLoaded">
+  <div class="header-container">
+    <div class="search-container">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+      </mat-form-field>
+    </div>
+    <button mat-fab color="primary" (click)="openCreateDialog()"><fa-icon [icon]="['fas', 'plus']"></fa-icon></button>
+  </div>
+
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let address"> {{address.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="emailAddress">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let address"><button mat-icon-button aria-label="Copy the forwarding address" (click)="copyToClipboard(address.emailAddress)"><fa-icon [icon]="['fas', 'copy']"></fa-icon></button> {{address.emailAddress}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let address"> {{address.description}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="enabled">
+        <th mat-header-cell *matHeaderCellDef> Enabled </th>
+        <td mat-cell *matCellDef="let address">
+          <mat-slide-toggle [color]="'primary'" [checked]="address.forwardingEnabled" (change)="onToggleChecked(address, $event)">
+          </mat-slide-toggle>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let address">
+          <button mat-icon-button aria-label="Modify the forwarding address" (click)="openUpdateDialog(address)"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
+          <button mat-icon-button aria-label="Remove the forwarding address" (click)="onDelete(address)"><fa-icon [icon]="['fas', 'trash-alt']"></fa-icon></button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
 </div>
-
-<div>
-    <label>Search: </label> <input [(ngModel)]="searchAddress" placeholder="email address" />
-    <button (click)="onClearSearchAddress()">x</button>
-</div>
-
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Description</th>
-            <th>Enabled</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let address of addresses" [class.js-switch]="true">
-            <td> {{ address.name }} </td>
-            <td> {{ address.emailAddress }} 
-                <button class="far fa-copy" (click)="copyToClipboard(address.emailAddress)">copy</button>
-            </td>
-            <td> {{ address.description }} </td>
-            <td>
-
-                <angular-switchery [(ngModel)]="address.forwardingEnabled" (change)="onToggleChecked(address)">
-                </angular-switchery>
-            </td>
-            <td><button (click)="openUpdateDialog(address)">u</button></td>
-            <td><button (click)="onDelete(address)">x</button></td>
-        </tr>
-    </tbody>
-</table>
-
-<jw-modal id="new-masked-email-address-dialog">
-    <h2>Create a new masked email address</h2>
-    <div>
-        <label>Name:</label>
-        <input [(ngModel)]="newAddressName" placeholder="new address name" />
-    </div>
-    <div>
-        <label>Description:</label>
-        <input [(ngModel)]="newAddressDescription" placeholder="description (optional)" />
-    </div>
-    <div>
-        <label>Password:</label>
-        <input [(ngModel)]="newAddressPassword" placeholder="password" />
-    </div>
-    <button (click)="closeDialog(true)" [disabled]="newAddressName === ''">OK</button>
-    <button (click)="closeDialog(false)">Cancel</button>
-</jw-modal>
-
-<jw-modal id="update-masked-email-address-dialog">
-    <h2>Update a masked email address</h2>
-    <div>
-        <label>Name:</label>
-        <input [(ngModel)]="newAddressName" placeholder="new address name" />
-    </div>
-    <div>
-        <label>Description:</label>
-        <input [(ngModel)]="newAddressDescription" placeholder="description (optional)" />
-    </div>
-    <button (click)="closeUpdateDialog(true)" [disabled]="newAddressName === ''">OK</button>
-    <button (click)="closeUpdateDialog(false)">Cancel</button>
-</jw-modal>

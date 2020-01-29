@@ -1,0 +1,15 @@
+@import '../../custom-theme.scss';
+
+.title-content {
+  text-align: center;
+
+  .position {
+    display: block;
+
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      color: mat-color($accent);
+    }
+  }
+}

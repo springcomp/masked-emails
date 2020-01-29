@@ -1,0 +1,53 @@
+@import '../../custom-theme.scss';
+
+.mat-table {
+  width: 100%;
+}
+tr.mat-row {
+  .mat-cell {
+    color: mat-color($accent, lighter);
+    font-size: 13px;
+  }
+}
+
+.mat-row:nth-child(even) {
+  background-color: mat-color($background-color);
+}
+
+.mat-row:nth-child(odd) {
+  background-color: mat-color($background-color, darker);
+}
+
+tr.mat-header-row {
+  background-color: mat-color($background-color);
+
+  .mat-header-cell {
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 500;
+    color: mat-color($accent);
+  }
+}
+
+::ng-deep .mat-icon-button {
+  color: mat-color($primary, darker) !important;
+}
+
+.table-container {
+  height: 500px;
+  overflow: auto;
+}
+
+::ng-deep .mat-fab {
+  color: #ffffff !important;
+  font-size:16px !important;
+}
+
+.header-container {
+  display: flex;
+
+  .search-container {
+    flex: 1 1 auto;
+  }
+}
+

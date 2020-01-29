@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Update Forwarding Email Address</h1>
+<div mat-dialog-content class="form-width" >
+  <mat-form-field class="full-width">
+    <input matInput [(ngModel)]="newForwardingAddress" placeholder="Enter forwarding address">
+  </mat-form-field>
+  <p class="warning-text">
+    <fa-icon class="warning-icon" [icon]="['fas', 'exclamation-triangle']"></fa-icon> The update will be valid for new masked email addresses only.
+    Messages received by existing masked email addresses will still be forwarded to
+    the addresses set at the time of their creations.
+  </p>
+</div>
+<div mat-dialog-actions>
+  <button mat-stroked-button color="primary" [disabled]="newForwardingAddress === ''" (click)="save()">Save</button>
+  <button mat-stroked-button (click)="close()">Cancel</button>
+</div>

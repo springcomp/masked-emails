@@ -1,4 +1,10 @@
-<button *ngIf="!isAuthenticated" (click)="login()">Login</button>
-<button *ngIf="isAuthenticated" (click)="logout()">Logout</button>
+<top-navbar class="app-navbar"></top-navbar>
 
-<router-outlet></router-outlet>
+<div class="app-content">
+  <mat-spinner *ngIf="!dataLoaded" class="loader-position">
+  </mat-spinner>
+
+  <router-outlet class="page-content"></router-outlet>
+</div>
+
+

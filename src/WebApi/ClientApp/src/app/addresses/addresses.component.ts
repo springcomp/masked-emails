@@ -1,61 +1,39 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material';
+import { AddressService } from '../shared/services/address.service';
+import { LoaderService } from '../shared/services/loader.service'
+import { MatTableDataSource } from '@angular/material/table';
 
-import { AddressService } from '../address.service';
-import { ModalService } from '../core/_modal/modal.service';
-import { HashService } from '../hash.service';
-
-import { Address, MaskedEmail, MaskedEmailRequest, UpdateMaskedEmailRequest } from '../model';
+import { UpdateMaskedEmailAddressDialogComponent } from './update-masked-email-address-dialog/update-masked-email-address-dialog.component'
+import { NewMaskedEmailAddressDialogComponent } from './new-masked-email-address-dialog/new-masked-email-address-dialog.component'
+import { MaskedEmail } from '../shared/models/model';
 
 @Component({
   selector: 'app-addresses',
   templateUrl: './addresses.component.html',
-  styleUrls: ['./addresses.component.css']
+  styleUrls: ['./addresses.component.scss']
 })
 export class AddressesComponent implements OnInit {
 
-  NEW_MASKED_EMAIL_ADDRESS_DIALOG_ID: string = 'new-masked-email-address-dialog';
-  UPDATE_MASKED_EMAIL_ADDRESS_DIALOG_ID: string = 'update-masked-email-address-dialog';
-
+  public displayedColumns: string[] = ['name', 'emailAddress', 'description', 'enabled', 'actions'];
   addresses: MaskedEmail[] = [];
-  searchAddress: string = "";
+  dataSource: MatTableDataSource<MaskedEmail>;
 
-  newAddressName: string = "";
-  newAddressDescription: string = "";
-  newAddressPassword: string = "";
-
-  updatingAddress: MaskedEmail = undefined;
 
   constructor(
     private addressService: AddressService,
-    private modalService: ModalService,
-    private hashService: HashService
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private loaderSvc: LoaderService
   ) { }
 
   ngOnInit() {
     this.loadAddresses();
   }
 
-  onClearSearchAddress(): void {
-    this.searchAddress = "";
-  }
-
-  onNewAddress(): void {
-    var request: MaskedEmailRequest = {
-      name: this.newAddressName,
-      description: this.newAddressDescription,
-      forwardingEnabled: true
-    };
-    if (this.newAddressPassword.length > 0){
-      const passwordHash = this.hashService.hashPassword(this.newAddressPassword);
-      request.passwordHash = passwordHash;
-    }
-    this.addressService.createAddress(request)
-      .subscribe(address => {
-        this.addresses.push(MaskedEmail.fromAddress(address));
-        this.newAddressName = "";
-        this.newAddressName = "";
-        this.newAddressPassword = "";
-      });
+  get dataLoaded(): boolean {
+    return this.loaderSvc.dataLoaded;
   }
 
   copyToClipboard(text: string): void {
@@ -70,66 +48,65 @@ export class AddressesComponent implements OnInit {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
+
+    this.snackBar.open("Address successfully copied!", 'Undo', {
+      duration: 2000
+    });
   }
 
-  onToggleChecked(address: MaskedEmail): void {
+  onToggleChecked(address: MaskedEmail, $event): void {
     this.addressService.toggleAddressForwarding(address.emailAddress)
-      .subscribe(_ => { });
-  }
-
-  onUpdate(address: MaskedEmail): void {
-    const updateRequest: UpdateMaskedEmailRequest = {
-      name: address.name,
-      description: address.description,
-    };
-    this.addressService.updateAddress(address.emailAddress, updateRequest)
-      .subscribe(_ => { });
+      .subscribe(_ => {
+        address.forwardingEnabled = $event.checked;
+        this.snackBar.open(`Successfully ${address.forwardingEnabled ? 'enabled' : 'disabled'} the masked email ${address.emailAddress}.`, 'Undo', {
+          duration: 2000
+        });
+      });
   }
 
   onDelete(address: MaskedEmail): void {
     this.addressService.deleteAddress(address.emailAddress)
       .subscribe(_ => {
         this.addresses = this.addresses.filter(a => a.emailAddress !== address.emailAddress);
+        this.updateDatasource();
       });
   }
 
-  openDialog(): void {
-    this.newAddressName = "";
-    this.newAddressDescription = "";
-    this.modalService.open(this.NEW_MASKED_EMAIL_ADDRESS_DIALOG_ID);
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  closeDialog(status: boolean): void {
-    this.modalService.close(this.NEW_MASKED_EMAIL_ADDRESS_DIALOG_ID);
-    if (status) {
-      this.onNewAddress();
-    }
+
+  openCreateDialog(): void {
+    const dialogRef = this.dialog.open(NewMaskedEmailAddressDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.event == 'Create') {
+        this.addresses.push(result.data);
+        this.updateDatasource();
+      } 
+    });
   }
+
   openUpdateDialog(address: MaskedEmail): void {
-    this.newAddressName = address.name;
-    this.newAddressDescription = address.description;
-    this.updatingAddress = address;
-
-    this.modalService.open(this.UPDATE_MASKED_EMAIL_ADDRESS_DIALOG_ID);
+    this.dialog.open(UpdateMaskedEmailAddressDialogComponent, {
+      data: { updatingAddress: address }
+    });
   }
-  closeUpdateDialog(status: boolean): void {
-    this.modalService.close(this.UPDATE_MASKED_EMAIL_ADDRESS_DIALOG_ID);
-    if (status) {
-      if (
-        this.updatingAddress.name !== this.newAddressName ||
-        this.updatingAddress.description !== this.newAddressDescription
-      ) {
-        this.updatingAddress.name = this.newAddressName;
-        this.updatingAddress.description = this.newAddressDescription;
 
-        this.onUpdate(this.updatingAddress);
-      }
-    }
-
-    this.updatingAddress = undefined;
-  }
 
   private loadAddresses(): void {
     this.addressService.getAddresses()
-      .subscribe(addresses => this.addresses = addresses.map(a => MaskedEmail.fromAddress(a)));
+      .subscribe(addresses => {
+        this.addresses = addresses.map(a => MaskedEmail.fromAddress(a));
+        // Assign the data to the data source for the table to render
+        this.dataSource = new MatTableDataSource(this.addresses);
+
+        this.loaderSvc.stopLoader();
+      });
+
+  }
+
+  private updateDatasource() {
+    this.dataSource.data = this.addresses;
   }
 }

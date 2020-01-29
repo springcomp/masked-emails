@@ -56,8 +56,8 @@ namespace IdentityServer
                     RequirePkce = true,
                     RequireClientSecret = false,
 
-                    RedirectUris = { "http://localhost:5001/masked-emails", },
                     PostLogoutRedirectUris = { "http://localhost:5001", },
+                    RedirectUris = { "http://localhost:5001/auth-callback", },
                     AllowedCorsOrigins = { "http://localhost:5001", },
 
                     AllowedScopes = {

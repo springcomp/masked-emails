@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable} from 'rxjs';
 
 import { HttpService } from './api.service';
-import { Profile } from './model';
+import { Profile } from '../models/model';
 
 export class Claim { type: string; value: string; }
 

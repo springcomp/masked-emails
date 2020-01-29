@@ -1,44 +1,31 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { AuthService } from './core/auth.service'
+import { LoaderService } from './shared/services/loader.service';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: 'app.component.html',
+  selector: 'app-root',
+  templateUrl: 'app.component.html',
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-    public isAuthenticated: boolean;
+  constructor(
+    public authService: AuthService,
+    public loaderSvc: LoaderService
+  ) {
+    this.loaderSvc.stopLoader();
+  }
 
-    constructor(
-        public oidcSecurityService: OidcSecurityService
-        ) {
-        if (this.oidcSecurityService.moduleSetup) {
-            this.doCallbackLogicIfRequired();
-        } else {
-            this.oidcSecurityService.onModuleSetup.subscribe(() => {
-                this.doCallbackLogicIfRequired();
-            });
-        }
-    }
+  get dataLoaded(): boolean {
+    return this.loaderSvc.dataLoaded;
+  }
 
-    ngOnInit() {
-        this.oidcSecurityService.getIsAuthorized().subscribe(auth => {
-            this.isAuthenticated = auth;
-        });
-    }
+  ngOnInit() {
+    this.authService.initAuthentication();
+  }
 
-    ngOnDestroy(): void { }
+  ngOnDestroy(): void {
+    this.authService.ngOnDestroy();
+  }
 
-    login() {
-        this.oidcSecurityService.authorize();
-    }
-
-    logout() {
-        this.oidcSecurityService.logoff();
-    }
-
-    private doCallbackLogicIfRequired() {
-        var url = window.location.toString();
-        this.oidcSecurityService.authorizedCallbackWithCode(url);
-    }
 }
