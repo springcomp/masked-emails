@@ -6,8 +6,12 @@
 tr.mat-row {
   .mat-cell {
     color: mat-color($accent, lighter);
-    font-size: 13px;
+    font-size: 12px; //Size of the text in the table
   }
+}
+
+.mat-row {
+      height:40px; //Table row height
 }
 
 .mat-row:nth-child(even) {
@@ -31,11 +35,13 @@ tr.mat-header-row {
 
 ::ng-deep .mat-icon-button {
   color: mat-color($primary, darker) !important;
+  height: 38px;
+  font-size: 12px !important; //Icon size
 }
 
 .table-container {
-  height: 500px;
   overflow: auto;
+  padding-bottom:50px;
 }
 
 ::ng-deep .mat-fab {

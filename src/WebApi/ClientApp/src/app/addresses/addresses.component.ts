@@ -98,6 +98,7 @@ export class AddressesComponent implements OnInit {
     this.addressService.getAddresses()
       .subscribe(addresses => {
         this.addresses = addresses.map(a => MaskedEmail.fromAddress(a));
+
         // Assign the data to the data source for the table to render
         this.dataSource = new MatTableDataSource(this.addresses);
 
