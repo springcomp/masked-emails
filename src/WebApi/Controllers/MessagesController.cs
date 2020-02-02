@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using InboxApi.Model.Interop;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApi.Services.Interop;
@@ -13,11 +15,14 @@ namespace WebApi.Controllers
     public class MessagesController : ApiControllerBase
     {
         private readonly IProfilesService service_;
+        private readonly IInboxApi inbox_;
         private readonly ILogger<MessagesController> logger_;
 
-        public MessagesController(IProfilesService service, ILogger<MessagesController> logger)
+        public MessagesController(IProfilesService service, IInboxApi inbox, ILogger<MessagesController> logger)
         {
             service_ = service;
+            inbox_ = inbox;
+
             logger_ = logger;
         }
 
@@ -35,7 +40,19 @@ namespace WebApi.Controllers
                     .ToArray()
                     ;
 
-            return Ok(addresses);
+            try
+            {
+                logger_.LogDebug($"Retrieving messages from the following inboxes:");
+                logger_.LogDebug(string.Join(", ", addresses));
+
+                var messages = await inbox_.GetMessages(addresses);
+
+                return Ok(messages);
+            }
+            catch (Refit.ApiException e)
+            {
+                return StatusCode((int)e.StatusCode);
+            }
         }
 
         // GET messages/my/{location}
@@ -43,10 +60,21 @@ namespace WebApi.Controllers
         [Route("my/{location}")]
         public async Task<IActionResult> GetMessageBody(string location)
         {
-            if (!GetAuthenticatedUserId(out var identifier))
+            if (!GetAuthenticatedUserId(out var _))
                 return BadRequest();
 
-            return Ok();
+            try
+            {
+                logger_.LogDebug($"Retrieving message located at '{location}'.");
+
+                var message = await inbox_.GetMessageBody(location);
+
+                return Ok(message);
+            }
+            catch (Refit.ApiException e)
+            {
+                return StatusCode((int)e.StatusCode);
+            }
         }
     }
 }

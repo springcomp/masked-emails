@@ -36,6 +36,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="Refit" Version="5.0.23" />
     <PackageReference Include="Serilog" Version="2.9.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
@@ -45,6 +46,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj" />
+    <ProjectReference Include="..\InboxApi.Model\InboxApi.Model.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />
     <ProjectReference Include="..\Utils\Utils.csproj" />
   </ItemGroup>

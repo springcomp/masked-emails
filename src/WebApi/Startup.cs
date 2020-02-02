@@ -1,5 +1,6 @@
 ﻿using Data;
 using Data.Interop;
+using InboxApi.Model.Interop;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using Utils;
 using Utils.Interop;
 using WebApi.Configuration;
@@ -69,8 +71,29 @@ namespace WebApi
             var appSettingsSection = Configuration.GetSection("AppSettings");
             appSettingsSection.Bind(appSettings);
 
+            var inboxApiSettings = new InboxApiSettings();
+            var inboxApiSettingsSection = Configuration.GetSection("InboxApi");
+            inboxApiSettingsSection.Bind(inboxApiSettings);
+
             services.AddOptions();
             services.Configure<AppSettings>(appSettingsSection);
+            services.Configure<InboxApiSettings>(inboxApiSettingsSection);
+
+            var authHttpBuilder = services
+                .AddHttpClient("inbox-api-oauth", c =>
+                {
+                    c.BaseAddress = new Uri(appSettings.Authority);
+                })
+                ;
+
+            services
+                .AddHttpClient("inbox-api", c =>
+                {
+                    c.BaseAddress = new Uri(inboxApiSettings.Endpoint);
+                })
+                .AddTypedClient(c => Refit.RestService.For<IInboxApi>(c))
+                .AddHttpMessageHandler<AuthenticatedParameterizedHttpClientHandler>()
+                ;
 
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
@@ -102,6 +125,9 @@ namespace WebApi
 
         private void ConfigureDependencies(IServiceCollection services)
         {
+            services.AddTransient<IRequestToken, RequestToken>();
+            services.AddTransient<AuthenticatedParameterizedHttpClientHandler>();
+
             services.AddTransient<IMaskedEmailsDbContext, MaskedEmailsDbContext>();
             services.AddTransient<IMaskedEmailService, MaskedEmailService>();
             services.AddTransient<IProfilesService, ProfilesService>();

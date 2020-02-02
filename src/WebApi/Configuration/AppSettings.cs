@@ -8,4 +8,10 @@
         public string Audience { get; set; }
         public int HttpsPort { get; set; } = 443;
     }
+    public class InboxApiSettings
+    { 
+        public string Endpoint { get; set; }
+        public string ClientId { get; set; }
+        public string ClientSecret { get; set; }
+    }
 }
