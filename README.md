@@ -2,7 +2,7 @@
 
 This repository hosts the main application and API for the "masked emails".
 
-![image](https://user-images.githubusercontent.com/8488398/71770833-2bec5400-2f32-11ea-84c5-274bfd161754.png)
+![image](https://user-images.githubusercontent.com/8488398/73608615-7d394300-45c5-11ea-94b1-e50ed0a2f4e4.png)
 
 ## Quick Overview
 
