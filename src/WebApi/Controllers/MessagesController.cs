@@ -27,9 +27,18 @@ namespace WebApi.Controllers
         }
 
         // GET messages/my
+        // GET messages/my?location={location}
         [HttpGet()]
         [Route("my")]
-        public async Task<IActionResult> GetMessages()
+        public async Task<IActionResult> GetMessages(string location = null)
+        {
+            if (string.IsNullOrWhiteSpace(location))
+                return await GetInboxMessages();
+            else
+                return await GetInboxMessage(location);
+        }
+
+        private async Task<IActionResult> GetInboxMessages()
         {
             if (!GetAuthenticatedUserId(out var identifier))
                 return BadRequest();
@@ -55,10 +64,7 @@ namespace WebApi.Controllers
             }
         }
 
-        // GET messages/my/{location}
-        [HttpGet()]
-        [Route("my/{location}")]
-        public async Task<IActionResult> GetMessageBody(string location)
+        private async Task<IActionResult> GetInboxMessage(string location)
         {
             if (!GetAuthenticatedUserId(out var _))
                 return BadRequest();
