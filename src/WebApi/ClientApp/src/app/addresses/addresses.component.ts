@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material';
 import { AddressService } from '../shared/services/address.service';
 import { LoaderService } from '../shared/services/loader.service'
 import { MatTableDataSource } from '@angular/material/table';
-
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { UpdateMaskedEmailAddressDialogComponent } from './update-masked-email-address-dialog/update-masked-email-address-dialog.component'
 import { NewMaskedEmailAddressDialogComponent } from './new-masked-email-address-dialog/new-masked-email-address-dialog.component'
 import { MaskedEmail } from '../shared/models/model';
@@ -12,14 +12,23 @@ import { MaskedEmail } from '../shared/models/model';
 @Component({
   selector: 'app-addresses',
   templateUrl: './addresses.component.html',
-  styleUrls: ['./addresses.component.scss']
+  styleUrls: ['./addresses.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ])
+  ]
 })
 export class AddressesComponent implements OnInit {
 
   public displayedColumns: string[] = ['name', 'emailAddress', 'description', 'enabled', 'actions'];
+  public mobileColumnsToDisplay: string[] = ['informations', 'actions'];
   addresses: MaskedEmail[] = [];
   dataSource: MatTableDataSource<MaskedEmail>;
-
+  mobiledataSource: MatTableDataSource<MaskedEmail>;
+  expandedElement: MaskedEmail | null;
 
   constructor(
     private addressService: AddressService,
@@ -83,7 +92,7 @@ export class AddressesComponent implements OnInit {
       if (result && result.event == 'Create') {
         this.addresses.push(result.data);
         this.updateDatasource();
-      } 
+      }
     });
   }
 
@@ -97,12 +106,12 @@ export class AddressesComponent implements OnInit {
   private loadAddresses(): void {
     this.addressService.getAddresses()
       .subscribe(addresses => {
+        this.loaderSvc.stopLoader();
         this.addresses = addresses.map(a => MaskedEmail.fromAddress(a));
 
         // Assign the data to the data source for the table to render
         this.dataSource = new MatTableDataSource(this.addresses);
 
-        this.loaderSvc.stopLoader();
       });
 
   }
