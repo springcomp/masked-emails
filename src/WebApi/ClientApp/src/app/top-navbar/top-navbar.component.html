@@ -1,31 +1,65 @@
-<mat-toolbar color="primary">
-
-    <mat-toolbar-row>
-        <span class="title">Masked-Emails</span>
-        <span class="spacer"></span>
-
-        <a mat-button *ngIf="!isAuthenticated" (click)="login()"><fa-icon [icon]="['fas', 'user']"></fa-icon> <span class="margin-left-text">Login</span></a>
-
-        <button *ngIf="userIsAuthenticated" class="user-section" mat-button [matMenuTriggerFor]="user">
-            <img class="user-picture" ngxGravatar [email]="forwardingAddress" [preferGravatar]="true" [fallback]="'mp'" size="24">
-            <div class="user-informations">
-                <div class="username">{{my.displayName}}</div>
-            </div>
-
-            <fa-icon [icon]="['fas', 'chevron-down']"></fa-icon>
-        </button>
-
-    </mat-toolbar-row>
-</mat-toolbar>
 
 
-<mat-menu class="user-menu" #user="matMenu">
-    <div *ngIf="userIsAuthenticated" mat-menu-item class="forwarding-address" (click)="$event.stopPropagation();">
-        <div class="title">Forwarding address:</div>
-        <div>{{ my.forwardingAddress}} <button mat-icon-button aria-label="Modify the forwarding address" (click)="openDialog()"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button></div>
+<mat-sidenav-container class="container">
+  <mat-sidenav-content class="sidenav-content">
+    <div class="toolbar-container">
+      <mat-toolbar color="primary">
+
+        <mat-toolbar-row>
+          <span class="title">Masked-Emails</span>
+          <span class="spacer"></span>
+
+          <a mat-button *ngIf="!isAuthenticated" (click)="login()"><fa-icon [icon]="['fas', 'user']"></fa-icon> <span class="margin-left-text">Login</span></a>
+
+          <!--Desktop button-->
+          <button *ngIf="userIsAuthenticated" class="desktop-mode" mat-button [matMenuTriggerFor]="user">
+            <app-user-button [icon]="'chevron-down'" [user]="my"></app-user-button>
+          </button>
+          <!--Responsive button-->
+          <button *ngIf="userIsAuthenticated" class="mobile-mode" mat-button (click)="sidenav.toggle()">
+            <app-user-button [icon]="'bars'" [user]="my"></app-user-button>
+          </button>
+
+        </mat-toolbar-row>
+      </mat-toolbar>
     </div>
+
+    <!--Application content-->
+    <ng-content select="[router]"></ng-content>
+
+  </mat-sidenav-content>
+
+  <!--Responsive Menu-->
+  <mat-sidenav #sidenav>
+
+
+    <div class="user-view">
+      <div class="close-menu-position">
+        <button class="close-menu-display" mat-icon-button aria-label="Close menu" (click)="sidenav.toggle()"><fa-icon [icon]="['fas', 'arrow-left']"></fa-icon></button>
+      </div>
+      <div class="user-informations">
+        <img ngxGravatar [email]="forwardingAddress" [preferGravatar]="true" [fallback]="'mp'" size="70">
+
+        <div class="username">{{my.displayName}}</div>
+      </div>
+    </div>
+
+    <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my"></app-edit-forwarding-address>
     <mat-divider></mat-divider>
     <button mat-menu-item (click)="logout()">
-        <span class="logout-text">Logout</span>
+      <span class="logout-text">Logout</span>
     </button>
-</mat-menu>
+
+  </mat-sidenav>
+
+  <!--Desktop Menu-->
+  <mat-menu class="user-menu" #user="matMenu">
+    <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my"></app-edit-forwarding-address>
+
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="logout()">
+      <span class="logout-text">Logout</span>
+    </button>
+  </mat-menu>
+
+</mat-sidenav-container>

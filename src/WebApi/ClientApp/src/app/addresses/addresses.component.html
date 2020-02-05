@@ -1,4 +1,5 @@
 <div *ngIf="dataLoaded">
+
   <div class="header-container">
     <div class="search-container">
       <mat-form-field>
@@ -46,6 +47,7 @@
     </table>
   </div>
 
+  <!--Responsive Table view-->
   <div class="mobile-view">
     <table mat-table
            [dataSource]="dataSource" multiTemplateDataRows>

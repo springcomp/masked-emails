@@ -1,0 +1,25 @@
+@import '../../../custom-theme.scss';
+
+.forwarding-address {
+  color: mat-color($accent);
+  height: 70px;
+  padding-top: 7px;
+  line-height: 20px;
+  max-width: 400px;
+
+  .title {
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  ::ng-deep .mat-icon-button {
+    font-size: 10px;
+  }
+}
+
+
+@media(max-width:768px) {
+  .forwarding-address {
+    padding-top: 25px;
+  }
+}

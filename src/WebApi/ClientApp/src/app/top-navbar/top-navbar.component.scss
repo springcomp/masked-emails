@@ -1,5 +1,24 @@
 @import '../../custom-theme.scss';
 
+.container {
+  height: 100%;
+}
+
+.toolbar-container {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.desktop-mode {
+  display: block;
+}
+
+.mobile-mode {
+  display: none;
+}
+
 .spacer {
   flex: 1 1 auto;
 }
@@ -15,28 +34,6 @@
   margin-left: 10px;
 }
 
-
-.user-section {
-  color: mat-color($accent);
-
-  .user-informations {
-    margin-left: 10px;
-    margin-right: 5px;
-    display: inline-block;
-    text-align: left;
-
-    .username {
-      font-family: Roboto;
-      font-size: 14px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: normal;
-      letter-spacing: normal;
-    }
-  }
-}
-
 .logout-text {
   color: mat-color($warn);
 }
@@ -49,19 +46,56 @@
   font-size: 13px;
 }
 
+.sidenav-content {
+  background-color: mat-color($background-color);
+}
 
-.forwarding-address {
-  color: mat-color($accent);
-  height: 70px;
-  padding-top: 7px;
-  line-height: 20px;
-  max-width: 400px;
+@media(max-width:768px) {
 
-  .title {
-    text-transform: uppercase;
+  .container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 
-  ::ng-deep .mat-icon-button {
-    font-size: 10px;
+  .desktop-mode {
+    display: none;
+  }
+
+  .mobile-mode {
+    display: block;
+  }
+
+  .page-content {
+    display: block;
+    margin-top: 56px;
+  }
+
+  .sidenav-content-menu {
+    margin-top: 10px;
+  }
+
+  .user-view {
+    margin: auto;
+    text-align: center;
+    height: 100px;
+    background-color: #fafafa;
+    height: 140px;
+
+    .close-menu-position {
+      padding-top: 10px;
+      padding-left: 10px;
+    }
+
+    .close-menu-display {
+      display: block;
+    }
+
+    .user-informations {
+      display: block;
+      margin-top: 10px;
+    }
   }
 }

@@ -27,7 +27,9 @@ import { ProfileDialogComponent } from './top-navbar/profile-dialog/profile-dial
 import { TopNavbarComponent } from './top-navbar/top-navbar.component';
 import { UpdateMaskedEmailAddressDialogComponent } from './addresses/update-masked-email-address-dialog/update-masked-email-address-dialog.component';
 
-import { LoaderService } from './shared/services/loader.service'
+import { LoaderService } from './shared/services/loader.service';
+import { UserButtonComponent } from './top-navbar/user-button/user-button.component';
+import { EditForwardingAddressComponent } from './top-navbar/edit-forwarding-address/edit-forwarding-address.component'
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
   return () => {
@@ -55,7 +57,9 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     UpdateMaskedEmailAddressDialogComponent,
     NewMaskedEmailAddressDialogComponent,
     HomeComponent,
-    AuthCallbackComponent
+    AuthCallbackComponent,
+    UserButtonComponent,
+    EditForwardingAddressComponent
   ],
   entryComponents: [
     ProfileDialogComponent,

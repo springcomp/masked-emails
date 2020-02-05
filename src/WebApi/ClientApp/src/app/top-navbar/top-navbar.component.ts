@@ -2,9 +2,6 @@ import { Component } from '@angular/core';
 import { ProfileService, Claim } from '../shared/services/profile.service';
 import { Profile } from '../shared/models/model';
 import { AuthService } from '../core/auth.service';
-import { MatDialog } from '@angular/material';
-import { ProfileDialogComponent } from './profile-dialog/profile-dialog.component';
-
 
 @Component({
   selector: 'top-navbar',
@@ -20,7 +17,6 @@ export class TopNavbarComponent {
 
   constructor(
     private profileService: ProfileService,
-    private dialog: MatDialog,
     public authService: AuthService
   ) {
     this.authService.getIsAuthorized().subscribe(auth => {
@@ -42,20 +38,6 @@ export class TopNavbarComponent {
 
   public login() {
     this.authService.login();
-  }
-
-  public openDialog(): void {
-    //Open dialog window to update profile
-    const dialogRef = this.dialog.open(ProfileDialogComponent, {
-      data: { profile: this.my }
-    });
-
-    //Action to handle after closing the dialog window
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result.event == 'UpdateProfile') {
-        this.my = result.data;
-      }
-    });
   }
 
   public logout() {

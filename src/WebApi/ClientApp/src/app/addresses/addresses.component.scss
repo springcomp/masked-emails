@@ -182,7 +182,7 @@ tr.mat-header-row {
     display: block;
 
     .name {
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 800;
       text-transform: uppercase;
       margin-left: 10px;
@@ -191,12 +191,22 @@ tr.mat-header-row {
     .emailAddress-text {
       word-wrap: break-word;
       display: inline;
-      font-size: 10px;
+      font-size: 12px;
     }
 
     .copy-icon-display {
       display: inline;
     }
+  }
+
+  ::ng-deep .mat-fab {
+    width: 40px;
+    height: 40px;
+    margin: auto;
+  }
+
+  ::ng-deep .mat-fab .mat-button-wrapper {
+    padding: 9px 0;
   }
 
   ::ng-deep .mat-icon-button {
@@ -238,6 +248,4 @@ tr.mat-header-row {
     line-height: 20px;
     font-size: 12px !important; //Icon size
   }
-
 }
-

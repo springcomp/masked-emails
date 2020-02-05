@@ -27,7 +27,6 @@ export class AddressesComponent implements OnInit {
   public mobileColumnsToDisplay: string[] = ['informations', 'actions'];
   addresses: MaskedEmail[] = [];
   dataSource: MatTableDataSource<MaskedEmail>;
-  mobiledataSource: MatTableDataSource<MaskedEmail>;
   expandedElement: MaskedEmail | null;
 
   constructor(
