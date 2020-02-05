@@ -169,9 +169,13 @@ tr.mat-header-row {
     }
 
     .enabled {
-      margin-top: 20px;
+      margin-top: 10px;
       margin-bottom: 10px;
     }
+  }
+
+  .emailAddress-section-margin {
+    margin-top: 10px;
   }
 
   .informations-position {
@@ -184,7 +188,7 @@ tr.mat-header-row {
       margin-left: 10px;
     }
 
-    .emailAddress {
+    .emailAddress-text {
       word-wrap: break-word;
       display: inline;
       font-size: 10px;
@@ -225,80 +229,6 @@ tr.mat-header-row {
 }
 
 @media(max-width:568px) {
-  .table-view {
-    display: none;
-  }
-
-  .mobile-view {
-    display: block;
-  }
-
-  tr.detail-row {
-    padding: 10px;
-    height: 0;
-  }
-
-  tr.mat-row {
-    .mat-cell {
-      color: mat-color($accent, lighter);
-      font-size: 12px; //Size of the text in the table
-      padding-left: 10px;
-    }
-  }
-
-  .element-row td {
-    border-bottom-width: 0;
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
-
-  .element-detail {
-    overflow: hidden;
-    display: flex;
-
-
-    .content-detail {
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-  }
-
-  .actions-position {
-    display: block;
-    float: right;
-    clear: right;
-
-    .icon-float {
-      float: right;
-      margin-top: 10px;
-    }
-
-    .enabled {
-      margin-top: 20px;
-      margin-bottom: 10px;
-    }
-  }
-
-  .informations-position {
-    display: block;
-
-    .name {
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      margin-left: 10px;
-    }
-
-    .emailAddress {
-      word-wrap: break-word;
-      display: inline;
-      font-size: 10px;
-    }
-
-    .copy-icon-display {
-      display: inline;
-    }
-  }
 
   ::ng-deep .mat-icon-button {
     color: mat-color($primary, darker) !important;
@@ -309,22 +239,5 @@ tr.mat-header-row {
     font-size: 12px !important; //Icon size
   }
 
-  .mat-column-informations {
-    word-wrap: break-word !important;
-    white-space: unset !important;
-    flex: 0 0 70% !important;
-    width: 70% !important;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-word;
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
-
-  .mat-column-actions {
-    flex: 0 0 30% !important;
-    width: 30% !important;
-  }
 }
+
