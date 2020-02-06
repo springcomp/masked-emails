@@ -12,6 +12,15 @@
     font-weight: 500;
   }
 
+  .forwardingAddress-edit-button {
+    display: inline-block;
+  }
+
+  .fowardingAddress-text {
+    font-size: 12px;
+    display: inline-block;
+  }
+
   ::ng-deep .mat-icon-button {
     font-size: 10px;
   }

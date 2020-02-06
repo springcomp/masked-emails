@@ -6,6 +6,10 @@
       <mat-toolbar color="primary">
 
         <mat-toolbar-row>
+          <!--Responsive button-->
+          <button *ngIf="userIsAuthenticated" class="mobile-mode" mat-button (click)="sidenav.toggle()">
+            <fa-icon [icon]="['fas', 'bars']"></fa-icon>
+          </button>
           <span class="title">Masked-Emails</span>
           <span class="spacer"></span>
 
@@ -15,12 +19,9 @@
           <button *ngIf="userIsAuthenticated" class="desktop-mode" mat-button [matMenuTriggerFor]="user">
             <app-user-button [icon]="'chevron-down'" [user]="my"></app-user-button>
           </button>
-          <!--Responsive button-->
-          <button *ngIf="userIsAuthenticated" class="mobile-mode" mat-button (click)="sidenav.toggle()">
-            <app-user-button [icon]="'bars'" [user]="my"></app-user-button>
-          </button>
 
         </mat-toolbar-row>
+
       </mat-toolbar>
     </div>
 
@@ -30,8 +31,7 @@
   </mat-sidenav-content>
 
   <!--Responsive Menu-->
-  <mat-sidenav #sidenav>
-
+  <mat-sidenav #sidenav class="sidenav-width">
 
     <div class="user-view">
       <div class="close-menu-position">

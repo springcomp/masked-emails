@@ -23,6 +23,7 @@ import { MaskedEmail } from '../shared/models/model';
 })
 export class AddressesComponent implements OnInit {
 
+  public searchValue: string;
   public displayedColumns: string[] = ['name', 'emailAddress', 'description', 'enabled', 'actions'];
   public mobileColumnsToDisplay: string[] = ['informations', 'actions'];
   addresses: MaskedEmail[] = [];
@@ -80,8 +81,8 @@ export class AddressesComponent implements OnInit {
       });
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter() {
+    this.dataSource.filter = this.searchValue.trim().toLowerCase();
   }
 
   openCreateDialog(): void {
@@ -93,6 +94,11 @@ export class AddressesComponent implements OnInit {
         this.updateDatasource();
       }
     });
+  }
+
+  clearSearchField(): void {
+    this.searchValue = '';
+    this.dataSource.filter = '';
   }
 
   openUpdateDialog(address: MaskedEmail): void {
