@@ -1,15 +1,14 @@
 @import '../../custom-theme.scss';
 
 .title-content {
-  text-align: center;
-
-  .position {
-    display: block;
+  display: flex;
+  align-content: center;
+  justify-content: center;
 
     .title {
       font-size: 20px;
       font-weight: bold;
       color: mat-color($accent);
     }
-  }
+
 }
