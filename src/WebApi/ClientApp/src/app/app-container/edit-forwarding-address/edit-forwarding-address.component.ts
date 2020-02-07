@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Profile } from '../../shared/models/model';
 import { ProfileDialogComponent } from '../profile-dialog/profile-dialog.component';
@@ -11,6 +11,8 @@ import { ProfileDialogComponent } from '../profile-dialog/profile-dialog.compone
 export class EditForwardingAddressComponent implements OnInit {
   @Input() userIsAuthenticated: boolean;
   @Input() user: Profile;
+
+  @Output() updateUserModel = new EventEmitter<Profile>();
 
   constructor(private dialog: MatDialog) { }
 
@@ -26,7 +28,7 @@ export class EditForwardingAddressComponent implements OnInit {
     //Action to handle after closing the dialog window
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.event == 'UpdateProfile') {
-        this.user = result.data;
+        this.updateUserModel.emit(result.data);
       }
     });
   }

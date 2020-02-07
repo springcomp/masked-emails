@@ -4,11 +4,11 @@ import { Profile } from '../shared/models/model';
 import { AuthService } from '../core/auth.service';
 
 @Component({
-  selector: 'top-navbar',
-  templateUrl: './top-navbar.component.html',
-  styleUrls: ['./top-navbar.component.scss']
+  selector: 'app-container',
+  templateUrl: './app-container.component.html',
+  styleUrls: ['./app-container.component.scss']
 })
-export class TopNavbarComponent {
+export class AppContainerComponent {
 
   public isAuthenticated: boolean;
 
@@ -42,6 +42,10 @@ export class TopNavbarComponent {
 
   public logout() {
     this.authService.logout();
+  }
+
+  public updateUserModel(user: Profile) {
+    this.my = user;
   }
 
   private loadProfile(): void {

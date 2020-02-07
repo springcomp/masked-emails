@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my"></app-edit-forwarding-address>
+    <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my" (updateUserModel)="updateUserModel($event)"></app-edit-forwarding-address>
     <mat-divider></mat-divider>
     <button mat-menu-item (click)="logout()">
       <span class="logout-text">Logout</span>
@@ -54,7 +54,7 @@
 
   <!--Desktop Menu-->
   <mat-menu class="user-menu" #user="matMenu">
-    <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my"></app-edit-forwarding-address>
+    <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my" (updateUserModel)="updateUserModel($event)"></app-edit-forwarding-address>
 
     <mat-divider></mat-divider>
     <button mat-menu-item (click)="logout()">
