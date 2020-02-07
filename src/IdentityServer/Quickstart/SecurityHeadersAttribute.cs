@@ -2,8 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
+using SpringComp.IdentityServer.TableStorage.Stores;
+using System.Linq;
+using System.Reflection;
 
 namespace IdentityServer4.Quickstart.UI
 {
@@ -11,6 +17,8 @@ namespace IdentityServer4.Quickstart.UI
     {
         public override void OnResultExecuting(ResultExecutingContext context)
         {
+            string cors = GetCorsOrigins(context);
+
             var result = context.Result;
             if (result is ViewResult)
             {
@@ -27,12 +35,12 @@ namespace IdentityServer4.Quickstart.UI
                 }
 
                 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-                var csp = "default-src 'self';" + 
+                var csp = "default-src 'self';" +
                               "object-src 'none';" +
-                              "frame-ancestors 'self' http://localhost:5001/;" + //TODO: Get ClientApp URL !
-                              "sandbox allow-forms allow-same-origin allow-scripts;" + 
-                              "base-uri 'self';" + 
-                              "style-src 'self' https://fonts.googleapis.com;" + 
+                              "frame-ancestors 'self' " + cors + ";" +
+                              "sandbox allow-forms allow-same-origin allow-scripts;" +
+                              "base-uri 'self';" +
+                              "style-src 'self' https://fonts.googleapis.com;" +
                               "font-src 'self' https://fonts.gstatic.com;";
                 // also consider adding upgrade-insecure-requests once you have HTTPS in place for production
                 //csp += "upgrade-insecure-requests;";
@@ -57,6 +65,38 @@ namespace IdentityServer4.Quickstart.UI
                     context.HttpContext.Response.Headers.Add("Referrer-Policy", referrer_policy);
                 }
             }
+        }
+
+        private static string GetCorsOrigins(ResultExecutingContext context)
+        {
+            var cache = CorsOriginsCache.Instance;
+            var cors = cache.Origins;
+            if (cors == null)
+            {
+                var serviceProvider = context.HttpContext.RequestServices;
+                var store = serviceProvider.GetRequiredService<IClientStore>();
+                var clientStore = store as CachingClientStore<ClientStore>;
+                var innerFieldInfo = clientStore.GetType().GetField("_inner", BindingFlags.NonPublic | BindingFlags.Instance);
+                var inner = innerFieldInfo.GetValue(clientStore) as ClientStore;
+                System.Diagnostics.Debug.Assert(inner != null);
+
+                var clients = inner.GetAllClientsAsync()
+                    .ConfigureAwait(false)
+                    .GetAwaiter()
+                    .GetResult()
+                    ;
+
+                var origins = clients
+                    .SelectMany(c => c.AllowedCorsOrigins)
+                    .ToArray()
+                    ;
+
+                cors = string.Join(" ", origins);
+
+                cache.AddToCache(cors);
+            }
+
+            return cors;
         }
     }
 }

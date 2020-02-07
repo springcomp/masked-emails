@@ -52,7 +52,6 @@ namespace IdentityServer
 
                 try
                 {
-
                     var password = Configuration["SigningCertificate:Password"];
                     var certificatePath = Path.Combine(Environment.ContentRootPath, @"App_Data\signing.pfx");
                     if (File.Exists(certificatePath))
