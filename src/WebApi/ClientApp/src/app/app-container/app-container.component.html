@@ -1,0 +1,68 @@
+
+
+<mat-sidenav-container class="container">
+  <mat-sidenav-content class="sidenav-content">
+
+    <mat-toolbar color="primary">
+
+      <mat-toolbar-row>
+        <!--Responsive button-->
+        <button *ngIf="userIsAuthenticated" class="mobile-mode" mat-button (click)="sidenav.toggle()">
+          <fa-icon [icon]="['fas', 'bars']"></fa-icon>
+        </button>
+        <span class="title">Masked-Emails</span>
+        <span class="spacer"></span>
+
+        <a mat-button *ngIf="!isAuthenticated" (click)="login()"><fa-icon [icon]="['fas', 'user']"></fa-icon> <span class="margin-left-text">Login</span></a>
+
+        <!--Desktop button-->
+        <button *ngIf="userIsAuthenticated" class="desktop-mode" mat-button [matMenuTriggerFor]="user">
+          <app-user-button [icon]="'chevron-down'" [user]="my"></app-user-button>
+        </button>
+
+      </mat-toolbar-row>
+
+    </mat-toolbar>
+
+
+    <!--Loader-->
+    <ng-content select="[loader]"></ng-content>
+
+    <!--Application content-->
+    <ng-content select="[router]"></ng-content>
+
+  </mat-sidenav-content>
+
+  <!--Responsive Menu-->
+  <mat-sidenav #sidenav class="sidenav-width">
+
+    <div class="user-view">
+      <div class="close-menu-position">
+        <button class="close-menu-display" mat-icon-button aria-label="Close menu" (click)="sidenav.toggle()"><fa-icon [icon]="['fas', 'arrow-left']"></fa-icon></button>
+      </div>
+      <div class="user-informations">
+        <img ngxGravatar [email]="forwardingAddress" [preferGravatar]="true" [fallback]="'mp'" size="70">
+
+        <div class="username">{{my && my.displayName? my.displayName: ''}}</div>
+      </div>
+    </div>
+
+    <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my" (updateUserModel)="updateUserModel($event)"></app-edit-forwarding-address>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="logout()">
+      <span class="logout-text">Logout</span>
+    </button>
+
+  </mat-sidenav>
+
+  <!--Desktop Menu-->
+  <mat-menu class="user-menu" #user="matMenu">
+    <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my" (updateUserModel)="updateUserModel($event)"></app-edit-forwarding-address>
+
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="logout()">
+      <span class="logout-text">Logout</span>
+    </button>
+  </mat-menu>
+
+</mat-sidenav-container>

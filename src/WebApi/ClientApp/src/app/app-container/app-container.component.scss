@@ -1,0 +1,113 @@
+@import '../../custom-theme.scss';
+
+.container {
+  height: 100%;
+}
+
+.desktop-mode {
+  display: block;
+}
+
+.mobile-mode {
+  display: none;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.title {
+  text-transform: uppercase;
+  color: mat-color($accent);
+  font-family: "Roboto";
+  font-weight: 800;
+}
+
+.margin-left-text {
+  margin-left: 10px;
+}
+
+.logout-text {
+  color: mat-color($warn);
+}
+
+::ng-deep .mat-menu-panel {
+  max-width: 400px !important;
+}
+
+::ng-deep .user-menu .mat-menu-content .mat-menu-item {
+  font-size: 13px;
+}
+
+.sidenav-content {
+  background-color: mat-color($background-color);
+  display: flex;
+  flex-direction: column;
+  overflow:hidden;
+}
+
+.user-section {
+  color: mat-color($accent);
+}
+
+@media(max-width:768px) {
+
+  .container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .title {
+    margin-left: 5px;
+  }
+
+  .desktop-mode {
+    display: none;
+  }
+
+  .mobile-mode {
+    display: block;
+  }
+
+  .page-content {
+    display: block;
+    margin-top: 56px;
+  }
+
+  .sidenav-width {
+    min-width: 250px;
+  }
+
+  .sidenav-content-menu {
+    margin-top: 10px;
+  }
+
+  ::ng-deep .mat-button {
+    min-width: 0 !important;
+  }
+
+  .user-view {
+    margin: auto;
+    text-align: center;
+    height: 100px;
+    background-color: #fafafa;
+    height: 140px;
+
+    .close-menu-position {
+      padding-top: 10px;
+      padding-left: 10px;
+    }
+
+    .close-menu-display {
+      display: block;
+    }
+
+    .user-informations {
+      display: block;
+      margin-top: 10px;
+    }
+  }
+}

@@ -1,10 +1,10 @@
-<top-navbar class="app-navbar"></top-navbar>
 
-<div class="app-content">
-  <mat-spinner *ngIf="!dataLoaded" class="loader-position">
-  </mat-spinner>
+<app-container>
 
-  <router-outlet class="page-content"></router-outlet>
-</div>
-
-
+  <div loader *ngIf="!dataLoaded" class="loader-row">
+    <mat-spinner  class="loader-position"></mat-spinner>
+  </div>
+  <div router class="router">
+    <router-outlet class="page-content"></router-outlet>
+  </div>
+</app-container>

@@ -1,0 +1,5 @@
+<div *ngIf="userIsAuthenticated" mat-menu-item class="forwarding-address" (click)="$event.stopPropagation();">
+
+  <div class="title">Forwarding address:</div>
+  <div class="fowardingAddress-text">{{ user.forwardingAddress}}</div> <button class="forwardingAddress-edit-button" mat-icon-button aria-label="Modify the forwarding address" (click)="openDialog()"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
+</div>

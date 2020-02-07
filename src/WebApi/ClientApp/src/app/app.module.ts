@@ -6,10 +6,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from './core';
 import { HttpClientModule } from '@angular/common/http';
 import { GravatarModule } from 'ngx-gravatar';
-
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthorizationGuard } from './core/authorization-guard';
 import { environment } from '../environments/environment';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
@@ -24,11 +23,13 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component'
 import { MaskedEmailsComponent } from './masked-emails/masked-emails.component';
 import { NewMaskedEmailAddressDialogComponent } from './addresses/new-masked-email-address-dialog/new-masked-email-address-dialog.component';
-import { ProfileDialogComponent } from './top-navbar/profile-dialog/profile-dialog.component';
-import { TopNavbarComponent } from './top-navbar/top-navbar.component';
+import { ProfileDialogComponent } from './app-container/profile-dialog/profile-dialog.component';
+import { AppContainerComponent } from './app-container/app-container.component';
 import { UpdateMaskedEmailAddressDialogComponent } from './addresses/update-masked-email-address-dialog/update-masked-email-address-dialog.component';
 
-import { LoaderService } from './shared/services/loader.service'
+import { LoaderService } from './shared/services/loader.service';
+import { UserButtonComponent } from './app-container/user-button/user-button.component';
+import { EditForwardingAddressComponent } from './app-container/edit-forwarding-address/edit-forwarding-address.component'
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
   return () => {
@@ -50,13 +51,15 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     AddressesComponent,
     AppComponent,
     MaskedEmailsComponent,
-    TopNavbarComponent,
+    AppContainerComponent,
     LoginComponent,
     ProfileDialogComponent,
     UpdateMaskedEmailAddressDialogComponent,
     NewMaskedEmailAddressDialogComponent,
     HomeComponent,
-    AuthCallbackComponent
+    AuthCallbackComponent,
+    UserButtonComponent,
+    EditForwardingAddressComponent
   ],
   entryComponents: [
     ProfileDialogComponent,

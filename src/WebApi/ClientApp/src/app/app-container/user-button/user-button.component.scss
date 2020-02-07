@@ -1,0 +1,27 @@
+@import '../../../custom-theme.scss';
+
+.user-section {
+  color: mat-color($accent);
+
+  .user-picture {
+    vertical-align: middle;
+  }
+
+  .user-informations {
+    margin-left: 10px;
+    margin-right: 5px;
+    display: inline-block;
+    text-align: left;
+
+    .username {
+      font-family: Roboto;
+      font-size: 14px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
+    }
+  }
+}
+

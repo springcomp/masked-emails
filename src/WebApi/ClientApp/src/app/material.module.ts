@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatIconModule,
   MatButtonModule,
@@ -11,16 +10,19 @@ import {
   MatMenuModule,
   MatDividerModule,
   MatTableModule,
+  MatSidenavModule,
   MatSlideToggleModule,
   MatSnackBarModule,
   MatFormFieldModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatExpansionModule
 } from '@angular/material/';
+import { CdkTableModule } from '@angular/cdk/table';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
-    BrowserAnimationsModule,
+    CdkTableModule,
     FormsModule,
     CommonModule,
     MatIconModule,
@@ -32,12 +34,14 @@ import { FormsModule } from '@angular/forms';
     MatMenuModule,
     MatDividerModule,
     MatTableModule,
+    MatSidenavModule,
     MatSlideToggleModule,
     MatSnackBarModule,
     MatFormFieldModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatExpansionModule
   ], exports: [
-    BrowserAnimationsModule,
+    CdkTableModule,
     FormsModule,
     CommonModule,
     MatIconModule,
@@ -49,10 +53,12 @@ import { FormsModule } from '@angular/forms';
     MatMenuModule,
     MatDividerModule,
     MatTableModule,
+    MatSidenavModule,
     MatSlideToggleModule,
     MatSnackBarModule,
     MatFormFieldModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatExpansionModule
   ],
   declarations: []
 })
