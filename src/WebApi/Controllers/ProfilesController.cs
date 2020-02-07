@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Data.Model;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model;
@@ -12,7 +9,7 @@ namespace WebApi.Controllers
     [Route("[controller]")]
     [ApiController]
     [Authorize]
-    public class ProfilesController : Controller
+    public class ProfilesController : ApiControllerBase
     {
         private readonly IProfilesService service_;
 
@@ -168,15 +165,6 @@ namespace WebApi.Controllers
                 ;
 
             return NoContent();
-        }
-
-        private bool GetAuthenticatedUserId(out string identifier)
-        {
-            const string ns = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
-            var sub = User.Claims.FirstOrDefault(c => c.Type == ns)?.Value;
-            identifier = sub;
-
-            return true;
         }
     }
 }

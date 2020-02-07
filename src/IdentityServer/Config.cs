@@ -28,6 +28,7 @@ namespace IdentityServer
                 new ApiResource("api", "protected api"){
                     UserClaims = { JwtClaimTypes.Role, },
                 },
+                new ApiResource("inbox", "inbox api"),
             };
         }
 
@@ -47,6 +48,20 @@ namespace IdentityServer
                     AllowedScopes =
                     {
                         "api",
+                    }
+                },
+                new Client
+                {
+                    ClientId = "client.svc",
+                    ClientSecrets =
+                    { 
+                        new Secret("please-type-the-secret-here".Sha256()),
+                    },
+
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedScopes =
+                    { 
+                        "inbox",
                     }
                 },
                 new Client{
