@@ -15,10 +15,8 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/login']);
 
     if (this.authService.isAuthorized) {
-        this.router.navigate(['/masked-emails']);
-      } else {
-        this.router.navigate(['/login']);
-      }
+      this.router.navigate(['/masked-emails']);
+    }
   }
 
   ngOnInit() {

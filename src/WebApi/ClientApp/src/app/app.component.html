@@ -1,8 +1,10 @@
 
 <app-container>
-  <div router>
-    <mat-spinner *ngIf="!dataLoaded" class="loader-position">
-    </mat-spinner>
+
+  <div loader *ngIf="!dataLoaded" class="loader-row">
+    <mat-spinner  class="loader-position"></mat-spinner>
+  </div>
+  <div router class="router">
     <router-outlet class="page-content"></router-outlet>
   </div>
 </app-container>

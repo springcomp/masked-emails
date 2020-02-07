@@ -1,9 +1,13 @@
 @import '../../custom-theme.scss';
 
-.title-content {
+:host {
   display: flex;
-  align-content: center;
+  align-self: center;
   justify-content: center;
+  width: 100%;
+}
+
+.title-content {
 
     .title {
       font-size: 20px;

@@ -2,28 +2,31 @@
 
 <mat-sidenav-container class="container">
   <mat-sidenav-content class="sidenav-content">
-    <div class="toolbar-container">
-      <mat-toolbar color="primary">
 
-        <mat-toolbar-row>
-          <!--Responsive button-->
-          <button *ngIf="userIsAuthenticated" class="mobile-mode" mat-button (click)="sidenav.toggle()">
-            <fa-icon [icon]="['fas', 'bars']"></fa-icon>
-          </button>
-          <span class="title">Masked-Emails</span>
-          <span class="spacer"></span>
+    <mat-toolbar color="primary">
 
-          <a mat-button *ngIf="!isAuthenticated" (click)="login()"><fa-icon [icon]="['fas', 'user']"></fa-icon> <span class="margin-left-text">Login</span></a>
+      <mat-toolbar-row>
+        <!--Responsive button-->
+        <button *ngIf="userIsAuthenticated" class="mobile-mode" mat-button (click)="sidenav.toggle()">
+          <fa-icon [icon]="['fas', 'bars']"></fa-icon>
+        </button>
+        <span class="title">Masked-Emails</span>
+        <span class="spacer"></span>
 
-          <!--Desktop button-->
-          <button *ngIf="userIsAuthenticated" class="desktop-mode" mat-button [matMenuTriggerFor]="user">
-            <app-user-button [icon]="'chevron-down'" [user]="my"></app-user-button>
-          </button>
+        <a mat-button *ngIf="!isAuthenticated" (click)="login()"><fa-icon [icon]="['fas', 'user']"></fa-icon> <span class="margin-left-text">Login</span></a>
 
-        </mat-toolbar-row>
+        <!--Desktop button-->
+        <button *ngIf="userIsAuthenticated" class="desktop-mode" mat-button [matMenuTriggerFor]="user">
+          <app-user-button [icon]="'chevron-down'" [user]="my"></app-user-button>
+        </button>
 
-      </mat-toolbar>
-    </div>
+      </mat-toolbar-row>
+
+    </mat-toolbar>
+
+
+    <!--Loader-->
+    <ng-content select="[loader]"></ng-content>
 
     <!--Application content-->
     <ng-content select="[router]"></ng-content>
