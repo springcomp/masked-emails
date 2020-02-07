@@ -2,7 +2,7 @@
 
 namespace Data.Model
 {
-    public sealed class Address
+    public class Address
     {
         public long Id { get; set; }
 
@@ -19,6 +19,6 @@ namespace Data.Model
 
         // navigation properties
 
-        public Profile Profile { get; set; }
+        public virtual Profile Profile { get; set; }
     }
 }

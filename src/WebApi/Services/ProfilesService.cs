@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Data;
 using Data.Interop;
@@ -22,6 +24,8 @@ namespace WebApi.Services
         private readonly IUniqueIdGenerator generator_;
         private readonly IMaskedEmailCommandService commands_;
         private readonly IOptions<AppSettings> settings_;
+
+        private const string ISO8601_DATE_TIME_FORMAT = "yyyy-MM-ddTHH:mm:ss.fffffff";
 
         public ProfilesService(IMaskedEmailsDbContext context, IUniqueIdGenerator generator, IMaskedEmailCommandService commands, IOptions<AppSettings> settings)
         {
@@ -72,6 +76,53 @@ namespace WebApi.Services
             var collection = record.Addresses.Select(a => a.ToModel());
 
             return collection;
+        }
+
+        public async Task<GetMaskedEmailPageResponse> GetMaskedEmails(string userId, int top, string cursor, string sort_by, string contains)
+        {
+            var descending = (sort_by.EndsWith("-desc"));
+            if (descending)
+            {
+                sort_by = sort_by.Substring(0, sort_by.Length - "-desc".Length);
+            }
+
+            var when = ParseCursor(cursor, descending);
+
+            var record = await GetProfileEntityGraphForUpdate(userId);
+            if (record == null)
+                throw Error.NoSuchProfile(userId);
+
+            var collection = context_.Addresses
+                .Where(a => a.Profile == record)
+                .OrderBy(sort_by, descending)
+                ;
+
+            var response = new GetMaskedEmailPageResponse
+            {
+                Total = await collection.CountAsync(),
+            };
+
+            var selectPage = MakeSelectPageExpression(when, descending);
+            var searchExpression = MakeSearchExpression(contains);
+
+            collection = collection
+                .Where(selectPage)
+                .Where(searchExpression)
+                .Take(top)
+                ;
+
+            var array = await collection
+                .Select(a => a.ToModel())
+                .ToArrayAsync()
+                ;
+
+            response.Addresses = array;
+            response.Count = array.Length;
+
+            if (array.Length > 0)
+                response.Cursor = MakeCursor(array[^1].CreatedUtc);
+
+            return response;
         }
 
         public async Task<MaskedEmail> GetMaskedEmail(string userId, string email)
@@ -146,7 +197,7 @@ namespace WebApi.Services
         }
 
         public async Task UpdateMaskedEmail(string userId, string email, string name, string description)
-        { 
+        {
             var address = await GetAddressEntityForUpdate(userId, email);
 
             if (!string.IsNullOrEmpty(name) && address.Name != name)
@@ -201,6 +252,7 @@ namespace WebApi.Services
             return
                 await QueryProfileEntities()
                     .Include(e => e.Addresses)
+                    .ThenInclude(a => a.Profile)
                     .SingleOrDefaultAsync(p => p.Id == userId)
                 ;
         }
@@ -219,6 +271,56 @@ namespace WebApi.Services
         }
 
         #endregion
+
+        private DateTime ParseCursor(string cursor, bool descending)
+        {
+            // cursor is an ISO-8601 date
+
+            DateTime when = DateTime.MinValue;
+            if (String.IsNullOrEmpty(cursor))
+            {
+                if (descending)
+                    when = DateTime.MaxValue;
+            }
+            else
+            {
+                if (!DateTime.TryParseExact(cursor, ISO8601_DATE_TIME_FORMAT, CultureInfo.InvariantCulture, DateTimeStyles.None, out when))
+                    throw new ArgumentException("Invalid cursor syntax.");
+            }
+
+            return when;
+        }
+
+        private string MakeCursor(DateTime createdUtc)
+        {
+            return createdUtc.ToString(ISO8601_DATE_TIME_FORMAT);
+        }
+
+        private static Expression<Func<Address, bool>> MakeSearchExpression(string contains)
+        {
+            Expression<Func<Address, bool>> where =
+                a => true;
+
+            if (string.IsNullOrEmpty(contains))
+                return where;
+
+            where = a =>
+                   EF.Functions.Like(a.Name, $"%{contains}%") 
+                || EF.Functions.Like(a.Description, $"%{contains}%")
+                || EF.Functions.Like(a.EmailAddress, $"%{contains}%")
+                ;
+
+            return where;
+        }
+        private static Expression<Func<Address, bool>> MakeSelectPageExpression(DateTime when, bool descending)
+        {
+            Expression<Func<Address, bool>> where =
+                a => a.CreatedUtc > when;
+            if (descending)
+                where = a => a.CreatedUtc < when;
+
+            return where;
+        }
 
         private string MakePassword()
         {

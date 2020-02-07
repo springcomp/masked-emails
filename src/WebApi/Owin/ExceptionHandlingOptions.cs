@@ -11,6 +11,7 @@ namespace WebApi.Owin
             StatusCodes = new Dictionary<Type, HttpStatusCode>
             {
                 {typeof(KeyNotFoundException), HttpStatusCode.NotFound},
+                {typeof(ArgumentException), HttpStatusCode.BadRequest },
             };
         }
 
