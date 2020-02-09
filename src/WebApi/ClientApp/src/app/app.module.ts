@@ -1,6 +1,6 @@
 import { AppRoutingModule } from './app-routing.module';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { AuthModule, ConfigResult, OidcConfigService, OidcSecurityService } from 'angular-auth-oidc-client';
+import { AuthModule, ConfigResult, OidcConfigService, OidcSecurityService, OpenIdConfiguration } from 'angular-auth-oidc-client';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from './core';
@@ -97,6 +97,10 @@ export class AppModule {
     library.addIconPacks(fas);
 
     this.configService.onConfigurationLoaded.subscribe((configResult: ConfigResult) => {
+
+      const oc: OpenIdConfiguration = configResult.customConfig;
+      console.log(`silent_renew_url: ${oc.silent_renew_url}.`);
+      console.log('================================================================================');
 
       this.openId.setupModule(
         configResult.customConfig,
