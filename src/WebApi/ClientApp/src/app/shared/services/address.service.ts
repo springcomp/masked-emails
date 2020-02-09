@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { HttpService } from './api.service';
+import { HttpService } from './http.service';
 import { Address, MaskedEmailRequest, UpdateMaskedEmailRequest } from '../models/model'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
