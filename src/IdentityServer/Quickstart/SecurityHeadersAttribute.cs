@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using SpringComp.IdentityServer.TableStorage.Stores;
 using System.Linq;
 using System.Reflection;
@@ -69,16 +70,25 @@ namespace IdentityServer4.Quickstart.UI
 
         private static string GetCorsOrigins(ResultExecutingContext context)
         {
+            var serviceProvider = context.HttpContext.RequestServices;
+            var logger = serviceProvider.GetRequiredService<ILogger<SecurityHeadersAttribute>>();
+
+            logger.LogDebug("Retrieving CorsOrigins from in-memory cache...");
+
             var cache = CorsOriginsCache.Instance;
             var cors = cache.Origins;
             if (cors == null)
             {
-                var serviceProvider = context.HttpContext.RequestServices;
+                logger.LogDebug("Cache entry missing. Retrieving clients from the data store…");
+
                 var store = serviceProvider.GetRequiredService<IClientStore>();
                 var clientStore = store as CachingClientStore<ClientStore>;
                 var innerFieldInfo = clientStore.GetType().GetField("_inner", BindingFlags.NonPublic | BindingFlags.Instance);
                 var inner = innerFieldInfo.GetValue(clientStore) as ClientStore;
                 System.Diagnostics.Debug.Assert(inner != null);
+
+                if (inner == null)
+                    logger.LogCritical("Please, make sure to use a TableStorage.ClientStore.");
 
                 var clients = inner.GetAllClientsAsync()
                     .ConfigureAwait(false)
@@ -86,12 +96,16 @@ namespace IdentityServer4.Quickstart.UI
                     .GetResult()
                     ;
 
+                logger.LogDebug("Clients successfully retrieved from data store.");
+
                 var origins = clients
                     .SelectMany(c => c.AllowedCorsOrigins)
                     .ToArray()
                     ;
 
                 cors = string.Join(" ", origins);
+
+                logger.LogDebug($"Adding CorsOrigins with value '{cors}' to in-memory cache.");
 
                 cache.AddToCache(cors);
             }
