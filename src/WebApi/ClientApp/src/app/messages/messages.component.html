@@ -1,0 +1,16 @@
+<table>
+    <thead>
+        <tr>
+            <th>Received</th>
+            <th>Sender</th>
+            <th>Subject</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let message of messages">
+            <td> {{ message.receivedUtc }} </td>
+            <td> {{ message.sender.address }} </td>
+            <td> {{ message.subject }} </td>
+        </tr>
+    </tbody>
+</table>

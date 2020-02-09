@@ -37,3 +37,18 @@ export class UpdateMaskedEmailRequest{
     name: string;
     description?: string;
 }
+
+export class EmailAddress {
+    address: string;
+    displayName?: string;
+}
+export class MessageSpec{
+    location: string;
+    receivedUtc: Date;
+    subject?: string;
+    sender: EmailAddress;
+}
+
+export class Message extends MessageSpec{
+    textBody: string;
+}

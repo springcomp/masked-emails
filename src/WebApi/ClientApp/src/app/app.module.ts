@@ -22,6 +22,7 @@ import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component'
 import { MaskedEmailsComponent } from './masked-emails/masked-emails.component';
+import { MessagesComponent } from './messages/messages.component';
 import { NewMaskedEmailAddressDialogComponent } from './addresses/new-masked-email-address-dialog/new-masked-email-address-dialog.component';
 import { ProfileDialogComponent } from './app-container/profile-dialog/profile-dialog.component';
 import { AppContainerComponent } from './app-container/app-container.component';
@@ -50,16 +51,17 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
   declarations: [
     AddressesComponent,
     AppComponent,
-    MaskedEmailsComponent,
     AppContainerComponent,
+    AuthCallbackComponent,
+    EditForwardingAddressComponent,
+    HomeComponent,
     LoginComponent,
+    MaskedEmailsComponent,
+    MessagesComponent,
+    NewMaskedEmailAddressDialogComponent,
     ProfileDialogComponent,
     UpdateMaskedEmailAddressDialogComponent,
-    NewMaskedEmailAddressDialogComponent,
-    HomeComponent,
-    AuthCallbackComponent,
-    UserButtonComponent,
-    EditForwardingAddressComponent
+    UserButtonComponent
   ],
   entryComponents: [
     ProfileDialogComponent,
@@ -97,10 +99,6 @@ export class AppModule {
     library.addIconPacks(fas);
 
     this.configService.onConfigurationLoaded.subscribe((configResult: ConfigResult) => {
-
-      const oc: OpenIdConfiguration = configResult.customConfig;
-      console.log(`silent_renew_url: ${oc.silent_renew_url}.`);
-      console.log('================================================================================');
 
       this.openId.setupModule(
         configResult.customConfig,
