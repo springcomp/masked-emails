@@ -23,7 +23,9 @@
       <ng-container matColumnDef="actions" class="mat-column-actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let message">
-          <button mat-icon-button aria-label="Show inbox message" (click)="popupMessage(message)"><fa-icon [icon]="['fas', 'eye']"></fa-icon></button>
+          <button mat-icon-button aria-label="Show inbox message" (click)="showMessage(message)">
+            <fa-icon [icon]="['fas', 'eye']"></fa-icon>
+          </button>
         </td>
       </ng-container>
 
@@ -31,3 +33,8 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
+</div>
+
+<div>
+  <span> {{ message.textBody }} </span>
+</div>

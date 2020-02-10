@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InboxService } from '../shared/services/inbox.service';
 import { LoaderService } from '../shared/services/loader.service';
-import { MessageSpec } from '../shared/models/model';
+import { MessageSpec, Message } from '../shared/models/model';
 import { MatTableDataSource } from '@angular/material';
 
 @Component({
@@ -11,6 +11,7 @@ import { MatTableDataSource } from '@angular/material';
 })
 export class MessagesComponent implements OnInit {
 
+    message: Message | null;
     messages: MessageSpec[] = [];
     dataSource: MatTableDataSource<MessageSpec>;
 
@@ -28,6 +29,14 @@ export class MessagesComponent implements OnInit {
 
     get dataLoaded(): boolean {
         return this.loaderSvc.dataLoaded;
+    }
+
+    showMessage(message: MessageSpec) {
+        const location = message.location;
+        this.inboxService.getMessage(location)
+            .subscribe(msg => { 
+                this.message = msg;
+            });
     }
 
     private loadMessages(): void {

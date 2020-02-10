@@ -16,11 +16,13 @@ export class InboxService {
   ) { }
 
   public getMessages(): Observable<MessageSpec[]> {
-    console.log("Retrieving inbox messages...");
     var headers = { headers: this.helpers.getHeaders() };
     var requestUri = this.helpers.getRequestUri("/messages/my");
-    console.log(requestUri);
-    console.log(headers);
     return this.http.get<MessageSpec[]>(requestUri, headers);
+  }
+  public getMessage(location: string): Observable<Message> {
+    var headers = { headers: this.helpers.getHeaders() };
+    var requestUri = this.helpers.getRequestUri(`/messages/my?location=${location}`);
+    return this.http.get<Message>(requestUri, headers);
   }
 }
