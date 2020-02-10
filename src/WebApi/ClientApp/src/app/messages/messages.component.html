@@ -1,16 +1,33 @@
-<table>
-    <thead>
-        <tr>
-            <th>Received</th>
-            <th>Sender</th>
-            <th>Subject</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let message of messages">
-            <td> {{ message.receivedUtc }} </td>
-            <td> {{ message.sender.address }} </td>
-            <td> {{ message.subject }} </td>
-        </tr>
-    </tbody>
-</table>
+<div *ngIf="dataLoaded">
+
+  <div class="header-container">
+  </div>
+
+  <div class="table-view table-container">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="received" class="mat-column-receivedUtc">
+        <th mat-header-cell *matHeaderCellDef> Received </th>
+        <td mat-cell *matCellDef="let message"> {{message.receivedUtc}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sender" class="mat-column-sender">
+        <th mat-header-cell *matHeaderCellDef> Sender </th>
+        <td mat-cell *matCellDef="let message"> {{message.sender.address}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="subject" class="mat-column-subject">
+        <th mat-header-cell *matHeaderCellDef> Subject </th>
+        <td mat-cell *matCellDef="let message"> {{message.subject}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" class="mat-column-actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let message">
+          <button mat-icon-button aria-label="Show inbox message" (click)="popupMessage(message)"><fa-icon [icon]="['fas', 'eye']"></fa-icon></button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>

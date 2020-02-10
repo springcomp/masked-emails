@@ -48,7 +48,11 @@
     </div>
 
     <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my" (updateUserModel)="updateUserModel($event)"></app-edit-forwarding-address>
+
     <mat-divider></mat-divider>
+    <button mat-menu-item>
+      <a href="/inbox">Inbox</a>
+    </button>
     <button mat-menu-item (click)="logout()">
       <span class="logout-text">Logout</span>
     </button>
@@ -60,6 +64,9 @@
     <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my" (updateUserModel)="updateUserModel($event)"></app-edit-forwarding-address>
 
     <mat-divider></mat-divider>
+    <button mat-menu-item>
+      <a href="/inbox">Inbox</a>
+    </button>
     <button mat-menu-item (click)="logout()">
       <span class="logout-text">Logout</span>
     </button>
