@@ -16,11 +16,9 @@ export class MessagesComponent implements OnInit {
         private inboxService: InboxService,
         private loaderSvc: LoaderService
     ) {
-        console.log("new instance of MessagesComponent.");
     }
 
     ngOnInit() {
-        console.log("Loading inbox messages...");
         this.loadMessages();
     }
 
@@ -32,7 +30,6 @@ export class MessagesComponent implements OnInit {
         this.inboxService.getMessages()
             .subscribe(messages => {
                 this.loaderSvc.stopLoader();
-                console.log("inbox messages retrieved successfully");
                 this.messages = messages;
                 console.log(messages[0].subject);
             });
