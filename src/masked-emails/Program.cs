@@ -24,6 +24,13 @@ namespace masked_emails
 
         private static async Task MainAsync(string[] args)
         {
+            if (args.Length == 2 && args[0] == "--hash-password")
+            {
+                var plaintext = args[1];
+                Console.WriteLine(PasswordHelper.HashPassword(plaintext));
+                Environment.Exit(42);
+            }
+
             var basePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var environment = ConsoleHostEnvironment.Build();
 
