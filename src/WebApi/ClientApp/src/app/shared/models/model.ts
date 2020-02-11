@@ -50,5 +50,6 @@ export class MessageSpec{
 }
 
 export class Message extends MessageSpec{
+    htmlBody: string;
     textBody: string;
 }

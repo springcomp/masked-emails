@@ -11,6 +11,7 @@ namespace InboxApi.Model
     }
 
     public sealed class InboxMessage : InboxMessageSpec { 
+        public string HtmlBody { get; set; }
         public string TextBody { get; set; }
     }
 }
