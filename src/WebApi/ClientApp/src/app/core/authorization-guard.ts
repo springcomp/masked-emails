@@ -23,6 +23,7 @@ export class AuthorizationGuard implements CanActivate, CanLoad {
           this.router.navigate(['/login']);
           return false;
         }
+
         return true;
       })
     );

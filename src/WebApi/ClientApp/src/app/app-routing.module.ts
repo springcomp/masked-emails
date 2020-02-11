@@ -10,13 +10,13 @@ import { MessagesComponent } from './messages/messages.component';
 import { AuthorizationGuard } from './core/authorization-guard';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  //{ path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'auth-callback', component: AuthCallbackComponent },
   { path: 'masked-emails', component: MaskedEmailsComponent, canActivate: [AuthorizationGuard]},
   { path: 'inbox', component: MessagesComponent, canActivate: [AuthorizationGuard]},
 
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: 'masked-emails' }
 ];
 
 @NgModule({

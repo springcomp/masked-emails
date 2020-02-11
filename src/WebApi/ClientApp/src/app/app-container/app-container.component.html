@@ -1,5 +1,3 @@
-
-
 <mat-sidenav-container class="container">
   <mat-sidenav-content class="sidenav-content">
 
@@ -10,10 +8,15 @@
         <button *ngIf="userIsAuthenticated" class="mobile-mode" mat-button (click)="sidenav.toggle()">
           <fa-icon [icon]="['fas', 'bars']"></fa-icon>
         </button>
-        <span class="title">Masked-Emails</span>
+
+        <button mat-menu-item (click)="home()">
+          <span class="title">Masked-Emails</span>
+        </button>
         <span class="spacer"></span>
 
-        <a mat-button *ngIf="!isAuthenticated" (click)="login()"><fa-icon [icon]="['fas', 'user']"></fa-icon> <span class="margin-left-text">Login</span></a>
+        <a mat-button *ngIf="!isAuthenticated" (click)="login()">
+          <fa-icon [icon]="['fas', 'user']"></fa-icon> <span class="margin-left-text">Login</span>
+        </a>
 
         <!--Desktop button-->
         <button *ngIf="userIsAuthenticated" class="desktop-mode" mat-button [matMenuTriggerFor]="user">
@@ -38,7 +41,9 @@
 
     <div class="user-view">
       <div class="close-menu-position">
-        <button class="close-menu-display" mat-icon-button aria-label="Close menu" (click)="sidenav.toggle()"><fa-icon [icon]="['fas', 'arrow-left']"></fa-icon></button>
+        <button class="close-menu-display" mat-icon-button aria-label="Close menu" (click)="sidenav.toggle()">
+          <fa-icon [icon]="['fas', 'arrow-left']"></fa-icon>
+        </button>
       </div>
       <div class="user-informations">
         <img ngxGravatar [email]="forwardingAddress" [preferGravatar]="true" [fallback]="'mp'" size="70">
@@ -47,11 +52,12 @@
       </div>
     </div>
 
-    <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my" (updateUserModel)="updateUserModel($event)"></app-edit-forwarding-address>
+    <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my"
+      (updateUserModel)="updateUserModel($event)"></app-edit-forwarding-address>
 
     <mat-divider></mat-divider>
-    <button mat-menu-item>
-      <a href="/inbox">Inbox</a>
+    <button mat-menu-item (click)="inbox()">
+      <span class="inbox-text">Inbox</span>
     </button>
     <button mat-menu-item (click)="logout()">
       <span class="logout-text">Logout</span>
@@ -61,11 +67,12 @@
 
   <!--Desktop Menu-->
   <mat-menu class="user-menu" #user="matMenu">
-    <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my" (updateUserModel)="updateUserModel($event)"></app-edit-forwarding-address>
+    <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my"
+      (updateUserModel)="updateUserModel($event)"></app-edit-forwarding-address>
 
     <mat-divider></mat-divider>
-    <button mat-menu-item>
-      <a href="/inbox">Inbox</a>
+    <button mat-menu-item (click)="inbox()">
+      <span class="inbox-text">Inbox</span>
     </button>
     <button mat-menu-item (click)="logout()">
       <span class="logout-text">Logout</span>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ProfileService, Claim } from '../shared/services/profile.service';
 import { Profile } from '../shared/models/model';
 import { AuthService } from '../core/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-container',
@@ -17,7 +18,8 @@ export class AppContainerComponent {
 
   constructor(
     private profileService: ProfileService,
-    public authService: AuthService
+    public authService: AuthService,
+    public router: Router
   ) {
     this.authService.getIsAuthorized().subscribe(auth => {
       this.isAuthenticated = auth;
@@ -25,7 +27,6 @@ export class AppContainerComponent {
         this.loadProfile();
       }
     });
-
   }
 
   get forwardingAddress(): string {
@@ -42,6 +43,14 @@ export class AppContainerComponent {
 
   public logout() {
     this.authService.logout();
+  }
+
+  public home(){
+    this.router.navigate(['/']);
+  }
+
+  public inbox(){
+    this.router.navigate(['/inbox']);
   }
 
   public updateUserModel(user: Profile) {
