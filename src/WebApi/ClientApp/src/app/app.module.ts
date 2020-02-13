@@ -26,6 +26,7 @@ import { InboxComponent } from './inbox/inbox.component';
 import { LoginComponent } from './login/login.component'
 import { MaskedEmailsComponent } from './masked-emails/masked-emails.component';
 import { MessagesComponent } from './messages/messages.component';
+import { MessageDialogComponent } from './messages/message-dialog/message-dialog.component';
 import { NewMaskedEmailAddressDialogComponent } from './addresses/new-masked-email-address-dialog/new-masked-email-address-dialog.component';
 import { ProfileDialogComponent } from './app-container/profile-dialog/profile-dialog.component';
 import { UpdateMaskedEmailAddressDialogComponent } from './addresses/update-masked-email-address-dialog/update-masked-email-address-dialog.component';
@@ -59,6 +60,7 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     InboxComponent,
     LoginComponent,
     MaskedEmailsComponent,
+    MessageDialogComponent,
     MessagesComponent,
     NewMaskedEmailAddressDialogComponent,
     ProfileDialogComponent,

@@ -1,5 +1,5 @@
 import { AuthService } from '../core/auth.service';
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material';
 import { Profile } from '../shared/models/model';
 import { ProfileService, Claim } from '../shared/services/profile.service';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './app-container.component.html',
   styleUrls: ['./app-container.component.scss']
 })
-export class AppContainerComponent implements AfterViewInit {
+export class AppContainerComponent {
   @ViewChild('sidenav', { static: false }) public sidenav: MatSidenav;
 
   public isAuthenticated: boolean;
@@ -37,8 +37,6 @@ export class AppContainerComponent implements AfterViewInit {
     });
   }
 
-  public ngAfterViewInit(): void {
-  }
   get forwardingAddress(): string {
     return this.my && this.my.forwardingAddress ? this.my.forwardingAddress : '';
   }

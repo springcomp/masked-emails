@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { InboxService } from '../shared/services/inbox.service';
 import { LoaderService } from '../shared/services/loader.service';
 import { MessageSpec, Message } from '../shared/models/model';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatDialog } from '@angular/material';
+import { MessageDialogComponent } from './message-dialog/message-dialog.component';
 
 @Component({
     selector: 'app-messages',
@@ -20,7 +21,8 @@ export class MessagesComponent implements OnInit {
 
     constructor(
         private inboxService: InboxService,
-        private loaderSvc: LoaderService
+        private loaderSvc: LoaderService,
+        private dialog: MatDialog
     ) {
     }
 
@@ -33,7 +35,7 @@ export class MessagesComponent implements OnInit {
     }
 
     public getMessageBody(): string {
-        if (this.message != null){
+        if (this.message != null) {
             return this.message.htmlBody;
         }
         return "";
@@ -42,8 +44,13 @@ export class MessagesComponent implements OnInit {
     showMessage(message: MessageSpec) {
         const location = message.location;
         this.inboxService.getMessage(location)
-            .subscribe(msg => { 
+            .subscribe(msg => {
                 this.message = msg;
+
+                // show inbox message in popup
+                const dialogRef = this.dialog.open(MessageDialogComponent, {
+                    data: { message: msg }
+                });
             });
     }
 
