@@ -1,2 +1,60 @@
 
 @import '../../custom-theme.scss';
+
+.table-view {
+  display: block;
+}
+
+.mobile-view {
+  display: none;
+}
+
+.mat-table {
+  width: 100%;
+}
+
+tr.mat-row {
+  .mat-cell {
+    color: mat-color($accent, lighter);
+    font-size: 12px; //Size of the text in the table
+  }
+}
+
+.mat-row {
+  height: 40px; //Table row height
+}
+
+.mat-row:nth-child(even) {
+  background-color: mat-color($background-color);
+}
+
+.mat-row:nth-child(odd) {
+  background-color: mat-color($background-color, darker);
+}
+
+tr.mat-header-row {
+  background-color: mat-color($background-color);
+
+  .mat-header-cell {
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 500;
+    color: mat-color($accent);
+  }
+}
+
+::ng-deep .mat-icon-button {
+  color: mat-color($primary, darker) !important;
+  height: 38px;
+  font-size: 12px !important; //Icon size
+}
+
+.table-container {
+  overflow: auto;
+  padding-bottom: 15px;
+}
+
+::ng-deep .mat-fab {
+  color: #ffffff !important;
+  font-size: 16px !important;
+}

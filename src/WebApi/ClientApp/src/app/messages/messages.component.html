@@ -33,6 +33,41 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
+
+  <!--Responsive Table view-->
+  <div class="mobile-view">
+    <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+      <ng-container matColumnDef="received" class="mat-column-receivedUtc">
+        <td mat-cell *matCellDef="let message">
+          <div class="received-position"><span class="received">{{ message.receivedUtc }}</span></div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sender" class="mat-column-sender">
+        <td mat-cell *matCellDef="let message">
+          <div class="sender-position"><span class="received">{{ message.sender.address }}</span></div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="subject" class="mat-column-subject">
+        <td mat-cell *matCellDef="let message">
+          <div class="subject-position"><span class="subject">{{ message.subject }}</span></div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" class="mat-column-actions">
+        <td mat-cell *matCellDef="let message">
+          <div class="actions-position">
+            <button class="icon-float" mat-icon-button aria-label="Show inbox message" (click)="$event.stopPropagation();showMessage(message)"><fa-icon [icon]="['fas', 'eye']"></fa-icon></button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-row *matRowDef="let element; columns: mobileColumnsToDisplay;" class="element-row"> </tr>
+    </table>
+
+  </div>
+
 </div>
 
-<div [innerHTML]="message.htmlBody"></div>
+<div [innerHTML]="getMessageBody()"></div>

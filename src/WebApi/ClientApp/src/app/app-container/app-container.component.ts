@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { ProfileService, Claim } from '../shared/services/profile.service';
-import { Profile } from '../shared/models/model';
 import { AuthService } from '../core/auth.service';
+import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material';
+import { Profile } from '../shared/models/model';
+import { ProfileService, Claim } from '../shared/services/profile.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,7 +10,8 @@ import { Router } from '@angular/router';
   templateUrl: './app-container.component.html',
   styleUrls: ['./app-container.component.scss']
 })
-export class AppContainerComponent {
+export class AppContainerComponent implements AfterViewInit {
+  @ViewChild('sidenav', { static: false }) public sidenav: MatSidenav;
 
   public isAuthenticated: boolean;
 
@@ -27,8 +29,16 @@ export class AppContainerComponent {
         this.loadProfile();
       }
     });
+    this.router.events.subscribe(event => {
+      // close side nav on routing
+      if (this.sidenav.opened) {
+        this.sidenav.close();
+      }
+    });
   }
 
+  public ngAfterViewInit(): void {
+  }
   get forwardingAddress(): string {
     return this.my && this.my.forwardingAddress ? this.my.forwardingAddress : '';
   }
@@ -45,11 +55,12 @@ export class AppContainerComponent {
     this.authService.logout();
   }
 
-  public home(){
+  public home() {
     this.router.navigate(['/']);
   }
 
-  public inbox(){
+  public inbox() {
+    console.log('==== INBOX =====');
     this.router.navigate(['/inbox']);
   }
 
@@ -58,10 +69,9 @@ export class AppContainerComponent {
   }
 
   private loadProfile(): void {
-   this.profileService.getProfile()
+    this.profileService.getProfile()
       .subscribe(profile => this.my = profile);
     this.profileService.getClaims()
       .subscribe(claims => this.claims = claims);
   }
-
 }

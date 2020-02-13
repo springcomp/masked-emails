@@ -11,5 +11,4 @@ export class AuthCallbackComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

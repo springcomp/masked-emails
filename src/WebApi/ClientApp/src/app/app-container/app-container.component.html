@@ -50,18 +50,18 @@
 
         <div class="username">{{my && my.displayName? my.displayName: ''}}</div>
       </div>
+
+      <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my"
+        (updateUserModel)="updateUserModel($event)"></app-edit-forwarding-address>
+
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="inbox()">
+        <span class="inbox-text">Inbox</span>
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <span class="logout-text">Logout</span>
+      </button>
     </div>
-
-    <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my"
-      (updateUserModel)="updateUserModel($event)"></app-edit-forwarding-address>
-
-    <mat-divider></mat-divider>
-    <button mat-menu-item (click)="inbox()">
-      <span class="inbox-text">Inbox</span>
-    </button>
-    <button mat-menu-item (click)="logout()">
-      <span class="logout-text">Logout</span>
-    </button>
 
   </mat-sidenav>
 

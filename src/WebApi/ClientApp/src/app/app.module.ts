@@ -18,19 +18,20 @@ import { MaterialModule } from './material.module';
 //Components
 import { AddressesComponent } from './addresses/addresses.component';
 import { AppComponent } from './app.component';
+import { AppContainerComponent } from './app-container/app-container.component';
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
+import { EditForwardingAddressComponent } from './app-container/edit-forwarding-address/edit-forwarding-address.component'
 import { HomeComponent } from './home/home.component';
+import { InboxComponent } from './inbox/inbox.component';
 import { LoginComponent } from './login/login.component'
 import { MaskedEmailsComponent } from './masked-emails/masked-emails.component';
 import { MessagesComponent } from './messages/messages.component';
 import { NewMaskedEmailAddressDialogComponent } from './addresses/new-masked-email-address-dialog/new-masked-email-address-dialog.component';
 import { ProfileDialogComponent } from './app-container/profile-dialog/profile-dialog.component';
-import { AppContainerComponent } from './app-container/app-container.component';
 import { UpdateMaskedEmailAddressDialogComponent } from './addresses/update-masked-email-address-dialog/update-masked-email-address-dialog.component';
+import { UserButtonComponent } from './app-container/user-button/user-button.component';
 
 import { LoaderService } from './shared/services/loader.service';
-import { UserButtonComponent } from './app-container/user-button/user-button.component';
-import { EditForwardingAddressComponent } from './app-container/edit-forwarding-address/edit-forwarding-address.component'
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
   return () => {
@@ -55,6 +56,7 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     AuthCallbackComponent,
     EditForwardingAddressComponent,
     HomeComponent,
+    InboxComponent,
     LoginComponent,
     MaskedEmailsComponent,
     MessagesComponent,
@@ -71,15 +73,15 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
   imports: [
     AppRoutingModule,
     AuthModule.forRoot(),
+    BrowserAnimationsModule,
     BrowserModule,
     CoreModule,
+    FontAwesomeModule,
     FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MaterialModule,
     GravatarModule,
-    FontAwesomeModule
+    HttpClientModule,
+    MaterialModule,
+    ReactiveFormsModule
   ],
   providers: [
     AuthorizationGuard,

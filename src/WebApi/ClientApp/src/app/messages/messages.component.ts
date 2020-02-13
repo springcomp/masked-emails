@@ -16,6 +16,7 @@ export class MessagesComponent implements OnInit {
     dataSource: MatTableDataSource<MessageSpec>;
 
     public displayedColumns: string[] = ['received', 'sender', 'subject', 'actions'];
+    public mobileColumnToDisplay: string[] = ['received', 'sender', 'subject', 'actions'];
 
     constructor(
         private inboxService: InboxService,
@@ -29,6 +30,13 @@ export class MessagesComponent implements OnInit {
 
     get dataLoaded(): boolean {
         return this.loaderSvc.dataLoaded;
+    }
+
+    public getMessageBody(): string {
+        if (this.message != null){
+            return this.message.htmlBody;
+        }
+        return "";
     }
 
     showMessage(message: MessageSpec) {
