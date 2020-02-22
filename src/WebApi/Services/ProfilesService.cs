@@ -167,7 +167,7 @@ namespace WebApi.Services
             if (String.IsNullOrEmpty(passwordHash))
             {
                 clearTextPassword = MakePassword();
-                passwordHash = MakePassword();
+                passwordHash = HashPassword(clearTextPassword);
             }
 
             await commands_.CreateMaskedEmailAsync(
@@ -325,6 +325,10 @@ namespace WebApi.Services
         private string MakePassword()
         {
             return PasswordHelper.GeneratePassword(12);
+        }
+        private string HashPassword(string clearText)
+        {
+            return PasswordHelper.HashPassword(clearText);
         }
         private async Task<string> MakeUniqueAddressAsync()
         {
