@@ -53,5 +53,16 @@ namespace WebApi.Services
             };
             await service.QueueCommandAsync(addCommand);
         }
+        public static async Task ChangeMaskedEmailPassword(this IMaskedEmailCommandService service
+            , string address
+            , string passwordHash)
+        {
+            var changePasswordCommand = new ChangeMaskedEmailPasswordCommand
+            {
+                Address = address,
+                PasswordHash = passwordHash,
+            };
+            await service.QueueCommandAsync(changePasswordCommand);
+        }
     }
 }

@@ -196,7 +196,7 @@ namespace WebApi.Services
             return result;
         }
 
-        public async Task UpdateMaskedEmail(string userId, string email, string name, string description)
+        public async Task UpdateMaskedEmail(string userId, string email, string name, string description, string passwordHash = null)
         {
             var address = await GetAddressEntityForUpdate(userId, email);
 
@@ -207,6 +207,16 @@ namespace WebApi.Services
                 address.Description = description;
 
             await context_.SaveChangesAsync();
+
+            // if a password hash is specified
+            // change the password on the mail server
+
+            if (!string.IsNullOrWhiteSpace(passwordHash))
+            {
+                await commands_.ChangeMaskedEmailPassword(
+                    address.EmailAddress, passwordHash
+                    );
+            }
         }
 
         public async Task DeleteMaskedEmail(string userId, string email)

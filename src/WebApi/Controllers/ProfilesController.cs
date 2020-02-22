@@ -148,8 +148,12 @@ namespace WebApi.Controllers
                 return BadRequest();
 
             await service_
-                    .UpdateMaskedEmail(identifier, email, request.Name, request.Description)
-                ;
+                    .UpdateMaskedEmail(identifier,
+                        email,
+                        request.Name,
+                        request.Description,
+                        request.PasswordHash
+                        );
 
             return Ok();
         }

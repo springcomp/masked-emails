@@ -16,7 +16,7 @@ namespace WebApi.Services.Interop
 
         Task<MaskedEmail> ToggleMaskedEmailForwarding(string userId, string email);
         Task<MaskedEmailWithPassword> CreateMaskedEmail(string userId, string name, string passwordHash, string description = null, bool enableForwarding = true);
-        Task UpdateMaskedEmail(string userId, string email, string name, string description);
+        Task UpdateMaskedEmail(string userId, string email, string name, string description, string passwordHash = null);
         Task DeleteMaskedEmail(string userId, string email);
     }
 }
