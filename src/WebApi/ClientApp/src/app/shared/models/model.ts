@@ -36,6 +36,7 @@ export class MaskedEmailRequest {
 export class UpdateMaskedEmailRequest{
     name: string;
     description?: string;
+    passwordHash?: string;
 }
 
 export class EmailAddress {

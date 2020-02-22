@@ -6,12 +6,18 @@
     <mat-form-field class="full-width">
       <mat-label>Address name</mat-label>
       <input matInput formControlName="name" placeholder="Type address name" required>
-      <mat-error *ngIf="addressForm.invalid">{{getErrorMessage()}}</mat-error>
+      <mat-error *ngIf="addressForm.invalid">{{getErrorMessageForName()}}</mat-error>
     </mat-form-field>
 
     <mat-form-field class="full-width">
       <mat-label>Address description</mat-label>
-      <textarea matInput formControlName="description" placeholder="type address description"></textarea>
+      <textarea matInput formControlName="description" placeholder="Type address description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" placeholder="Type a new password" type="password">
+      <mat-error *ngIf="addressForm.invalid">{{getErrorMessageForPassword()}}</mat-error>
     </mat-form-field>
 
   </form>
