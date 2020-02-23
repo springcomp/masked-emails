@@ -2,8 +2,10 @@ using System;
 using System.Data.Common;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
+using IdentityServer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +31,10 @@ namespace IdentityServer
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration["TableStorage:IdentityServerStore"];
+
+            services.AddTransient<IEmailSender>(
+                sp => new QueueMailSenderService(connectionString)
+                );
 
             services
                 .AddMvc(options => { options.EnableEndpointRouting = false; })
@@ -58,8 +64,9 @@ namespace IdentityServer
                     {
                         const X509KeyStorageFlags storageFlags = X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.EphemeralKeySet;
                         var rawBytes = File.ReadAllBytes(certificatePath);
-                        var certificate = new X509Certificate2(rawBytes, password, storageFlags);
-                        builder.AddSigningCredential(certificate);
+
+                        using (var certificate = new X509Certificate2(rawBytes, password, storageFlags))
+                            builder.AddSigningCredential(certificate);
 
                         Logger.LogDebug($"File '{certificatePath}' successfully loaded.");
                     }

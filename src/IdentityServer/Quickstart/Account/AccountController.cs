@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-
 using IdentityModel;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
@@ -16,6 +15,10 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer.Models;
+using System.Text.Encodings.Web;
+using System.Text;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace IdentityServer4.Quickstart.UI
 {
@@ -29,6 +32,7 @@ namespace IdentityServer4.Quickstart.UI
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
+        private readonly IEmailSender _emailSender;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -36,7 +40,8 @@ namespace IdentityServer4.Quickstart.UI
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IAuthenticationSchemeProvider schemeProvider,
-            IEventService events)
+            IEventService events,
+            IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -44,6 +49,7 @@ namespace IdentityServer4.Quickstart.UI
             _clientStore = clientStore;
             _schemeProvider = schemeProvider;
             _events = events;
+            _emailSender = emailSender;
         }
 
         /// <summary>
@@ -138,7 +144,7 @@ namespace IdentityServer4.Quickstart.UI
                     }
                 }
 
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId:context?.ClientId));
+                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.ClientId));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
@@ -147,7 +153,7 @@ namespace IdentityServer4.Quickstart.UI
             return View(vm);
         }
 
-        
+
         /// <summary>
         /// Show logout page
         /// </summary>
@@ -207,6 +213,118 @@ namespace IdentityServer4.Quickstart.UI
             return View();
         }
 
+        /// <summary>
+        /// Entry point into the forgot password workflow
+        /// </summary>
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View(new ForgotPasswordInputModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordInputModel vm)
+        {
+            if (!ModelState.IsValid)
+                return Redirect("~/");
+
+            var user = await _userManager.FindByEmailAsync(vm.Email);
+            if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+            {
+                // Don't reveal that the user does not exist or is not confirmed
+                return View("ForgotPasswordConfirmation");
+            }
+
+            // For more information on how to enable account confirmation and password reset please 
+            // visit https://go.microsoft.com/fwlink/?LinkID=532713
+
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+            var path = Url.Action("ResetPassword", new { code });
+            var callbackUrl = $"{Request.Scheme}://{Request.Host}{path}";
+
+            Console.WriteLine(callbackUrl);
+
+            await _emailSender.SendEmailAsync(
+                vm.Email,
+                "Reset Password",
+                $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+            return View("ForgotPasswordConfirmation");
+        }
+
+        [HttpGet]
+        public IActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string code = null)
+        {
+            if (code == null)
+            {
+                return BadRequest("A code is required to reset the password.");
+            }
+
+            var vm = new ResetPasswordInputModel
+            {
+                Code = code,
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordInputModel vm)
+        {
+            if (!ModelState.IsValid)
+                return Redirect("~/");
+
+            var user = await _userManager.FindByEmailAsync(vm.Email);
+            if (user == null)
+            {
+                // Don't reveal that the user does not exist
+                return View("ResetPasswordConfirmation");
+            }
+
+            IdentityResult result = null;
+
+            try
+            {
+                var token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(vm.Code));
+                result = await _userManager.ResetPasswordAsync(user, token, vm.Password);
+                if (result.Succeeded)
+                {
+                    return View("ResetPasswordConfirmation");
+                }
+            }
+            catch
+            {
+                result = IdentityResult.Failed(
+                    new IdentityError
+                    {
+                        Code = "ERR",
+                        Description = "Unable to reset the password.",
+                    });
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
 
         /*****************************************/
         /* helper APIs for the AccountController */
