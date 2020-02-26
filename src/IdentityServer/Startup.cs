@@ -65,8 +65,12 @@ namespace IdentityServer
                         const X509KeyStorageFlags storageFlags = X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.EphemeralKeySet;
                         var rawBytes = File.ReadAllBytes(certificatePath);
 
-                        using (var certificate = new X509Certificate2(rawBytes, password, storageFlags))
-                            builder.AddSigningCredential(certificate);
+                        // we should *not* dispose of the certificate
+                        // identity server will use it lazily
+                        // https://github.com/IdentityServer/IdentityServer4/issues/3384
+
+                        var certificate = new X509Certificate2(rawBytes, password, storageFlags);
+                        builder.AddSigningCredential(certificate);
 
                         Logger.LogDebug($"File '{certificatePath}' successfully loaded.");
                     }
