@@ -29,13 +29,7 @@ namespace IdentityServer4.Quickstart.UI
 
         public IActionResult Index()
         {
-            if (_environment.IsDevelopment())
-            {
-                // only show in development
-                return View();
-            }
-
-            return Redirect("/.well-known/openid-configuration");
+            return Redirect("/Profile");
         }
 
         /// <summary>
