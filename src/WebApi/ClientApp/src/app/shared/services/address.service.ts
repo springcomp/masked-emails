@@ -21,13 +21,10 @@ export class AddressService {
     return this.http.get<Address[]>(requestUri, headers);
   }
 
-  public getAddressesPages(cursor: string): Observable<AddressPages> {
+  public getAddressesPages(cursor: string, sort_by:string): Observable<AddressPages> {
     var headers = { headers: this.helpers.getHeaders() };
-    if (cursor) {
-      var requestUri = this.helpers.getRequestUri("/profiles/my/address-pages?cursor=" + cursor);
-    } else {
-      var requestUri = this.helpers.getRequestUri("/profiles/my/address-pages");
-    }
+
+    var requestUri = this.urlBuilder("/profiles/my/address-pages", cursor, sort_by, null);
 
     return this.http.get<AddressPages>(requestUri, headers);
   }
@@ -56,15 +53,33 @@ export class AddressService {
     return this.http.patch(requestUri, {}, headers)
   }
 
-  public getSearchedAddresses(cursor: string, contains: string): Observable<AddressPages> {
-
+  public getSearchedAddresses(cursor: string, contains: string, sort_by: string): Observable<AddressPages> {
     var headers = { headers: this.helpers.getHeaders() };
-    if (cursor) {
-      var requestUri = this.helpers.getRequestUri("/profiles/my/search?cursor=" + cursor + "&contains=" + contains);
-    } else {
-      var requestUri = this.helpers.getRequestUri("/profiles/my/search?contains=" + contains);
-    }
+
+    var requestUri = this.urlBuilder("/profiles/my/search", cursor, sort_by, contains);
 
     return this.http.get<AddressPages>(requestUri, headers);
+  }
+
+  private urlBuilder(url: string, cursor:string, sort_by:string, search:string): string {
+    var query_params: string[] = [];
+    if (cursor) {
+      query_params.push("cursor=" + cursor);
+    }
+
+    if (sort_by) {
+      query_params.push("sort_by=" + sort_by);
+    }
+
+    if (search) {
+      query_params.push("contains=" + search);
+    }
+
+    if (query_params.length === 0)
+      return this.helpers.getRequestUri(url);
+
+    var query_string = query_params.join('&');
+
+    return this.helpers.getRequestUri(url + "?" + query_string);
   }
 }

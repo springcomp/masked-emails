@@ -31,6 +31,7 @@ export class AddressesComponent implements OnInit {
   dataSource: MatTableDataSource<MaskedEmail>;
   expandedElement: MaskedEmail | null;
   private lock: boolean;
+  private sortingMode: string;
 
   constructor(
     private addressService: AddressService,
@@ -44,21 +45,27 @@ export class AddressesComponent implements OnInit {
     this.loadAddresses();
   }
 
+  sorting(sort: { active: string, direction: string }) {
+    this.pageResult = null;
+    if (sort.direction === "")
+      this.sortingMode = null;
+    else
+      this.sortingMode = sort.active + "-" + sort.direction;
+
+    this.loadAddresses();
+  }
+
   get showLoadingSpinner(): boolean {
     if (!this.lock && this.scrollService.scrollToBottom) {
       this.lock = true;
 
-      if (this.pageResult && this.pageResult.total === this.dataSource.data.length) {
+      if (this.pageResult && this.dataSource.data.length >= this.pageResult.total) {
         this.lock = false;
         return false;
       }
 
       setTimeout(() => {
-        if (this.searchValue) {
-          this.loadSearchedAddresses();
-        } else {
-          this.loadAddresses();
-        }
+        this.loadAddresses();
       }, 2000);
     }
     return this.scrollService.scrollToBottom;
@@ -106,8 +113,7 @@ export class AddressesComponent implements OnInit {
 
   applyFilter() {
     this.dataSource.data = [];
-    this.loadSearchedAddresses();
-  //  this.dataSource.filter = this.searchValue.trim().toLowerCase();
+    this.loadAddresses();
   }
 
   openCreateDialog(): void {
@@ -133,35 +139,38 @@ export class AddressesComponent implements OnInit {
   }
 
   private loadAddresses(): void {
-
-    this.addressService.getAddressesPages(this.pageResult ? this.pageResult.cursor : null).subscribe(page => {
-      this.loaderSvc.stopLoader();
-      this.pageResult = page;
-
-      const data: MaskedEmail[] = this.dataSource
-        ? [...this.dataSource.data, ...page.addresses.map(a => MaskedEmail.fromAddress(a))]
-        : page.addresses.map(a => MaskedEmail.fromAddress(a));
-      // Assign the data to the data source for the table to render
-      this.dataSource = new MatTableDataSource(data);
-      this.scrollService.scrollToBottom = false;
-      this.lock = false;
-    });
-
+    var queries = this.setQueries();
+    if (queries.search) {
+      this.addressService.getSearchedAddresses(queries.cursor, queries.search, queries.sort).subscribe(page => {
+        this.handleDatasourceData(queries.cursor, page);
+      });
+    } else {
+      this.addressService.getAddressesPages(queries.cursor, queries.sort).subscribe(page => {
+        this.handleDatasourceData(queries.cursor, page);
+      });
+    }
   }
 
-  private loadSearchedAddresses(): void {
-    this.addressService.getSearchedAddresses(this.pageResult ? this.pageResult.cursor : null, this.searchValue.trim().toLowerCase()).subscribe(page => {
-      this.loaderSvc.stopLoader();
-      this.pageResult = page;
+  private handleDatasourceData(cursor: string, page: AddressPages) {
+    this.loaderSvc.stopLoader();
+    this.pageResult = page;
 
-      const data: MaskedEmail[] = this.dataSource
-        ? [...this.dataSource.data, ...page.addresses.map(a => MaskedEmail.fromAddress(a))]
-        : page.addresses.map(a => MaskedEmail.fromAddress(a));
-      // Assign the data to the data source for the table to render
-      this.dataSource = new MatTableDataSource(data);
-      this.scrollService.scrollToBottom = false;
-      this.lock = false;
-    });
+    const data: MaskedEmail[] = this.dataSource && cursor
+      ? [...this.dataSource.data, ...page.addresses.map(a => MaskedEmail.fromAddress(a))]
+      : page.addresses.map(a => MaskedEmail.fromAddress(a));
+    // Assign the data to the data source for the table to render
+    this.dataSource = new MatTableDataSource(data);
+
+    this.scrollService.scrollToBottom = false;
+    this.lock = false;
+  }
+
+  private setQueries() {
+    return {
+      cursor: this.pageResult ? this.pageResult.cursor : null,
+      sort: this.sortingMode ? this.sortingMode : null,
+      search: this.searchValue ? this.searchValue.trim().toLowerCase() : null
+    }
   }
 
   private updateDatasource() {

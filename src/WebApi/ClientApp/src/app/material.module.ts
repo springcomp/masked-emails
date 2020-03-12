@@ -13,6 +13,7 @@ import {
   MatSidenavModule,
   MatSlideToggleModule,
   MatSnackBarModule,
+  MatSortModule,
   MatFormFieldModule,
   MatProgressSpinnerModule,
   MatExpansionModule
@@ -39,7 +40,8 @@ import { FormsModule } from '@angular/forms';
     MatSnackBarModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSortModule
   ], exports: [
     CdkTableModule,
     FormsModule,
@@ -58,7 +60,8 @@ import { FormsModule } from '@angular/forms';
     MatSnackBarModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSortModule
   ],
   declarations: []
 })
