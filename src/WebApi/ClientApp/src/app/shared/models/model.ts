@@ -3,6 +3,13 @@ export class Profile {
     forwardingAddress: string;
 }
 
+export class AddressPages {
+  count: number;
+  total: number;
+  cursor: string;
+  addresses: MaskedEmail[];
+}
+
 export class Address {
     name: string;
     description?: string;

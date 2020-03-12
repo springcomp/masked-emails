@@ -48,6 +48,18 @@ tr.mat-header-row {
   font-size: 12px !important; //Icon size
 }
 
+.loader-container {
+  height: 70px;
+}
+
+.loader-position {
+  margin: auto;
+
+  .loader-margin {
+    margin-top: 20px;
+  }
+}
+
 .table-container {
   overflow: auto;
   padding-bottom: 15px;

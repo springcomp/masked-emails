@@ -13,6 +13,7 @@
   </div>
 
   <div class="table-view table-container">
+
     <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="name" class="mat-column-name">
         <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -48,6 +49,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+
   </div>
 
   <!--Responsive Table view-->
@@ -88,7 +90,7 @@
               </div>
             </div>
             <div class="column-action">
-                <button class="icon-delete" mat-icon-button aria-label="Remove the forwarding address" (click)="$event.stopPropagation();onDelete(address)"><fa-icon [icon]="['fas', 'trash-alt']"></fa-icon></button>
+              <button class="icon-delete" mat-icon-button aria-label="Remove the forwarding address" (click)="$event.stopPropagation();onDelete(address)"><fa-icon [icon]="['fas', 'trash-alt']"></fa-icon></button>
             </div>
 
           </div>
@@ -103,5 +105,11 @@
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
     </table>
 
+  </div>
+
+  <div *ngIf="showLoadingSpinner" class="loader-container">
+    <div class="loader-margin">
+      <mat-spinner class="loader-position" [diameter]="30"></mat-spinner>
+    </div>
   </div>
 </div>

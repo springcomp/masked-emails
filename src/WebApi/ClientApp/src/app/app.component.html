@@ -4,7 +4,8 @@
   <div loader *ngIf="!dataLoaded" class="loader-row">
     <mat-spinner  class="loader-position"></mat-spinner>
   </div>
-  <div router class="router">
+  <div #scrollMe router class="router" (scroll)="onScroll($event)">
     <router-outlet class="page-content"></router-outlet>
+
   </div>
 </app-container>

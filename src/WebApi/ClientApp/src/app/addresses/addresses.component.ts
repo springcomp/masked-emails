@@ -7,7 +7,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { UpdateMaskedEmailAddressDialogComponent } from './update-masked-email-address-dialog/update-masked-email-address-dialog.component'
 import { NewMaskedEmailAddressDialogComponent } from './new-masked-email-address-dialog/new-masked-email-address-dialog.component'
-import { MaskedEmail } from '../shared/models/model';
+import { MaskedEmail, AddressPages } from '../shared/models/model';
+import { ScrollService } from '../shared/services/scroll.service';
 
 @Component({
   selector: 'app-addresses',
@@ -22,23 +23,41 @@ import { MaskedEmail } from '../shared/models/model';
   ]
 })
 export class AddressesComponent implements OnInit {
-
+  public pageResult: AddressPages;
   public searchValue: string;
   public displayedColumns: string[] = ['name', 'emailAddress', 'description', 'enabled', 'actions'];
   public mobileColumnsToDisplay: string[] = ['informations', 'actions'];
   addresses: MaskedEmail[] = [];
   dataSource: MatTableDataSource<MaskedEmail>;
   expandedElement: MaskedEmail | null;
+  private lock: boolean;
 
   constructor(
     private addressService: AddressService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private loaderSvc: LoaderService
+    private loaderSvc: LoaderService,
+    private scrollService: ScrollService
   ) { }
 
   ngOnInit() {
     this.loadAddresses();
+  }
+
+  get showLoadingSpinner(): boolean {
+    if (!this.lock && this.scrollService.scrollToBottom) {
+      this.lock = true;
+
+      if (this.pageResult && this.pageResult.total === this.dataSource.data.length) {
+        this.lock = false;
+        return false;
+      }
+
+      setTimeout(() => {
+        this.loadAddresses();
+      }, 2000);
+    }
+    return this.scrollService.scrollToBottom;
   }
 
   get dataLoaded(): boolean {
@@ -107,17 +126,20 @@ export class AddressesComponent implements OnInit {
     });
   }
 
-
   private loadAddresses(): void {
-    this.addressService.getAddresses()
-      .subscribe(addresses => {
-        this.loaderSvc.stopLoader();
-        this.addresses = addresses.map(a => MaskedEmail.fromAddress(a));
 
-        // Assign the data to the data source for the table to render
-        this.dataSource = new MatTableDataSource(this.addresses);
+    this.addressService.getAddressesPages(this.pageResult ? this.pageResult.cursor : null).subscribe(page => {
+      this.loaderSvc.stopLoader();
+      this.pageResult = page;
 
-      });
+      const data: MaskedEmail[] = this.dataSource
+        ? [...this.dataSource.data, ...page.addresses.map(a => MaskedEmail.fromAddress(a))]
+        : page.addresses.map(a => MaskedEmail.fromAddress(a));
+      // Assign the data to the data source for the table to render
+      this.dataSource = new MatTableDataSource(data);
+      this.scrollService.scrollToBottom = false;
+      this.lock = false;
+    });
 
   }
 

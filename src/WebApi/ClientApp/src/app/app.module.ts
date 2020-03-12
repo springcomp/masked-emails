@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from './core';
 import { HttpClientModule } from '@angular/common/http';
 import { GravatarModule } from 'ngx-gravatar';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthorizationGuard } from './core/authorization-guard';
 import { environment } from '../environments/environment';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
