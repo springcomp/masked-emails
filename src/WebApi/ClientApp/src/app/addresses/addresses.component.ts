@@ -54,7 +54,11 @@ export class AddressesComponent implements OnInit {
       }
 
       setTimeout(() => {
-        this.loadAddresses();
+        if (this.searchValue) {
+          this.loadSearchedAddresses();
+        } else {
+          this.loadAddresses();
+        }
       }, 2000);
     }
     return this.scrollService.scrollToBottom;
@@ -101,7 +105,9 @@ export class AddressesComponent implements OnInit {
   }
 
   applyFilter() {
-    this.dataSource.filter = this.searchValue.trim().toLowerCase();
+    this.dataSource.data = [];
+    this.loadSearchedAddresses();
+  //  this.dataSource.filter = this.searchValue.trim().toLowerCase();
   }
 
   openCreateDialog(): void {
@@ -141,6 +147,21 @@ export class AddressesComponent implements OnInit {
       this.lock = false;
     });
 
+  }
+
+  private loadSearchedAddresses(): void {
+    this.addressService.getSearchedAddresses(this.pageResult ? this.pageResult.cursor : null, this.searchValue.trim().toLowerCase()).subscribe(page => {
+      this.loaderSvc.stopLoader();
+      this.pageResult = page;
+
+      const data: MaskedEmail[] = this.dataSource
+        ? [...this.dataSource.data, ...page.addresses.map(a => MaskedEmail.fromAddress(a))]
+        : page.addresses.map(a => MaskedEmail.fromAddress(a));
+      // Assign the data to the data source for the table to render
+      this.dataSource = new MatTableDataSource(data);
+      this.scrollService.scrollToBottom = false;
+      this.lock = false;
+    });
   }
 
   private updateDatasource() {

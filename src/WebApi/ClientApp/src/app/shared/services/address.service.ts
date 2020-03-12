@@ -55,4 +55,16 @@ export class AddressService {
     var requestUri = this.helpers.getRequestUri(`/profiles/my/addresses/${email}/enableForwarding`);
     return this.http.patch(requestUri, {}, headers)
   }
+
+  public getSearchedAddresses(cursor: string, contains: string): Observable<AddressPages> {
+
+    var headers = { headers: this.helpers.getHeaders() };
+    if (cursor) {
+      var requestUri = this.helpers.getRequestUri("/profiles/my/search?cursor=" + cursor + "&contains=" + contains);
+    } else {
+      var requestUri = this.helpers.getRequestUri("/profiles/my/search?contains=" + contains);
+    }
+
+    return this.http.get<AddressPages>(requestUri, headers);
+  }
 }
