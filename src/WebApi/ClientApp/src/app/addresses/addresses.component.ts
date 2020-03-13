@@ -25,7 +25,7 @@ import { ScrollService } from '../shared/services/scroll.service';
 export class AddressesComponent implements OnInit {
   public pageResult: AddressPages;
   public searchValue: string;
-  public displayedColumns: string[] = ['name', 'emailAddress', 'description', 'enabled', 'actions'];
+  public displayedColumns: string[] = ['name', 'address', 'description', 'enabled', 'actions'];
   public mobileColumnsToDisplay: string[] = ['informations', 'actions'];
   addresses: MaskedEmail[] = [];
   dataSource: MatTableDataSource<MaskedEmail>;
