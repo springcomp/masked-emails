@@ -1,3 +1,5 @@
+@import '../../../custom-theme.scss';
+
 .form-width {
   min-width: 150px;
   max-width: 500px;
@@ -6,4 +8,8 @@
   .full-width {
     width: 100%;
   }
+}
+
+.timer-color {
+  color: mat-color($warn) !important;
 }

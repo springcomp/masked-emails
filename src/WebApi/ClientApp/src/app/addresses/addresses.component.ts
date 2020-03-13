@@ -106,7 +106,7 @@ export class AddressesComponent implements OnInit {
   onDelete(address: MaskedEmail): void {
     this.addressService.deleteAddress(address.emailAddress)
       .subscribe(_ => {
-        this.addresses = this.addresses.filter(a => a.emailAddress !== address.emailAddress);
+        this.addresses = this.dataSource.data.filter(a => a.emailAddress !== address.emailAddress);
         this.updateDatasource();
       });
   }
@@ -121,8 +121,9 @@ export class AddressesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.event == 'Create') {
-        this.addresses.push(result.data);
-        this.updateDatasource();
+        this.clearDatasource();
+        this.scrollService.scrollToBottom = true;
+        this.loadAddresses();
       }
     });
   }
@@ -175,5 +176,10 @@ export class AddressesComponent implements OnInit {
 
   private updateDatasource() {
     this.dataSource.data = this.addresses;
+  }
+
+  private clearDatasource(): void {
+    this.pageResult = null;
+    this.dataSource.data = [];
   }
 }
