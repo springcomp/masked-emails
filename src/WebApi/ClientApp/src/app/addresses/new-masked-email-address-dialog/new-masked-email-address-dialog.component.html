@@ -20,7 +20,7 @@
       <button mat-icon-button matSuffix (click)="managePasswordVisibility()" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
         <fa-icon [icon]="hidePassword ?['fas', 'eye-slash'] : ['fas', 'eye']"></fa-icon>
       </button>
-      <mat-hint *ngIf="showGeneratedPassword" align="end" class="timer-color">The generated password will be displayed for {{timeLeft}} seconds</mat-hint>
+      <mat-hint *ngIf="showGeneratedPassword" align="end" class="timer-color">A new password has been generated automatically. Click to display it in the remaining {{timeLeft}} seconds.</mat-hint>
     </mat-form-field>
 
   </form>

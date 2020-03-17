@@ -62,7 +62,6 @@ export class NewMaskedEmailAddressDialogComponent implements OnInit {
         if (this.addressForm.get('password').value.length === 0) {
           this.addressForm.controls['password'].setValue(address.password);
           this.copyToClipboard(address.password);
-          this.hidePassword = false;
 
           this.startTimer(() => this.closeDialogRefAfterCreate());
 
