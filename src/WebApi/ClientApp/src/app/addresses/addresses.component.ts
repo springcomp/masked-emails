@@ -49,8 +49,12 @@ export class AddressesComponent implements OnInit {
     this.pageResult = null;
     if (sort.direction === "")
       this.sortingMode = null;
-    else
-      this.sortingMode = sort.active + "-" + sort.direction;
+    else {
+      if (sort.direction === "desc")
+        this.sortingMode = sort.active + "-" + sort.direction;
+      else
+        this.sortingMode = sort.active;
+    }
 
     this.loadAddresses();
   }
