@@ -1,6 +1,73 @@
 
 @import '../../custom-theme.scss';
 
+.inbox-mails-container {
+  position: absolute;
+  top: 64px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.mails-content {
+  padding: 20px;
+  background-color: mat-color($background-color);
+}
+
+.message-content {
+  border-left: 1px solid;
+  background-color: mat-color($background-color);
+  width: 40%;
+
+  .section {
+    display: flex;
+    flex-direction: row
+  }
+
+  .item-position {
+    flex: 1 1 auto;
+  }
+
+  .text-color {
+    color: mat-color($accent, lighter);
+  }
+
+  .content-section {
+    height: 100%;
+    width: 100%;
+    min-height: 500px;
+    margin-top: 30px;
+    background-color: mat-color($background-color, darker);
+
+    .padding-content {
+      padding: 10px;
+    }
+  }
+}
+
+.loader-position {
+  justify-content: center;
+  display: flex;
+  margin-top:50px;
+}
+
+.mat-icon-button.large {
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 20px !important;
+}
+
+.highlight {
+  border: 1px solid mat-color($accent);
+}
+
+.message-content-padding {
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
 .table-view {
   display: block;
 }

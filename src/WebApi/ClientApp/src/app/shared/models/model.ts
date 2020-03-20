@@ -54,9 +54,9 @@ export class EmailAddress {
 }
 export class MessageSpec {
   location: string;
-  receivedUtc: Date;
+  receivedUtc: Date = new Date();
   subject?: string;
-  sender: EmailAddress;
+  sender: EmailAddress = new EmailAddress();
 }
 
 export class Message extends MessageSpec {
