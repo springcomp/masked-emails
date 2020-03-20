@@ -9,6 +9,11 @@ import { UpdateMaskedEmailAddressDialogComponent } from './update-masked-email-a
 import { NewMaskedEmailAddressDialogComponent } from './new-masked-email-address-dialog/new-masked-email-address-dialog.component'
 import { MaskedEmail, AddressPages } from '../shared/models/model';
 import { ScrollService } from '../shared/services/scroll.service';
+import {
+  debounceTime,
+  distinctUntilChanged
+} from "rxjs/operators";
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-addresses',
@@ -23,15 +28,19 @@ import { ScrollService } from '../shared/services/scroll.service';
   ]
 })
 export class AddressesComponent implements OnInit {
+
   public pageResult: AddressPages;
   public searchValue: string;
   public displayedColumns: string[] = ['name', 'address', 'description', 'enabled', 'actions'];
   public mobileColumnsToDisplay: string[] = ['informations', 'actions'];
-  addresses: MaskedEmail[] = [];
-  dataSource: MatTableDataSource<MaskedEmail>;
-  expandedElement: MaskedEmail | null;
+  public addresses: MaskedEmail[] = [];
+  public dataSource: MatTableDataSource<MaskedEmail>;
+  public expandedElement: MaskedEmail | null;
+  public searchChanged: Subject<string> = new Subject<string>();
+
   private lock: boolean;
   private sortingMode: string;
+  private isSearching: boolean;
 
   constructor(
     private addressService: AddressService,
@@ -39,10 +48,27 @@ export class AddressesComponent implements OnInit {
     private dialog: MatDialog,
     private loaderSvc: LoaderService,
     private scrollService: ScrollService
-  ) { }
+  ) {
+    //Search method: wait 400ms after the last event before emitting next event
+    this.searchChanged.pipe(
+      debounceTime(400),
+      distinctUntilChanged())
+      .subscribe(model => {
+        if (!this.isSearching) {
+          this.isSearching = true;
+          this.searchValue = model;
+          this.dataSource.data = [];
+          this.loadAddresses();
+        }
+      });
+  }
 
   ngOnInit() {
     this.loadAddresses();
+  }
+
+  changedSearchField(text: string) {
+    this.searchChanged.next(text);
   }
 
   sorting(sort: { active: string, direction: string }) {
@@ -115,11 +141,6 @@ export class AddressesComponent implements OnInit {
       });
   }
 
-  applyFilter() {
-    this.dataSource.data = [];
-    this.loadAddresses();
-  }
-
   openCreateDialog(): void {
     const dialogRef = this.dialog.open(NewMaskedEmailAddressDialogComponent);
 
@@ -135,6 +156,7 @@ export class AddressesComponent implements OnInit {
   clearSearchField(): void {
     this.searchValue = '';
     this.dataSource.filter = '';
+    this.changedSearchField('');
   }
 
   openUpdateDialog(address: MaskedEmail): void {
@@ -146,8 +168,11 @@ export class AddressesComponent implements OnInit {
   private loadAddresses(): void {
     var queries = this.setQueries();
     if (queries.search) {
-      this.addressService.getSearchedAddresses(queries.cursor, queries.search, queries.sort).subscribe(page => {
+      this.addressService.getSearchedAddresses(null, queries.search, queries.sort).subscribe(page => {
         this.handleDatasourceData(queries.cursor, page);
+        this.isSearching = false;
+      }, () => {
+        this.isSearching = false;
       });
     } else {
       this.addressService.getAddressesPages(queries.cursor, queries.sort).subscribe(page => {

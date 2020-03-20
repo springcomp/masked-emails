@@ -3,7 +3,7 @@
   <div class="header-container">
     <div class="search-container">
       <mat-form-field>
-        <input matInput (keyup)="applyFilter()" placeholder="Search" [(ngModel)]="searchValue">
+        <input matInput [ngModel]='searchValue' (ngModelChange)='changedSearchField($event)' placeholder="Search">
         <button mat-button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearchField()">
           <fa-icon [icon]="['fas', 'times']"></fa-icon>
         </button>
