@@ -57,7 +57,7 @@ export class AddressesComponent implements OnInit {
         if (!this.isSearching) {
           this.isSearching = true;
           this.searchValue = model;
-          this.dataSource.data = [];
+          this.clearDatasource();
           this.loadAddresses();
         }
       });
