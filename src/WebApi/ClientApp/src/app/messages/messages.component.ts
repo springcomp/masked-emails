@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { InboxService } from '../shared/services/inbox.service';
 import { LoaderService } from '../shared/services/loader.service';
 import { MessageSpec, Message } from '../shared/models/model';
 import { MatTableDataSource } from '@angular/material';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-messages',
@@ -18,12 +19,23 @@ export class MessagesComponent implements OnInit {
   selectedRowIndex: any = null;
   loadingMessage: boolean;
   public displayedColumns: string[] = ['received', 'sender', 'subject', 'actions'];
-  public mobileColumnToDisplay: string[] = ['received', 'sender', 'subject', 'actions'];
+  public mobileColumnsToDisplay: string[] = ['informations', 'actions'];
+
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
 
   constructor(
     private inboxService: InboxService,
-    private loaderSvc: LoaderService
+    private loaderSvc: LoaderService,
+    private media: MediaMatcher,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
+    this.loaderSvc.startLoader();
+
+    this.mobileQuery = media.matchMedia('(max-width: 768px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+
   }
 
   highlight(row) {
@@ -32,6 +44,10 @@ export class MessagesComponent implements OnInit {
 
   ngOnInit() {
     this.loadMessages();
+  }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
   get dataLoaded(): boolean {
@@ -72,4 +88,6 @@ export class MessagesComponent implements OnInit {
 
       });
   }
+
+
 }

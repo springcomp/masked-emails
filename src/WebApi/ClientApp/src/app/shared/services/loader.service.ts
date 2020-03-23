@@ -16,6 +16,10 @@ export class LoaderService {
     this._dataLoaded = value;
   }
 
+  public startLoader(): void {
+    this._dataLoaded = false;
+  }
+
   public stopLoader(): void {
     this._dataLoaded = true;
   }
