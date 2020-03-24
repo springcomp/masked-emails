@@ -18,8 +18,8 @@ export class MessagesComponent implements OnInit {
   dataSource: MatTableDataSource<MessageSpec>;
   selectedRowIndex: any = null;
   loadingMessage: boolean;
-  public displayedColumns: string[] = ['received', 'sender', 'subject', 'actions'];
-  public mobileColumnsToDisplay: string[] = ['informations', 'actions'];
+
+
 
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;

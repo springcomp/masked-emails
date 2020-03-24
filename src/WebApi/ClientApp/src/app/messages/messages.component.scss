@@ -9,7 +9,7 @@
   right: 0;
 }
 
-.mails-content {
+.inbox-mails-content {
   padding: 20px;
   background-color: mat-color($background-color);
 }
@@ -18,54 +18,10 @@
   border-left: 1px solid;
   background-color: mat-color($background-color);
   width: 40%;
-
-  .section {
-    display: flex;
-    flex-direction: row
-  }
-
-  .item-position {
-    flex: 1 1 auto;
-  }
-
-  .text-color {
-    color: mat-color($accent, lighter);
-  }
-
-  .content-section {
-    height: 100%;
-    width: 100%;
-    min-height: 500px;
-    margin-top: 30px;
-    background-color: mat-color($background-color, darker);
-
-    .padding-content {
-      padding: 10px;
-    }
-  }
-}
-
-.loader-position {
-  justify-content: center;
-  display: flex;
-  margin-top: 50px;
-}
-
-.mat-icon-button.large {
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
-  font-size: 20px !important;
 }
 
 .highlight {
   border: 1px solid mat-color($accent);
-}
-
-.message-container-padding {
-  padding-top: 20px;
-  padding-right: 20px;
-  padding-left: 20px;
 }
 
 .table-view {
@@ -76,57 +32,20 @@
   display: none;
 }
 
-.mat-table {
-  width: 100%;
-}
-
-tr.mat-row {
-  .mat-cell {
-    color: mat-color($accent, lighter);
-    font-size: 12px; //Size of the text in the table
-  }
-}
-
-.mat-row {
-  height: 40px; //Table row height
-}
-
-.mat-row:nth-child(even) {
-  background-color: mat-color($background-color);
-}
-
-.mat-row:nth-child(odd) {
-  background-color: mat-color($background-color, darker);
-}
-
-tr.mat-header-row {
-  background-color: mat-color($background-color);
-
-  .mat-header-cell {
-    font-family: Roboto;
-    font-size: 15px;
-    font-weight: 500;
-    color: mat-color($accent);
-  }
-}
-
-::ng-deep .mat-icon-button {
-  color: mat-color($primary, darker) !important;
-  height: 38px;
-  font-size: 12px !important; //Icon size
-}
-
 .table-container {
   overflow: auto;
   padding-bottom: 15px;
 }
 
-::ng-deep .mat-fab {
-  color: #ffffff !important;
-  font-size: 16px !important;
-}
-
 @media(max-width:768px) {
+
+  .table-view {
+    display: none;
+  }
+
+  .mobile-view {
+    display: block;
+  }
 
   .inbox-mails-container {
     top: 56px;
@@ -137,125 +56,9 @@ tr.mat-header-row {
     border-left: none;
   }
 
-  .table-view {
-    display: none;
-  }
-
-  .mobile-view {
-    display: block;
-  }
-
-  .mat-table {
-    /*padding-top: 64px;*/
-    background-color: mat-color($background-color);
-    padding-bottom: 15px;
-  }
-
-  tr.detail-row {
+  .mails-content {
     padding: 10px;
-    height: 0;
-  }
-
-  tr.mat-row {
-    .mat-cell {
-      color: mat-color($accent, lighter);
-      font-size: 12px; //Size of the text in the table
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-  }
-
-  .element-row td {
-    border-bottom-width: 0;
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
-
-  .column-description {
-    flex: 80%;
-  }
-
-  .column-action {
-    flex: 20%;
-    text-align: center;
-  }
-
-  .actions-position {
-    display: block;
-    float: right;
-    clear: right;
-    color: mat-color($accent, lighter);
-
-    .display-name {
-      float: right;
-      margin-top: 10px;
-      font-size: 11px;
-      text-transform: uppercase;
-    }
-  }
-
-  .chevron-icon {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-
-  .subject-section-margin {
-    margin-top: 10px;
-  }
-
-  .message-position {
-    display: block;
-
-    .date {
-      font-size: 11px;
-      color: mat-color($accent, lighter);
-    }
-
-    .subject {
-      word-wrap: break-word;
-      display: inline;
-      font-size: 12px;
-      text-transform: uppercase;
-      color: mat-color($accent, darker);
-    }
-  }
-
-  ::ng-deep .mat-fab {
-    width: 40px;
-    height: 40px;
-    margin: auto;
-  }
-
-  ::ng-deep .mat-fab .mat-button-wrapper {
-    padding: 9px 0;
-  }
-
-  ::ng-deep .mat-icon-button {
-    color: mat-color($primary, darker) !important;
-    height: 30px;
-    min-width: 0;
-    width: 30px;
-    line-height: 30px;
-    font-size: 12px !important; //Icon size
-  }
-
-  .mat-column-informations {
-    word-wrap: break-word !important;
-    white-space: unset !important;
-    flex: 0 0 70% !important;
-    width: 70% !important;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-word;
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
-
-  .mat-column-actions {
-    flex: 0 0 30% !important;
-    width: 30% !important;
+    background-color: mat-color($background-color);
   }
 
   .header-container {
@@ -268,6 +71,10 @@ tr.mat-header-row {
     z-index: 100;
     border-bottom: 1px solid mat-color($background-color, darker);
   }
+
+  .message-header {
+    border-bottom: 1px solid mat-color($accent);
+  }
 }
 
 @media(max-width:568px) {
@@ -276,12 +83,4 @@ tr.mat-header-row {
     top: 56px;
   }
 
-  ::ng-deep .mat-icon-button {
-    color: mat-color($primary, darker) !important;
-    height: 20px;
-    min-width: 0;
-    width: 20px;
-    line-height: 20px;
-    font-size: 12px !important; //Icon size
-  }
 }

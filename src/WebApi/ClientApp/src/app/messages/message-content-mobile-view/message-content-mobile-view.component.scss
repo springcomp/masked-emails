@@ -1,0 +1,69 @@
+@import '../../../custom-theme.scss';
+
+.message-container-padding {
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.message-header {
+  border-bottom: 1px solid mat-color($accent, lighter);
+}
+
+.section {
+  display: flex;
+  flex-direction: row;
+  color: mat-color($accent, lighter);
+  text-transform: uppercase;
+  font-size: 13px;
+
+  .item-position {
+    flex: 1 1 auto;
+  }
+
+  .button-title-margin {
+    margin-left: 5px;
+  }
+
+  .date {
+    margin: auto;
+  }
+}
+
+.sender-information {
+  margin-top: 20px;
+  margin-bottom: 10px;
+
+  .display-name {
+    display: block;
+    font-size: 12px;
+    color: mat-color($accent, lighter);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .address {
+    text-transform: uppercase;
+    font-size: 11px;
+    color: mat-color($accent, lighter);
+  }
+}
+
+
+.content-section {
+  height: 100%;
+  width: 100%;
+  margin-top: 10px;
+
+  .text-color {
+    font-size: 14px;
+    color: mat-color($accent, lighter);
+  }
+}
+
+.mat-icon-button.large {
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
+  font-size: 14px !important;
+}
