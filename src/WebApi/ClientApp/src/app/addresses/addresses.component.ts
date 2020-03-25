@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material';
 import { AddressService } from '../shared/services/address.service';
 import { LoaderService } from '../shared/services/loader.service'
 import { MatTableDataSource } from '@angular/material/table';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { UpdateMaskedEmailAddressDialogComponent } from './update-masked-email-address-dialog/update-masked-email-address-dialog.component'
 import { NewMaskedEmailAddressDialogComponent } from './new-masked-email-address-dialog/new-masked-email-address-dialog.component'
 import { MaskedEmail, AddressPages } from '../shared/models/model';
@@ -18,21 +17,14 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-addresses',
   templateUrl: './addresses.component.html',
-  styleUrls: ['./addresses.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ])
-  ]
+  styleUrls: ['./addresses.component.scss']
 })
+
 export class AddressesComponent implements OnInit {
 
   public pageResult: AddressPages;
   public searchValue: string;
-  public displayedColumns: string[] = ['name', 'address', 'description', 'enabled', 'actions'];
-  public mobileColumnsToDisplay: string[] = ['informations', 'actions'];
+
   public addresses: MaskedEmail[] = [];
   public dataSource: MatTableDataSource<MaskedEmail>;
   public expandedElement: MaskedEmail | null;
@@ -49,6 +41,7 @@ export class AddressesComponent implements OnInit {
     private loaderSvc: LoaderService,
     private scrollService: ScrollService
   ) {
+    this.loaderSvc.startLoader();
     //Search method: wait 400ms after the last event before emitting next event
     this.searchChanged.pipe(
       debounceTime(400),
@@ -71,16 +64,9 @@ export class AddressesComponent implements OnInit {
     this.searchChanged.next(text);
   }
 
-  sorting(sort: { active: string, direction: string }) {
+  sorting(sortValue: string) {
     this.pageResult = null;
-    if (sort.direction === "")
-      this.sortingMode = null;
-    else {
-      if (sort.direction === "desc")
-        this.sortingMode = sort.active + "-" + sort.direction;
-      else
-        this.sortingMode = sort.active;
-    }
+    this.sortingMode = sortValue;
 
     this.loadAddresses();
   }
@@ -123,11 +109,11 @@ export class AddressesComponent implements OnInit {
     });
   }
 
-  onToggleChecked(address: MaskedEmail, $event): void {
-    this.addressService.toggleAddressForwarding(address.emailAddress)
+  onToggleChecked($event: { address: MaskedEmail, $event }): void {
+    this.addressService.toggleAddressForwarding($event.address.emailAddress)
       .subscribe(_ => {
-        address.forwardingEnabled = $event.checked;
-        this.snackBar.open(`Successfully ${address.forwardingEnabled ? 'enabled' : 'disabled'} the masked email ${address.emailAddress}.`, 'Undo', {
+        $event.address.forwardingEnabled = $event.$event.checked;
+        this.snackBar.open(`Successfully ${$event.address.forwardingEnabled ? 'enabled' : 'disabled'} the masked email ${$event.address.emailAddress}.`, 'Undo', {
           duration: 2000
         });
       });
@@ -170,7 +156,6 @@ export class AddressesComponent implements OnInit {
     if (queries.search) {
       this.addressService.getSearchedAddresses(null, queries.search, queries.sort).subscribe(page => {
         this.handleDatasourceData(queries.cursor, page);
-        this.isSearching = false;
       }, () => {
         this.isSearching = false;
       });
@@ -193,6 +178,7 @@ export class AddressesComponent implements OnInit {
 
     this.scrollService.scrollToBottom = false;
     this.lock = false;
+    this.isSearching = false;
   }
 
   private setQueries() {

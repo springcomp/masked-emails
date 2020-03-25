@@ -33,6 +33,12 @@ import { UpdateMaskedEmailAddressDialogComponent } from './addresses/update-mask
 import { UserButtonComponent } from './app-container/user-button/user-button.component';
 
 import { LoaderService } from './shared/services/loader.service';
+import { MessageContentMobileViewComponent } from './messages/message-content-mobile-view/message-content-mobile-view.component';
+import { MessagesTableMobileViewComponent } from './messages/messages-table-mobile-view/messages-table-mobile-view.component';
+import { MessagesTableViewComponent } from './messages/messages-table-view/messages-table-view.component';
+import { MessageContentViewComponent } from './messages/message-content-view/message-content-view.component';
+import { AddressesTableViewComponent } from './addresses/addresses-table-view/addresses-table-view.component';
+import { AddressesTableMobileViewComponent } from './addresses/addresses-table-mobile-view/addresses-table-mobile-view.component';
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
   return () => {
@@ -65,7 +71,13 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     NewMaskedEmailAddressDialogComponent,
     ProfileDialogComponent,
     UpdateMaskedEmailAddressDialogComponent,
-    UserButtonComponent
+    UserButtonComponent,
+    MessageContentMobileViewComponent,
+    MessagesTableMobileViewComponent,
+    MessagesTableViewComponent,
+    MessageContentViewComponent,
+    AddressesTableViewComponent,
+    AddressesTableMobileViewComponent
   ],
   entryComponents: [
     ProfileDialogComponent,
