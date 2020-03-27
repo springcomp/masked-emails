@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material';
 @Component({
   selector: 'app-messages-table-mobile-view',
   templateUrl: './messages-table-mobile-view.component.html',
-  styleUrls: ['./messages-table-mobile-view.component.scss']
+  styleUrls: ['../messages.component.scss', './messages-table-mobile-view.component.scss']
 })
 export class MessagesTableMobileViewComponent implements OnInit {
   @Input() dataSource: MatTableDataSource<MessageSpec>;

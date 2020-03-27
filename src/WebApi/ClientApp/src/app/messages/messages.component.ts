@@ -16,10 +16,7 @@ export class MessagesComponent implements OnInit {
   messageContent: MessageSpec = new MessageSpec();
   messages: MessageSpec[] = [];
   dataSource: MatTableDataSource<MessageSpec>;
-  selectedRowIndex: any = null;
   loadingMessage: boolean;
-
-
 
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
@@ -32,14 +29,11 @@ export class MessagesComponent implements OnInit {
   ) {
     this.loaderSvc.startLoader();
 
+    //Used to modify mat-sidenav mode in mobile mode or desktop mode
     this.mobileQuery = media.matchMedia('(max-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-  }
-
-  highlight(row) {
-    this.selectedRowIndex = row;
   }
 
   ngOnInit() {

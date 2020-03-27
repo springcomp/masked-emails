@@ -28,8 +28,8 @@ $ClientApp-theme: mat-light-theme($primary, $accent, $warn);
 // that you are using.
 @include angular-material-theme($ClientApp-theme);
 
+
 ::ng-deep .mat-icon-button {
   color: mat-color($primary, darker) !important;
-  height: 38px;
   font-size: 12px !important; //Icon size
 }

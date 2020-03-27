@@ -10,7 +10,6 @@
 }
 
 .inbox-mails-content {
-  padding: 20px;
   background-color: mat-color($background-color);
 }
 
@@ -20,8 +19,9 @@
   width: 40%;
 }
 
-.highlight {
-  border: 1px solid mat-color($accent);
+.mat-table {
+  background: transparent !important;
+  padding: 20px;
 }
 
 .table-view {

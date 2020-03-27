@@ -32,3 +32,8 @@ tr.mat-header-row {
     color: mat-color($accent);
   }
 }
+
+.highlight {
+  background-color: mat-color( $highlight) !important;
+  font-weight: 500;
+}
