@@ -42,11 +42,6 @@ tr.mat-row {
 }
 /*Mat-table common CSS*/
 
-::ng-deep .mat-icon-button {
-  color: mat-color($primary, darker) !important;
-  height: 38px;
-  font-size: 12px !important; //Icon size
-}
 
 ::ng-deep .mat-fab {
   color: #ffffff !important;
@@ -83,8 +78,8 @@ tr.mat-row {
     position: fixed;
     display: flex;
     background-color: mat-color($background-color);
-    left: 20px;
-    right: 20px;
+    left: 10px;
+    right: 10px;
     top: 64px;
     z-index: 100;
     border-bottom: 1px solid mat-color($background-color, darker);
@@ -117,7 +112,6 @@ tr.mat-row {
   }
 
   ::ng-deep .mat-icon-button {
-    color: mat-color($primary, darker) !important;
     height: 20px;
     min-width: 0;
     width: 20px;

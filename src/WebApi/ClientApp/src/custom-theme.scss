@@ -16,6 +16,7 @@ $primary: mat-palette($mat-teal, 300,300, 500);
 $accent: mat-palette($mat-blue-gray, 900,700, 900 );
 $background-color: mat-palette($mat-gray, 100, 100, 200);
 
+$highlight: mat-palette($mat-teal, 50,50, 50);
 // The warn palette is optional (defaults to red).
 $warn: mat-palette($mat-deep-orange, 800);
 
@@ -27,3 +28,8 @@ $ClientApp-theme: mat-light-theme($primary, $accent, $warn);
 // that you are using.
 @include angular-material-theme($ClientApp-theme);
 
+::ng-deep .mat-icon-button {
+  color: mat-color($primary, darker) !important;
+  height: 38px;
+  font-size: 12px !important; //Icon size
+}

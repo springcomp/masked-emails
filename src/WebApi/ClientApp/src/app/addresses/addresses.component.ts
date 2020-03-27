@@ -8,6 +8,7 @@ import { UpdateMaskedEmailAddressDialogComponent } from './update-masked-email-a
 import { NewMaskedEmailAddressDialogComponent } from './new-masked-email-address-dialog/new-masked-email-address-dialog.component'
 import { MaskedEmail, AddressPages } from '../shared/models/model';
 import { ScrollService } from '../shared/services/scroll.service';
+import { MediaMatcher } from '@angular/cdk/layout';
 import {
   debounceTime,
   distinctUntilChanged
@@ -33,13 +34,17 @@ export class AddressesComponent implements OnInit {
   private lock: boolean;
   private sortingMode: string;
   private isSearching: boolean;
+  private numberOfRow: number;
+  private lockAddresses: boolean;
 
+  mobileQuery: MediaQueryList;
   constructor(
     private addressService: AddressService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private loaderSvc: LoaderService,
-    private scrollService: ScrollService
+    private scrollService: ScrollService,
+    private media: MediaMatcher
   ) {
     this.loaderSvc.startLoader();
     //Search method: wait 400ms after the last event before emitting next event
@@ -54,21 +59,17 @@ export class AddressesComponent implements OnInit {
           this.loadAddresses();
         }
       });
+
+    //Listen to event "resize" of the screen to calculate again the number of data that can be displayed and get the good amount of data.
+    window.addEventListener('resize', this.initializeData.bind(this));
   }
 
   ngOnInit() {
-    this.loadAddresses();
+    this.initializeData();
   }
 
-  changedSearchField(text: string) {
-    this.searchChanged.next(text);
-  }
-
-  sorting(sortValue: string) {
-    this.pageResult = null;
-    this.sortingMode = sortValue;
-
-    this.loadAddresses();
+  ngOnDestroy() {
+    window.removeEventListener('resize', this.initializeData.bind(this));
   }
 
   get showLoadingSpinner(): boolean {
@@ -89,6 +90,17 @@ export class AddressesComponent implements OnInit {
 
   get dataLoaded(): boolean {
     return this.loaderSvc.dataLoaded;
+  }
+
+  changedSearchField(text: string) {
+    this.searchChanged.next(text);
+  }
+
+  sorting(sortValue: string) {
+    this.pageResult = null;
+    this.sortingMode = sortValue;
+
+    this.loadAddresses();
   }
 
   copyToClipboard(text: string): void {
@@ -153,16 +165,20 @@ export class AddressesComponent implements OnInit {
 
   private loadAddresses(): void {
     var queries = this.setQueries();
-    if (queries.search) {
-      this.addressService.getSearchedAddresses(null, queries.search, queries.sort).subscribe(page => {
-        this.handleDatasourceData(queries.cursor, page);
-      }, () => {
-        this.isSearching = false;
-      });
-    } else {
-      this.addressService.getAddressesPages(queries.cursor, queries.sort).subscribe(page => {
-        this.handleDatasourceData(queries.cursor, page);
-      });
+    if (!this.lockAddresses) {
+      this.lockAddresses = true;
+      if (queries.search) {
+        this.addressService.getSearchedAddresses(queries.top, null, queries.search, queries.sort).subscribe(page => {
+          this.handleDatasourceData(queries.cursor, page);
+        }, () => {
+            this.isSearching = false;
+            this.lockAddresses = false;
+        });
+      } else {
+        this.addressService.getAddressesPages(queries.top, queries.cursor, queries.sort).subscribe(page => {
+          this.handleDatasourceData(queries.cursor, page);
+        });
+      }
     }
   }
 
@@ -179,10 +195,12 @@ export class AddressesComponent implements OnInit {
     this.scrollService.scrollToBottom = false;
     this.lock = false;
     this.isSearching = false;
+    this.lockAddresses = false;
   }
 
   private setQueries() {
     return {
+      top: this.numberOfRow,
       cursor: this.pageResult ? this.pageResult.cursor : null,
       sort: this.sortingMode ? this.sortingMode : null,
       search: this.searchValue ? this.searchValue.trim().toLowerCase() : null
@@ -195,6 +213,37 @@ export class AddressesComponent implements OnInit {
 
   private clearDatasource(): void {
     this.pageResult = null;
-    this.dataSource.data = [];
+    if (this.dataSource)
+      this.dataSource.data = [];
+  }
+
+  private setNumberOfDataDisplayed() {
+    let mobileQuery = this.media.matchMedia('(max-width: 768px)');
+    let headerHeight = 0;
+    let rowHeight = 0;
+
+    if (mobileQuery.matches) {
+      headerHeight = 123; //Size of all the headers in mobile mode.
+      rowHeight = 90;
+    } else {
+      headerHeight = 206; //Size of all the headers.
+      rowHeight = 40;
+    }
+
+    let availableHeight = window.innerHeight - headerHeight;
+
+    let possibleNumberOfRow = availableHeight / rowHeight;
+    let row = Math.round(possibleNumberOfRow);
+    this.numberOfRow = row + 1;
+    this.loaderSvc.startLoader();
+
+    this.clearDatasource();
+    this.loadAddresses();
+  }
+
+  private initializeData() {
+    this.setNumberOfDataDisplayed();
+    this.clearDatasource();
+    this.loadAddresses();
   }
 }

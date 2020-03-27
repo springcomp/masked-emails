@@ -21,10 +21,10 @@ export class AddressService {
     return this.http.get<Address[]>(requestUri, headers);
   }
 
-  public getAddressesPages(cursor: string, sort_by:string): Observable<AddressPages> {
+  public getAddressesPages(top: number, cursor: string, sort_by: string): Observable<AddressPages> {
     var headers = { headers: this.helpers.getHeaders() };
 
-    var requestUri = this.urlBuilder("/profiles/my/address-pages", cursor, sort_by, null);
+    var requestUri = this.urlBuilder("/profiles/my/address-pages", top, cursor, sort_by, null);
 
     return this.http.get<AddressPages>(requestUri, headers);
   }
@@ -53,16 +53,20 @@ export class AddressService {
     return this.http.patch(requestUri, {}, headers)
   }
 
-  public getSearchedAddresses(cursor: string, contains: string, sort_by: string): Observable<AddressPages> {
+  public getSearchedAddresses(top:number, cursor: string, contains: string, sort_by: string): Observable<AddressPages> {
     var headers = { headers: this.helpers.getHeaders() };
 
-    var requestUri = this.urlBuilder("/profiles/my/search", cursor, sort_by, contains);
+    var requestUri = this.urlBuilder("/profiles/my/search", top, cursor, sort_by, contains);
 
     return this.http.get<AddressPages>(requestUri, headers);
   }
 
-  private urlBuilder(url: string, cursor:string, sort_by:string, search:string): string {
+  private urlBuilder(url: string, top: number, cursor: string, sort_by: string, search: string): string {
     var query_params: string[] = [];
+    if (top) {
+      query_params.push("top=" + top);
+    }
+
     if (cursor) {
       query_params.push("cursor=" + cursor);
     }
