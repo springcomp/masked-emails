@@ -12,13 +12,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer.Models;
 using System.Text.Encodings.Web;
 using System.Text;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using IdentityServer.Security;
 
 namespace IdentityServer4.Quickstart.UI
 {

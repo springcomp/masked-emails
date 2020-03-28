@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
+using IdentityServer.Security;
 
 namespace IdentityServer4.Quickstart.UI
 {
