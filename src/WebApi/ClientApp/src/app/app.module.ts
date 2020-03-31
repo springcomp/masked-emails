@@ -1,6 +1,6 @@
 import { AppRoutingModule } from './app-routing.module';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { AuthModule, ConfigResult, OidcConfigService, OidcSecurityService, OpenIdConfiguration } from 'angular-auth-oidc-client';
+import { AuthModule, ConfigResult, OidcConfigService, OidcSecurityService } from 'angular-auth-oidc-client';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from './core';
@@ -32,7 +32,6 @@ import { ProfileDialogComponent } from './app-container/profile-dialog/profile-d
 import { UpdateMaskedEmailAddressDialogComponent } from './addresses/update-masked-email-address-dialog/update-masked-email-address-dialog.component';
 import { UserButtonComponent } from './app-container/user-button/user-button.component';
 
-import { LoaderService } from './shared/services/loader.service';
 import { MessageContentMobileViewComponent } from './messages/message-content-mobile-view/message-content-mobile-view.component';
 import { MessagesTableMobileViewComponent } from './messages/messages-table-mobile-view/messages-table-mobile-view.component';
 import { MessagesTableViewComponent } from './messages/messages-table-view/messages-table-view.component';

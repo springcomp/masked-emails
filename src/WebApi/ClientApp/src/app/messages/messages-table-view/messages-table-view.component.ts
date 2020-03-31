@@ -10,11 +10,11 @@ import { SelectionModel } from '@angular/cdk/collections';
 })
 export class MessagesTableViewComponent implements OnInit {
   @Input() dataSource: MatTableDataSource<MessageSpec>;
+  @Input() selection: SelectionModel<MessageSpec>;
 
   @Output() openMessage = new EventEmitter<MessageSpec>();
 
   public selectedRowIndex: any = null;
-  public selection = new SelectionModel<MessageSpec>(true, []);
   public displayedColumns: string[] = ['received', 'sender', 'subject', 'actions'];
 
   constructor() { }
@@ -23,15 +23,10 @@ export class MessagesTableViewComponent implements OnInit {
   }
 
   public showMessage(messageSpec: MessageSpec) {
-    this.openMessage.emit(messageSpec);
-  }
-
-
-  public highlight(row: MessageSpec) {
     this.selection.clear();
-    this.selection.select(row);
+    this.selection.select(messageSpec);
 
-    console.log("is selected : " + this.selection.isSelected(row));
+    this.openMessage.emit(messageSpec);
   }
 
 }

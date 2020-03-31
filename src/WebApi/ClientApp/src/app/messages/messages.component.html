@@ -3,7 +3,7 @@
   <mat-sidenav-content class="inbox-mails-content">
 
     <div class="table-view table-container">
-      <app-messages-table-view [dataSource]="dataSource" (openMessage)="showMessage($event)"></app-messages-table-view>
+      <app-messages-table-view [dataSource]="dataSource" (openMessage)="showMessage($event)" [selection]="selection"></app-messages-table-view>
     </div>
 
     <div class="mobile-view">

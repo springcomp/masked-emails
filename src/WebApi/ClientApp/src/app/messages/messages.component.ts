@@ -4,6 +4,7 @@ import { LoaderService } from '../shared/services/loader.service';
 import { MessageSpec, Message } from '../shared/models/model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-messages',
@@ -11,6 +12,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
   styleUrls: ['./messages.component.scss']
 })
 export class MessagesComponent implements OnInit, OnDestroy {
+  public selection = new SelectionModel<MessageSpec>(true, []);
   opened: boolean;
   message: Message | null;
   messageContent: MessageSpec = new MessageSpec();
@@ -65,6 +67,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
   public closeMessageContent() {
     this.opened = !this.opened;
+    this.selection.clear();
   }
 
   private loadMessages(): void {
