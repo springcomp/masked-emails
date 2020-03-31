@@ -89,7 +89,7 @@ tr.mat-row {
     display: flex;
     background-color: mat-color($background-color);
     left: 10px;
-    right: 10px;
+    right: 15px;
     top: 64px;
     z-index: 100;
     border-bottom: 1px solid mat-color($background-color, darker);
@@ -99,6 +99,7 @@ tr.mat-row {
     width: 40px;
     height: 40px;
     margin: auto;
+    margin-right: 5px;
   }
 
   ::ng-deep .mat-fab .mat-button-wrapper {
