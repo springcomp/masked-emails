@@ -1,4 +1,14 @@
 @import '../../custom-theme.scss';
+.loader-row {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.loader-position {
+  align-self: center;
+}
 
 .table-view {
   display: block;

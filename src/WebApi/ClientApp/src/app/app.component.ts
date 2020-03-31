@@ -17,11 +17,6 @@ export class AppComponent implements OnInit, OnDestroy {
     public loaderService: LoaderService,
     private scrollService: ScrollService
   ) {
-    this.loaderService.stopLoader();
-  }
-
-  get dataLoaded(): boolean {
-    return this.loaderService.dataLoaded;
   }
 
   ngOnInit() {

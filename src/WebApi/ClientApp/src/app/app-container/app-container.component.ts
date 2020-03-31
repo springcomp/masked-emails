@@ -58,7 +58,6 @@ export class AppContainerComponent {
   }
 
   public inbox() {
-    console.log('==== INBOX =====');
     this.router.navigate(['/inbox']);
   }
 

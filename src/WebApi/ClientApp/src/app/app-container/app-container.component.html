@@ -26,12 +26,8 @@
 
     </mat-toolbar>
 
-
-    <!--Loader-->
-    <ng-content select="[loader]"></ng-content>
-
     <!--Application content-->
-    <ng-content select="[router]"></ng-content>
+    <ng-content select="[content]"></ng-content>
 
   </mat-sidenav-content>
 
@@ -46,7 +42,6 @@
       </div>
       <div class="user-informations">
         <img ngxGravatar [email]="forwardingAddress" [preferGravatar]="true" [fallback]="'mp'" size="70">
-
         <div class="username">{{my && my.displayName? my.displayName: ''}}</div>
       </div>
 

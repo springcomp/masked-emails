@@ -1,26 +1,30 @@
 import { Injectable } from '@angular/core';
+import { Subject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoaderService {
 
-  public _dataLoaded: boolean = false;
+  public _loading: boolean = false;
+  public loadingStatus: Subject<boolean> = new Subject();
+
   constructor() { }
 
-  get dataLoaded(): boolean {
-    return this._dataLoaded;
+  get loading(): boolean {
+    return this._loading;
   }
 
-  set dataLoaded(value: boolean) {
-    this._dataLoaded = value;
+  set loading(value: boolean) {
+    this._loading = value;
+    this.loadingStatus.next(value);
   }
 
-  public startLoader(): void {
-    this._dataLoaded = false;
+  public startLoading(): void {
+    this.loading  = true;
   }
 
-  public stopLoader(): void {
-    this._dataLoaded = true;
+  public stopLoading(): void {
+    this.loading  = false;
   }
 }

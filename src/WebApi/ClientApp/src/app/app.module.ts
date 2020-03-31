@@ -39,6 +39,7 @@ import { MessagesTableViewComponent } from './messages/messages-table-view/messa
 import { MessageContentViewComponent } from './messages/message-content-view/message-content-view.component';
 import { AddressesTableViewComponent } from './addresses/addresses-table-view/addresses-table-view.component';
 import { AddressesTableMobileViewComponent } from './addresses/addresses-table-mobile-view/addresses-table-mobile-view.component';
+import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
   return () => {
@@ -77,7 +78,8 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     MessagesTableViewComponent,
     MessageContentViewComponent,
     AddressesTableViewComponent,
-    AddressesTableMobileViewComponent
+    AddressesTableMobileViewComponent,
+    LoadingScreenComponent
   ],
   entryComponents: [
     ProfileDialogComponent,
@@ -105,8 +107,7 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
       useFactory: loadConfig,
       deps: [OidcConfigService],
       multi: true,
-    },
-    LoaderService
+    }
   ],
   bootstrap: [AppComponent],
 })

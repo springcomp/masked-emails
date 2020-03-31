@@ -46,7 +46,7 @@ export class AddressesComponent implements OnInit {
     private scrollService: ScrollService,
     private media: MediaMatcher
   ) {
-    this.loaderSvc.startLoader();
+    this.loaderSvc.startLoading();
     //Search method: wait 400ms after the last event before emitting next event
     this.searchChanged.pipe(
       debounceTime(400),
@@ -89,7 +89,7 @@ export class AddressesComponent implements OnInit {
   }
 
   get dataLoaded(): boolean {
-    return this.loaderSvc.dataLoaded;
+    return this.loaderSvc.loading;
   }
 
   changedSearchField(text: string) {
@@ -183,7 +183,7 @@ export class AddressesComponent implements OnInit {
   }
 
   private handleDatasourceData(cursor: string, page: AddressPages) {
-    this.loaderSvc.stopLoader();
+    this.loaderSvc.stopLoading();
     this.pageResult = page;
 
     const data: MaskedEmail[] = this.dataSource && cursor
@@ -235,7 +235,7 @@ export class AddressesComponent implements OnInit {
     let possibleNumberOfRow = availableHeight / rowHeight;
     let row = Math.round(possibleNumberOfRow);
     this.numberOfRow = row + 1;
-    this.loaderSvc.startLoader();
+    this.loaderSvc.startLoading();
 
     this.clearDatasource();
     this.loadAddresses();

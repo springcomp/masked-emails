@@ -1,4 +1,8 @@
-<div *ngIf="dataLoaded">
+
+  <!--<mat-spinner *ngIf="!dataLoaded" class="loader-position"></mat-spinner>-->
+
+
+<!--<div *ngIf="dataLoaded">-->
 
   <div class="header-container">
     <div class="search-container">
@@ -9,7 +13,7 @@
         </button>
       </mat-form-field>
     </div>
-    <button mat-fab color="primary" (click)="openCreateDialog()" ><fa-icon [icon]="['fas', 'plus']"></fa-icon></button>
+    <button mat-fab color="primary" (click)="openCreateDialog()"><fa-icon [icon]="['fas', 'plus']"></fa-icon></button>
   </div>
 
   <div class="table-view table-container">
@@ -25,11 +29,11 @@
   <!--Responsive Table view-->
   <div class="mobile-view">
     <app-addresses-table-mobile-view [dataSource]="dataSource"
-                              (loadAddresses)="loadAddresses"
-                              (updateAddress)="openUpdateDialog($event)"
-                              (deleteAddress)="onDelete($event)"
-                              (checkAddress)="onToggleChecked($event)"
-                              (copyToClipboard)="copyToClipboard($event)"></app-addresses-table-mobile-view>
+                                     (loadAddresses)="loadAddresses"
+                                     (updateAddress)="openUpdateDialog($event)"
+                                     (deleteAddress)="onDelete($event)"
+                                     (checkAddress)="onToggleChecked($event)"
+                                     (copyToClipboard)="copyToClipboard($event)"></app-addresses-table-mobile-view>
 
   </div>
 
@@ -38,4 +42,4 @@
       <mat-spinner class="loader-position" [diameter]="30"></mat-spinner>
     </div>
   </div>
-</div>
+<!--</div>-->

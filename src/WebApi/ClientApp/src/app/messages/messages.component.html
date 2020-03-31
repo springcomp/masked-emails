@@ -1,27 +1,25 @@
-<div *ngIf="dataLoaded">
-  <mat-sidenav-container class="inbox-mails-container">
+<mat-sidenav-container class="inbox-mails-container">
 
-    <mat-sidenav-content class="inbox-mails-content">
+  <mat-sidenav-content class="inbox-mails-content">
 
-      <div class="table-view table-container">
-        <app-messages-table-view [dataSource]="dataSource" (openMessage)="showMessage($event)"></app-messages-table-view>
-      </div>
+    <div class="table-view table-container">
+      <app-messages-table-view [dataSource]="dataSource" (openMessage)="showMessage($event)"></app-messages-table-view>
+    </div>
 
-      <div class="mobile-view">
-        <app-messages-table-mobile-view [dataSource]="dataSource" (openMessage)="showMessage($event)"></app-messages-table-mobile-view>     
-      </div>
-    </mat-sidenav-content>
+    <div class="mobile-view">
+      <app-messages-table-mobile-view [dataSource]="dataSource" (openMessage)="showMessage($event)"></app-messages-table-mobile-view>
+    </div>
+  </mat-sidenav-content>
 
-    <mat-sidenav class="message-container" #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [(opened)]="opened" (opened)="events.push('open!')" position="end"
-                 (closed)="events.push('close!')">
-      <div class="table-view"> 
-        <app-message-content-view [messageSpec]="messageContent" [messageContent]="message" [loadingMessage]="loadingMessage" (closeSidenav)="closeMessageContent()"></app-message-content-view>
-      </div>
+  <mat-sidenav class="message-container" #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [(opened)]="opened" (opened)="events.push('open!')" position="end"
+               (closed)="events.push('close!')">
+    <div class="table-view">
+      <app-message-content-view [messageSpec]="messageContent" [messageContent]="message" [loadingMessage]="loadingMessage" (closeSidenav)="closeMessageContent()"></app-message-content-view>
+    </div>
 
-      <div class="mobile-view">
-        <app-message-content-mobile-view [messageSpec]="messageContent" [messageContent]="message" [loadingMessage]="loadingMessage" (closeSidenav)="closeMessageContent()"></app-message-content-mobile-view>
-      </div>
-    </mat-sidenav>
+    <div class="mobile-view">
+      <app-message-content-mobile-view [messageSpec]="messageContent" [messageContent]="message" [loadingMessage]="loadingMessage" (closeSidenav)="closeMessageContent()"></app-message-content-mobile-view>
+    </div>
+  </mat-sidenav>
 
-  </mat-sidenav-container>
-</div>
+</mat-sidenav-container>

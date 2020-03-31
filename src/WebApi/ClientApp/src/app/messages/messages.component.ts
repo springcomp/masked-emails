@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { InboxService } from '../shared/services/inbox.service';
 import { LoaderService } from '../shared/services/loader.service';
 import { MessageSpec, Message } from '../shared/models/model';
@@ -10,7 +10,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.scss']
 })
-export class MessagesComponent implements OnInit {
+export class MessagesComponent implements OnInit, OnDestroy {
   opened: boolean;
   message: Message | null;
   messageContent: MessageSpec = new MessageSpec();
@@ -27,11 +27,11 @@ export class MessagesComponent implements OnInit {
     private media: MediaMatcher,
     private changeDetectorRef: ChangeDetectorRef
   ) {
-    this.loaderSvc.startLoader();
+    this.loaderSvc.startLoading();
 
     //Used to modify mat-sidenav mode in mobile mode or desktop mode
-    this.mobileQuery = media.matchMedia('(max-width: 768px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery = this.media.matchMedia('(max-width: 768px)');
+    this._mobileQueryListener = () => this.changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
   }
@@ -44,10 +44,6 @@ export class MessagesComponent implements OnInit {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
-  get dataLoaded(): boolean {
-    return this.loaderSvc.dataLoaded;
-  }
-
   public getMessageBody(): string {
     if (this.message != null) {
       return this.message.htmlBody;
@@ -55,7 +51,7 @@ export class MessagesComponent implements OnInit {
     return "";
   }
 
-  showMessage(message: MessageSpec) {
+  public showMessage(message: MessageSpec) {
     this.opened = true;
     this.loadingMessage = true;
     this.messageContent = message;
@@ -67,14 +63,14 @@ export class MessagesComponent implements OnInit {
       });
   }
 
-  closeMessageContent() {
+  public closeMessageContent() {
     this.opened = !this.opened;
   }
 
   private loadMessages(): void {
     this.inboxService.getMessages()
       .subscribe(messages => {
-        this.loaderSvc.stopLoader();
+        this.loaderSvc.stopLoading();
         this.messages = messages;
 
         // Assign the data to the data source for the table to render
