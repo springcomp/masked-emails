@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MaskedEmail } from '../../shared/models/model';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-addresses-table-view',
@@ -10,7 +10,6 @@ import { MatTableDataSource } from '@angular/material';
 export class AddressesTableViewComponent implements OnInit {
   @Input() dataSource: MatTableDataSource<MaskedEmail>;
 
-  @Output() loadAddresses = new EventEmitter();
   @Output() updateAddress = new EventEmitter<MaskedEmail>();
   @Output() deleteAddress = new EventEmitter<MaskedEmail>();
   @Output() checkAddress = new EventEmitter();

@@ -18,7 +18,6 @@
 
   <div class="table-view table-container">
     <app-addresses-table-view [dataSource]="dataSource"
-                              (loadAddresses)="loadAddresses"
                               (updateAddress)="openUpdateDialog($event)"
                               (deleteAddress)="onDelete($event)"
                               (checkAddress)="onToggleChecked($event)"
@@ -29,7 +28,6 @@
   <!--Responsive Table view-->
   <div class="mobile-view">
     <app-addresses-table-mobile-view [dataSource]="dataSource"
-                                     (loadAddresses)="loadAddresses"
                                      (updateAddress)="openUpdateDialog($event)"
                                      (deleteAddress)="onDelete($event)"
                                      (checkAddress)="onToggleChecked($event)"

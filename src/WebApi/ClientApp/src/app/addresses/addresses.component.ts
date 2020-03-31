@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AddressService } from '../shared/services/address.service';
 import { LoaderService } from '../shared/services/loader.service'
 import { MatTableDataSource } from '@angular/material/table';

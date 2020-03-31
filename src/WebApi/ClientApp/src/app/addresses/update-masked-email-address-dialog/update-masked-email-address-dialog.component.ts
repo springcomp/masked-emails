@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AddressService } from '../../shared/services/address.service';
 import { HashService } from 'src/app/shared/services/hash.service';
 import { MaskedEmail, UpdateMaskedEmailRequest } from '../../shared/models/model';

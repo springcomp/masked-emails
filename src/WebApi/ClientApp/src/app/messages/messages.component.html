@@ -11,8 +11,7 @@
     </div>
   </mat-sidenav-content>
 
-  <mat-sidenav class="message-container" #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [(opened)]="opened" (opened)="events.push('open!')" position="end"
-               (closed)="events.push('close!')">
+  <mat-sidenav class="message-container" #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [(opened)]="opened" position="end">
     <div class="table-view">
       <app-message-content-view [messageSpec]="messageContent" [messageContent]="message" [loadingMessage]="loadingMessage" (closeSidenav)="closeMessageContent()"></app-message-content-view>
     </div>

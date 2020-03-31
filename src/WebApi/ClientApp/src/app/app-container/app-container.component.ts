@@ -1,6 +1,6 @@
 import { AuthService } from '../core/auth.service';
 import { Component, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
 import { Profile } from '../shared/models/model';
 import { ProfileService, Claim } from '../shared/services/profile.service';
 import { Router } from '@angular/router';

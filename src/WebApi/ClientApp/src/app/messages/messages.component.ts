@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { InboxService } from '../shared/services/inbox.service';
 import { LoaderService } from '../shared/services/loader.service';
 import { MessageSpec, Message } from '../shared/models/model';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({

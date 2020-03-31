@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { MaskedEmail } from '../../shared/models/model';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
@@ -19,7 +19,6 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 export class AddressesTableMobileViewComponent implements OnInit {
   @Input() dataSource: MatTableDataSource<MaskedEmail>;
 
-  @Output() loadAddresses = new EventEmitter();
   @Output() updateAddress = new EventEmitter<MaskedEmail>();
   @Output() deleteAddress = new EventEmitter<MaskedEmail>();
   @Output() checkAddress = new EventEmitter();
