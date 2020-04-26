@@ -4,7 +4,7 @@
     <td mat-cell *matCellDef="let address">
       <div class="informations-position"><span class="name">{{address.name}}</span></div>
       <div class="informations-position emailAddress-section-margin">
-        <button class="copy-icon-display" mat-icon-button aria-label="Copy the forwarding address" (click)="$event.stopPropagation();copyToClipboard(address.emailAddress)"><fa-icon [icon]="['fas', 'copy']"></fa-icon></button> <div class="emailAddress-text">{{address.emailAddress}}</div>
+        <button class="copy-icon-display" mat-icon-button aria-label="Copy the forwarding address" (click)="$event.stopPropagation();copy(address.emailAddress)"><fa-icon [icon]="['fas', 'copy']"></fa-icon></button> <div class="emailAddress-text">{{address.emailAddress}}</div>
       </div>
     </td>
   </ng-container>
