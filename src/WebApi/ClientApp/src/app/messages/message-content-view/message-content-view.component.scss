@@ -1,0 +1,49 @@
+@import '../../../custom-theme.scss';
+.message-container-padding {
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+
+  .section {
+    display: flex;
+    flex-direction: row;
+
+    .item-position {
+      flex: 1 1 auto;
+    }
+  }
+
+  .text-color {
+    color: mat-color($accent, lighter);
+  }
+
+  .font-size {
+    font-size: 13px;
+  }
+
+  .content-section {
+    height: 100%;
+    width: 100%;
+    min-height: 500px;
+    margin-top: 30px;
+    font-size: 14px;
+    background-color: mat-color($background-color, darker);
+
+    .padding-content {
+      padding: 10px;
+    }
+  }
+
+  .loader-position {
+    justify-content: center;
+    display: flex;
+    margin-top: 50px;
+  }
+}
+
+.mat-icon-button.large {
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 20px !important;
+}

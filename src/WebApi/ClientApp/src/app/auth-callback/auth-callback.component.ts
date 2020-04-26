@@ -1,14 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { LoaderService } from '../shared/services/loader.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth-callback',
-  templateUrl: './auth-callback.component.html',
-  styleUrls: ['./auth-callback.component.scss']
+  template: ''
 })
-export class AuthCallbackComponent implements OnInit {
+export class AuthCallbackComponent implements OnInit, OnDestroy {
+ 
+  constructor(private loadingScreenService: LoaderService, private router: Router) {
 
-  constructor() { }
+  }
 
   ngOnInit() {
+    this.loadingScreenService.startLoading();
+
+    this.router.navigate(['/masked-emails']);    
+  }
+
+  ngOnDestroy() {
+    this.loadingScreenService.stopLoading();
   }
 }

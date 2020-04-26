@@ -1,0 +1,21 @@
+<div class="message-container-padding">
+  <div class="message-header">
+    <div class="section">
+      <h2 class="item-position message-title text-color">{{messageSpec.subject}}</h2>
+      <button mat-icon-button color="primary" aria-label="Close" (click)="close()" class="large">
+        <fa-icon [icon]="['fas', 'times']"></fa-icon>
+      </button>
+    </div>
+    <div class="section font-size">
+      <span class="item-position text-color">From: {{messageSpec.sender.address}}</span><span>{{messageSpec.receivedUtc| date:'short'}}</span>
+    </div>
+  </div>
+  <div class="content-section" *ngIf="!loadingMessage">
+    <div class="padding-content text-color" [innerHTML]="getMessageBody()"></div>
+  </div>
+
+  <div class="loader-position" *ngIf="loadingMessage">
+    <mat-spinner [diameter]="30"></mat-spinner>
+  </div>
+
+</div>

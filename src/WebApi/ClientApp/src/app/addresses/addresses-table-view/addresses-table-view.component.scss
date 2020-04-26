@@ -1,0 +1,69 @@
+@import '../../../custom-theme.scss';
+.mat-row {
+  height: 40px; //Table row height
+}
+
+tr.mat-header-row {
+  background-color: mat-color($background-color);
+
+  .mat-header-cell {
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 500;
+    color: mat-color($accent);
+  }
+}
+
+.mat-column-name {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 20% !important;
+  width: 20% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-emailAddress {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 35% !important;
+  width: 35% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-description {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 25% !important;
+  width: 25% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-enabled {
+  flex: 0 0 10% !important;
+  width: 10% !important;
+}
+
+.mat-column-actions {
+  flex: 0 0 15% !important;
+  width: 15% !important;
+}
+
+

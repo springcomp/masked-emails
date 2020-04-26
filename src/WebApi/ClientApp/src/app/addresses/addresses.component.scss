@@ -1,4 +1,14 @@
 @import '../../custom-theme.scss';
+.loader-row {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.loader-position {
+  align-self: center;
+}
 
 .table-view {
   display: block;
@@ -8,54 +18,9 @@
   display: none;
 }
 
-.mat-table {
-  width: 100%;
-}
-
-tr.mat-row {
-  .mat-cell {
-    color: mat-color($accent, lighter);
-    font-size: 12px; //Size of the text in the table
-  }
-}
-
-.mat-row {
-  height: 40px; //Table row height
-}
-
-.mat-row:nth-child(even) {
-  background-color: mat-color($background-color);
-}
-
-.mat-row:nth-child(odd) {
-  background-color: mat-color($background-color, darker);
-}
-
-tr.mat-header-row {
-  background-color: mat-color($background-color);
-
-  .mat-header-cell {
-    font-family: Roboto;
-    font-size: 15px;
-    font-weight: 500;
-    color: mat-color($accent);
-  }
-}
-
-::ng-deep .mat-icon-button {
-  color: mat-color($primary, darker) !important;
-  height: 38px;
-  font-size: 12px !important; //Icon size
-}
-
 .table-container {
   overflow: auto;
   padding-bottom: 15px;
-}
-
-::ng-deep .mat-fab {
-  color: #ffffff !important;
-  font-size: 16px !important;
 }
 
 .header-container {
@@ -66,56 +31,43 @@ tr.mat-header-row {
   }
 }
 
-.mat-column-name {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 20% !important;
-  width: 20% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+/*Mat-table common CSS*/
+.mat-table {
+  width: 100%;
 }
 
-.mat-column-emailAddress {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 35% !important;
-  width: 35% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+.mat-row:nth-child(even) {
+  background-color: mat-color($background-color);
 }
 
-.mat-column-description {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 25% !important;
-  width: 25% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+.mat-row:nth-child(odd) {
+  background-color: mat-color($background-color, darker);
 }
 
-.mat-column-enabled {
-  flex: 0 0 10% !important;
-  width: 10% !important;
+tr.mat-row {
+  .mat-cell {
+    color: mat-color($accent, lighter);
+    font-size: 12px; //Size of the text in the table
+  }
+}
+/*Mat-table common CSS*/
+
+
+::ng-deep .mat-fab {
+  color: #ffffff !important;
+  font-size: 16px !important;
 }
 
-.mat-column-actions {
-  flex: 0 0 15% !important;
-  width: 15% !important;
+.loader-container {
+  height: 70px;
+}
+
+.loader-position {
+  margin: auto;
+
+  .loader-margin {
+    margin-top: 20px;
+  }
 }
 
 .icon-delete {
@@ -131,99 +83,23 @@ tr.mat-header-row {
     display: block;
   }
 
-  .mat-table {
-    padding-top: 64px;
-    background-color: mat-color($background-color);
-    padding-bottom: 15px;
-  }
 
-  tr.detail-row {
-    padding: 10px;
-    height: 0;
-  }
-
-  tr.mat-row {
-    .mat-cell {
-      color: mat-color($accent, lighter);
-      font-size: 12px; //Size of the text in the table
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-  }
-
-  .element-row td {
-    border-bottom-width: 0;
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
-
-  .element-detail {
-    overflow: hidden;
+  .header-container {
+    position: fixed;
     display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .content-detail {
-      margin-top: 10px;
-      margin-bottom: 10px;
-      margin-right: 10px;
-    }
-  }
-
-  .column-description {
-    flex: 80%;
-  }
-
-  .column-action {
-    flex: 20%;
-    text-align: center;
-  }
-
-  .actions-position {
-    display: block;
-    float: right;
-    clear: right;
-
-    .icon-float {
-      float: right;
-      margin-top: 10px;
-    }
-
-    .enabled {
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-  }
-
-  .emailAddress-section-margin {
-    margin-top: 10px;
-  }
-
-  .informations-position {
-    display: block;
-
-    .name {
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-      margin-left: 10px;
-    }
-
-    .emailAddress-text {
-      word-wrap: break-word;
-      display: inline;
-      font-size: 12px;
-    }
-
-    .copy-icon-display {
-      display: inline;
-    }
+    background-color: mat-color($background-color);
+    left: 10px;
+    right: 15px;
+    top: 64px;
+    z-index: 100;
+    border-bottom: 1px solid mat-color($background-color, darker);
   }
 
   ::ng-deep .mat-fab {
     width: 40px;
     height: 40px;
     margin: auto;
+    margin-right: 5px;
   }
 
   ::ng-deep .mat-fab .mat-button-wrapper {
@@ -238,40 +114,6 @@ tr.mat-header-row {
     line-height: 30px;
     font-size: 12px !important; //Icon size
   }
-
-  .icon-delete {
-    float: right;
-  }
-
-  .mat-column-informations {
-    word-wrap: break-word !important;
-    white-space: unset !important;
-    flex: 0 0 70% !important;
-    width: 70% !important;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-word;
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
-
-  .mat-column-actions {
-    flex: 0 0 30% !important;
-    width: 30% !important;
-  }
-
-  .header-container {
-    position: fixed;
-    display: flex;
-    background-color: mat-color($background-color);
-    left: 20px;
-    right: 20px;
-    top: 64px;
-    z-index: 100;
-    border-bottom: 1px solid mat-color($background-color, darker);
-  }
 }
 
 @media(max-width:568px) {
@@ -281,7 +123,6 @@ tr.mat-header-row {
   }
 
   ::ng-deep .mat-icon-button {
-    color: mat-color($primary, darker) !important;
     height: 20px;
     min-width: 0;
     width: 20px;

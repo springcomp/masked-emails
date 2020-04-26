@@ -1,0 +1,39 @@
+@import '../../../custom-theme.scss';
+.mat-table {
+  width: 100%;
+}
+
+tr.mat-row {
+  .mat-cell {
+    color: mat-color($accent, lighter);
+    font-size: 12px; //Size of the text in the table
+  }
+}
+
+.mat-row {
+  height: 40px; //Table row height
+}
+
+.mat-row:nth-child(even) {
+  background-color: mat-color($background-color);
+}
+
+.mat-row:nth-child(odd) {
+  background-color: mat-color($background-color, darker);
+}
+
+tr.mat-header-row {
+  background-color: mat-color($background-color);
+
+  .mat-header-cell {
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 500;
+    color: mat-color($accent);
+  }
+}
+
+.highlight {
+  background-color: mat-color( $highlight) !important;
+  font-weight: 500;
+}

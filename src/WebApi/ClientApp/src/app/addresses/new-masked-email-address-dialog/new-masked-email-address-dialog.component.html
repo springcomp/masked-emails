@@ -16,13 +16,21 @@
 
     <mat-form-field class="full-width">
       <mat-label>Address password</mat-label>
-      <input matInput formControlName="password" placeholder="Type address password" type="password">
+      <input matInput formControlName="password" placeholder="Type address password" [type]="hidePassword ? 'password' : 'text'">
+      <button mat-icon-button matSuffix (click)="managePasswordVisibility()" [attr.aria-label]="'Hide password'">
+        <fa-icon [icon]="hidePassword ?['fas', 'eye-slash'] : ['fas', 'eye']"></fa-icon>
+      </button>
+      <mat-hint *ngIf="showGeneratedPassword" align="end" class="timer-color">A new password has been generated automatically. Click to display it in the remaining {{timeLeft}} seconds.</mat-hint>
     </mat-form-field>
 
   </form>
 </div>
 
-<div mat-dialog-actions>
+<div mat-dialog-actions *ngIf="!showGeneratedPassword">
   <button mat-stroked-button color="primary" [disabled]="addressForm.invalid" (click)="createAddress()">Create</button>
   <button mat-stroked-button (click)="close()">Cancel</button>
+</div>
+
+<div mat-dialog-actions *ngIf="showGeneratedPassword">
+  <button mat-stroked-button (click)="closeDialogRefAfterCreate()">Close</button>
 </div>

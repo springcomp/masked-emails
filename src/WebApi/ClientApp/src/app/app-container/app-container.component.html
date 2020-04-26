@@ -9,9 +9,8 @@
           <fa-icon [icon]="['fas', 'bars']"></fa-icon>
         </button>
 
-        <button mat-menu-item (click)="home()">
-          <span class="title">Masked-Emails</span>
-        </button>
+        <a mat-button (click)="home()" class="title">Masked-Emails</a>
+
         <span class="spacer"></span>
 
         <a mat-button *ngIf="!isAuthenticated" (click)="login()">
@@ -27,12 +26,8 @@
 
     </mat-toolbar>
 
-
-    <!--Loader-->
-    <ng-content select="[loader]"></ng-content>
-
     <!--Application content-->
-    <ng-content select="[router]"></ng-content>
+    <ng-content select="[content]"></ng-content>
 
   </mat-sidenav-content>
 
@@ -47,12 +42,11 @@
       </div>
       <div class="user-informations">
         <img ngxGravatar [email]="forwardingAddress" [preferGravatar]="true" [fallback]="'mp'" size="70">
-
         <div class="username">{{my && my.displayName? my.displayName: ''}}</div>
       </div>
 
       <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my"
-        (updateUserModel)="updateUserModel($event)"></app-edit-forwarding-address>
+                                   (updateUserModel)="updateUserModel($event)"></app-edit-forwarding-address>
 
       <mat-divider></mat-divider>
       <button mat-menu-item (click)="inbox()">
@@ -68,7 +62,7 @@
   <!--Desktop Menu-->
   <mat-menu class="user-menu" #user="matMenu">
     <app-edit-forwarding-address [userIsAuthenticated]="userIsAuthenticated" [user]="my"
-      (updateUserModel)="updateUserModel($event)"></app-edit-forwarding-address>
+                                 (updateUserModel)="updateUserModel($event)"></app-edit-forwarding-address>
 
     <mat-divider></mat-divider>
     <button mat-menu-item (click)="inbox()">

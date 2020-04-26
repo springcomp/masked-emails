@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Profile } from '../../shared/models/model';
 import { ProfileDialogComponent } from '../profile-dialog/profile-dialog.component';
 

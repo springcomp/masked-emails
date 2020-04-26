@@ -1,12 +1,12 @@
 import { AppRoutingModule } from './app-routing.module';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { AuthModule, ConfigResult, OidcConfigService, OidcSecurityService, OpenIdConfiguration } from 'angular-auth-oidc-client';
+import { AuthModule, ConfigResult, OidcConfigService, OidcSecurityService } from 'angular-auth-oidc-client';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from './core';
 import { HttpClientModule } from '@angular/common/http';
 import { GravatarModule } from 'ngx-gravatar';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthorizationGuard } from './core/authorization-guard';
 import { environment } from '../environments/environment';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -32,7 +32,13 @@ import { ProfileDialogComponent } from './app-container/profile-dialog/profile-d
 import { UpdateMaskedEmailAddressDialogComponent } from './addresses/update-masked-email-address-dialog/update-masked-email-address-dialog.component';
 import { UserButtonComponent } from './app-container/user-button/user-button.component';
 
-import { LoaderService } from './shared/services/loader.service';
+import { MessageContentMobileViewComponent } from './messages/message-content-mobile-view/message-content-mobile-view.component';
+import { MessagesTableMobileViewComponent } from './messages/messages-table-mobile-view/messages-table-mobile-view.component';
+import { MessagesTableViewComponent } from './messages/messages-table-view/messages-table-view.component';
+import { MessageContentViewComponent } from './messages/message-content-view/message-content-view.component';
+import { AddressesTableViewComponent } from './addresses/addresses-table-view/addresses-table-view.component';
+import { AddressesTableMobileViewComponent } from './addresses/addresses-table-mobile-view/addresses-table-mobile-view.component';
+import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
   return () => {
@@ -65,7 +71,14 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     NewMaskedEmailAddressDialogComponent,
     ProfileDialogComponent,
     UpdateMaskedEmailAddressDialogComponent,
-    UserButtonComponent
+    UserButtonComponent,
+    MessageContentMobileViewComponent,
+    MessagesTableMobileViewComponent,
+    MessagesTableViewComponent,
+    MessageContentViewComponent,
+    AddressesTableViewComponent,
+    AddressesTableMobileViewComponent,
+    LoadingScreenComponent
   ],
   entryComponents: [
     ProfileDialogComponent,
@@ -93,8 +106,7 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
       useFactory: loadConfig,
       deps: [OidcConfigService],
       multi: true,
-    },
-    LoaderService
+    }
   ],
   bootstrap: [AppComponent],
 })

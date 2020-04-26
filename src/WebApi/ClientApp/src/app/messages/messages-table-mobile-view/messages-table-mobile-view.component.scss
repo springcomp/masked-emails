@@ -1,0 +1,88 @@
+@import '../../../custom-theme.scss';
+
+.mat-table {
+  background-color: mat-color($background-color);
+  width: 100%;
+}
+
+tr.detail-row {
+  padding: 10px;
+  height: 0;
+}
+
+tr.mat-row {
+  .mat-cell {
+    color: mat-color($accent, lighter);
+    font-size: 12px; //Size of the text in the table
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+.mat-row:nth-child(even) {
+  background-color: mat-color($background-color);
+}
+
+.mat-row:nth-child(odd) {
+  background-color: mat-color($background-color, darker);
+}
+
+.element-row td {
+  border-bottom-width: 0;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.mat-column-informations {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 60% !important;
+  width: 60% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
+  .subject-section-margin {
+    margin-top: 10px;
+  }
+
+  .message-position {
+    display: block;
+
+    .date {
+      font-size: 11px;
+    }
+
+    .subject {
+      word-wrap: break-word;
+      display: inline;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.mat-column-actions {
+  flex: 0 0 40% !important;
+  width: 40% !important;
+
+  .actions-position {
+    display: block;
+    float: right;
+    clear: right;
+
+    .display-name {
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+  }
+
+  .chevron-icon {
+    margin-top: 10px;
+  }
+}
