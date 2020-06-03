@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthCallbackComponent } from './auth-callback/auth-callback.component'
 import { HomeComponent } from './home/home.component'
 import { InboxComponent } from './inbox/inbox.component';
 import { LoginComponent } from './login/login.component';
@@ -10,9 +9,9 @@ import { MaskedEmailsComponent } from './masked-emails/masked-emails.component';
 import { AuthorizationGuard } from './core/authorization-guard';
 
 const routes: Routes = [
-  //{ path: '', component: HomeComponent },
+  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'auth-callback', component: AuthCallbackComponent },
   { path: 'masked-emails', component: MaskedEmailsComponent, canActivate: [AuthorizationGuard]},
   { path: 'inbox', component: InboxComponent, canActivate: [AuthorizationGuard]},
 

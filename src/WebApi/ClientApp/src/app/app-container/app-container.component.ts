@@ -31,7 +31,7 @@ export class AppContainerComponent {
     });
     this.router.events.subscribe(event => {
       // close side nav on routing
-      if (this.sidenav.opened) {
+      if (this.sidenav && this.sidenav.opened) {
         this.sidenav.close();
       }
     });
@@ -54,7 +54,7 @@ export class AppContainerComponent {
   }
 
   public home() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/masked-emails']);
   }
 
   public inbox() {

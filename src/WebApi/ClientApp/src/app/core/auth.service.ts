@@ -1,6 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { Observable, Subscription, throwError } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,7 @@ export class AuthService implements OnDestroy {
   public isAuthorized: boolean = false;
   private isAuthorizedSubscription: Subscription = new Subscription;
 
-  constructor(private oidcSecurityService: OidcSecurityService) { }
+  constructor(private oidcSecurityService: OidcSecurityService, private router: Router) { }
 
   ngOnDestroy(): void {
     if (this.isAuthorizedSubscription) {
@@ -18,17 +20,19 @@ export class AuthService implements OnDestroy {
   }
 
   public initAuthentication() {
-    if (this.oidcSecurityService.moduleSetup) {
-      this.doCallbackLogicIfRequired();
-    } else {
-      this.oidcSecurityService.onModuleSetup.subscribe(() => {
-        this.doCallbackLogicIfRequired();
-      });
-    }
+    this.oidcSecurityService
+      .checkAuth()
 
-    this.isAuthorizedSubscription = this.oidcSecurityService.getIsAuthorized().subscribe((isAuthorized => {
-      this.isAuthorized = isAuthorized;
-    }));
+      .subscribe((isAuthenticated) => {
+        if (!isAuthenticated) {
+          if ('/login' !== window.location.pathname) {
+            this.router.navigate(['/login']);
+          }
+        }
+        if (isAuthenticated) {
+          this.router.navigate(['/masked-emails']);
+        }
+      });
   }
 
   public login(): void {
@@ -40,11 +44,6 @@ export class AuthService implements OnDestroy {
   }
 
   public getIsAuthorized(): Observable<boolean> {
-    return this.oidcSecurityService.getIsAuthorized();
-  }
-
-  private doCallbackLogicIfRequired() {
-    var url = window.location.toString();
-    this.oidcSecurityService.authorizedCallbackWithCode(url);
+    return this.oidcSecurityService.isAuthenticated$;
   }
 }

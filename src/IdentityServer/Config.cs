@@ -73,7 +73,7 @@ namespace IdentityServer
 
                     PostLogoutRedirectUris = { "http://localhost:5001", },
                     RedirectUris = {
-                        "http://localhost:5001/auth-callback",
+                        "http://localhost:5001/",
                         "http://localhost:5001/assets/static/silent-renew.html",
                     },
                     AllowedCorsOrigins = { "http://localhost:5001", },
