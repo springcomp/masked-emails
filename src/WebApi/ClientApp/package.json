@@ -24,7 +24,7 @@
     "@fortawesome/angular-fontawesome": "^0.5.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@fortawesome/free-solid-svg-icons": "^5.12.1",
-    "angular-auth-oidc-client": "^10.0.14",
+    "angular-auth-oidc-client": "^11.0.0",
     "jquery": "^3.4.1",
     "js-sha512": "^0.8.0",
     "ngx-gravatar": "^8.1.0",

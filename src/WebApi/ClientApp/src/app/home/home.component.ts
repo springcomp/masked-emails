@@ -10,13 +10,8 @@ import { AuthService } from '../core/auth.service'
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private authService: AuthService,
-    private router: Router) {
-    this.router.navigate(['/login']);
+  constructor() {
 
-    if (this.authService.isAuthorized) {
-      this.router.navigate(['/masked-emails']);
-    }
   }
 
   ngOnInit() {
