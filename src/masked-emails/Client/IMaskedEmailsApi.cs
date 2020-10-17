@@ -7,6 +7,10 @@ namespace masked_emails.Client
 {
     public interface IMaskedEmailsApi
     {
+        [Get("/api/claims")]
+        [Headers("Authorization: Bearer")]
+        Task<UserClaim[]> GetClaimsAsync();
+
         [Get("/profiles/my")]
         [Headers("Authorization: Bearer")]
         Task<User> GetProfileAsync();

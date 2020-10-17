@@ -17,7 +17,12 @@ namespace masked_emails.Client
         public MaskedEmailsClient(Endpoints endpoints, NetworkCredential credentials)
         {
             var handler = new AuthenticatedHttpClientHandler(endpoints, credentials);
-            client_ = RestService.For<IMaskedEmailsApi>(new HttpClient(handler) {BaseAddress = new Uri(endpoints?.Api ?? Endpoint),});
+            client_ = RestService.For<IMaskedEmailsApi>(new HttpClient(handler) { BaseAddress = new Uri(endpoints?.Api ?? Endpoint), });
+        }
+
+        public Task<UserClaim[]> GetClaimsAsync()
+        {
+            return client_.GetClaimsAsync();
         }
 
         public Task<User> GetProfileAsync()

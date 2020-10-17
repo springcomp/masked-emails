@@ -20,6 +20,11 @@ namespace masked_emails.Commands
 
             Console.WriteLine($"{profile.DisplayName}");
             Console.WriteLine($"{profile.ForwardingAddress}");
+
+            var claims = await Client.GetClaimsAsync();
+
+            foreach (var claim in claims)
+                Console.WriteLine($"\t{claim.Type}: {claim.Value}");
         }
 
         sealed class CommandLine : MaskedEmailCommandLineParser
