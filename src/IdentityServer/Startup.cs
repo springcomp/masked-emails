@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using IdentityServer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -47,6 +48,13 @@ namespace IdentityServer
             Logger.LogDebug($"Configuring persistent storage for clients, resources, tokens and consents.\nConnectionString: \"{cb.ConnectionString}\".");
 
             var builder = services.AddIdentityServer(connectionString);
+
+            // https://docs.microsoft.com/en-us/dotnet/core/compatibility/3.0-3.1#http-browser-samesite-changes-impact-authentication
+
+            builder.Services.ConfigureApplicationCookie(options => {
+                options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = SameSiteMode.Unspecified;
+            });
 
             if (Environment.IsDevelopment())
             {
