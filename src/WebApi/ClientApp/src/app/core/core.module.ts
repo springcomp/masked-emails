@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common'
 
 
@@ -13,10 +13,10 @@ import { CommonModule } from '@angular/common'
     ]
 })
 export class CoreModule {
-    static forRoot(){
-        return {
-            ngModule: CoreModule,
-            providers: []
-        };
-    }
+    static forRoot(): ModuleWithProviders<CoreModule> {
+    return {
+        ngModule: CoreModule,
+        providers: []
+    };
+}
 }
