@@ -62,17 +62,4 @@ namespace Data
                 ;
         }
     }
-
-#if DEBUG
-    public class MaskedEmailsDbcontextFactory : IDesignTimeDbContextFactory<MaskedEmailsDbContext>
-    {
-        public MaskedEmailsDbContext CreateDbContext(string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<MaskedEmailsDbContext>();
-            optionsBuilder.UseSqlite(@"Data Source=E:\Projects\MaskedEmail\src\WebApi\App_Data\\Profiles.db");
-
-            return new MaskedEmailsDbContext(optionsBuilder.Options);
-        }
-    }
-#endif
 }

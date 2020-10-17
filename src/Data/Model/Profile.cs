@@ -11,6 +11,7 @@ namespace Data.Model
         }
 
         public string Id { get; set; }
+        public string EmailAddress { get; set; }
 
         public string DisplayName { get; set; }
         public string ForwardingAddress { get; set; }

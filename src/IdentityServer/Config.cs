@@ -26,7 +26,10 @@ namespace IdentityServer
         {
             return new[] {
                 new ApiResource("api", "protected api"){
-                    UserClaims = { JwtClaimTypes.Role, },
+                    UserClaims = {
+                        JwtClaimTypes.Email,
+                        JwtClaimTypes.Role,
+                    },
                 },
                 new ApiResource("inbox", "inbox api"),
             };
@@ -93,7 +96,6 @@ namespace IdentityServer
             {
                 new TestUser
                 {
-                    SubjectId = "a1118e83-92e6-4465-91e1-7595d060195c",
                     Username = "alice",
                     Password = "password",
 
@@ -112,7 +114,6 @@ namespace IdentityServer
                 },
                 new TestUser
                 {
-                    SubjectId = "fe8ee8d2-5d47-463f-8ad3-bd65fc559246",
                     Username = "bob",
                     Password = "password",
 

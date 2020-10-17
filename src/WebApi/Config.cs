@@ -28,6 +28,7 @@ namespace WebApi
                     {
                         Id = subjectIds[0],
                         DisplayName = "Alice",
+                        EmailAddress = "alice@example.com",
                         CreatedUtc = DateTime.UtcNow,
                         ForwardingAddress = "alice@example.com",
                         Addresses = new Collection<Address>(new []
@@ -46,8 +47,9 @@ namespace WebApi
                     },
                     new Profile
                     {
-                        Id =subjectIds[1],
+                        Id = subjectIds[1],
                         DisplayName = "Bob",
+                        EmailAddress = "bobsmith@email.com",
                         CreatedUtc = DateTime.UtcNow,
                         ForwardingAddress = "bob@example.com",
                         Addresses = new Collection<Address>(new []

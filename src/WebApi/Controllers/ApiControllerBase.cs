@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using WebApi.Model;
 
 namespace WebApi.Controllers
 {
@@ -10,8 +11,7 @@ namespace WebApi.Controllers
 
         protected bool GetAuthenticatedUserId(out string identifier)
         {
-            const string ns = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
-            var sub = User.Claims.FirstOrDefault(c => c.Type == ns)?.Value;
+            var sub = User.Claims.FirstOrDefault(c => c.Type == ClaimIdentifiers.UserId)?.Value;
             identifier = sub;
 
             return true;

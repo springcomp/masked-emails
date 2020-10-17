@@ -53,6 +53,8 @@ namespace WebApi
 
             app.HandleExceptions();
             app.UseAuthentication();
+            app.UseClaimsIdentifier();
+
             app.UseStaticFiles();
 
             app.UseMvc();
@@ -128,6 +130,7 @@ namespace WebApi
             services.AddTransient<IRequestToken, RequestToken>();
             services.AddTransient<AuthenticatedParameterizedHttpClientHandler>();
 
+            services.AddTransient<IMaskedEmailsDbContextFactory, MaskedEmailsDbContextFactory>();
             services.AddTransient<IMaskedEmailsDbContext, MaskedEmailsDbContext>();
             services.AddTransient<IMaskedEmailService, MaskedEmailService>();
             services.AddTransient<IProfilesService, ProfilesService>();

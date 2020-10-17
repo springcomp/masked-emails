@@ -17,6 +17,7 @@ namespace Data.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     DisplayName = table.Column<string>(nullable: true),
+                    EmailAddress = table.Column<string>(nullable: false),
                     ForwardingAddress = table.Column<string>(nullable: true),
                     CreatedUtc = table.Column<DateTime>(nullable: false)
                 },
