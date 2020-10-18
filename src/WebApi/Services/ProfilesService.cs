@@ -157,13 +157,29 @@ namespace WebApi.Services
 
         public async Task<MaskedEmailWithPassword> CreateMaskedEmail(string userId, string name, string passwordHash, string description, bool enableForwarding)
         {
+            return await CreateMaskedEmail(
+                userId,
+                name,
+                await MakeUniqueAddressAsync(),
+                passwordHash,
+                description,
+                enableForwarding
+                );
+        }
+
+        public async Task<MaskedEmailWithPassword> CreateMaskedEmail(string userId, string name, string email, string passwordHash, string description, bool enableForwarding)
+        {
             var record = await GetProfileEntityGraphForUpdate(userId);
             if (record == null)
                 throw Error.NoSuchProfile(userId);
 
             string clearTextPassword = null;
 
-            var emailAddress = await MakeUniqueAddressAsync();
+            var emailAddress = email;
+            var exists = context_.Addresses.ToList().SingleOrDefault(a => String.Compare(a.EmailAddress, emailAddress, true) == 0);
+            if (exists != null)
+                throw new ArgumentException("The specified email address already exists.");
+
             if (String.IsNullOrEmpty(passwordHash))
             {
                 clearTextPassword = MakePassword();
@@ -315,7 +331,7 @@ namespace WebApi.Services
                 return where;
 
             where = a =>
-                   EF.Functions.Like(a.Name, $"%{contains}%") 
+                   EF.Functions.Like(a.Name, $"%{contains}%")
                 || EF.Functions.Like(a.Description, $"%{contains}%")
                 || EF.Functions.Like(a.EmailAddress, $"%{contains}%")
                 ;

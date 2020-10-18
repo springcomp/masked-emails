@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model;
@@ -11,6 +12,8 @@ namespace WebApi.Controllers
     [Authorize]
     public class ProfilesController : ApiControllerBase
     {
+        const string AUTOGENERATE_EMAIL = null;
+
         private readonly IProfilesService service_;
 
         public ProfilesController(IProfilesService service)
@@ -59,17 +62,46 @@ namespace WebApi.Controllers
 
         // POST profiles/my/addresses
         [HttpPost("my/addresses/")]
-        public async Task<ActionResult> CreateMaskedEmail([FromBody] CreateMaskedEmailRequest request)
+        public async Task<ActionResult> CreateMaskedEmail([FromBody] CreateMaskedEmailRequest request, string email = AUTOGENERATE_EMAIL)
         {
             if (!GetAuthenticatedUserId(out var identifier))
                 return BadRequest();
 
-            var address = await service_
-                    .CreateMaskedEmail(identifier, request.Name, request.PasswordHash, request.Description, request.EnableForwarding)
-                ;
+            try
+            {
 
-            // TODO: 201
-            return Ok(address);
+                MaskedEmailWithPassword address = null;
+
+                if (email == AUTOGENERATE_EMAIL)
+                {
+                    address = await service_
+                            .CreateMaskedEmail(identifier,
+                                request.Name,
+                                request.PasswordHash,
+                                request.Description,
+                                request.EnableForwarding
+                                );
+                }
+
+                else
+                {
+                    address = await service_
+                            .CreateMaskedEmail(identifier,
+                                request.Name,
+                                email,
+                                request.PasswordHash,
+                                request.Description,
+                                request.EnableForwarding
+                                );
+                }
+
+                // TODO: 201
+                return Ok(address);
+            }
+            catch (ArgumentException)
+            {
+                return Conflict();
+            }
         }
 
         // GET profiles/my/adresses/pages
