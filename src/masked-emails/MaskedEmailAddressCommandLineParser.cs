@@ -7,13 +7,6 @@ namespace masked_emails
     {
         public string EmailAddress { get; protected set; }
 
-        public override void ParseCommandLine(string[] args)
-        {
-            base.ParseCommandLine(args);
-            if (ShowUsage)
-                ShowHelp();
-        }
-
         protected override void ParseRemainingArguments(IList<string> arguments)
         {
             var argument = PopArgument(arguments);

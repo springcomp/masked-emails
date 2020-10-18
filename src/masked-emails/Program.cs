@@ -70,14 +70,6 @@ namespace masked_emails
                 Console.Out.WriteLine();
             }
 
-            {
-                // add a --password-hash command line option
-                // for create masked email command
-
-                var passwordHash = PasswordHelper.HashPassword(password);
-                options = options.Concat(new[] {"--password-hash", passwordHash,}).ToArray();
-            }
-
             var credentials = new NetworkCredential(username, password);
             var client = new Client.MaskedEmailsClient(endpoints, credentials);
 

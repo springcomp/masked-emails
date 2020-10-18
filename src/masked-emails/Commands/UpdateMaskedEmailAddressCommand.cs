@@ -67,7 +67,7 @@ namespace masked_emails.Commands
 
                 base.ParseCommandLine(args);
 
-                if (!hasArg)
+                if (!hasArg && !ShowUsage)
                 {
                     ShowUsage = true;
                     ShowHelp();

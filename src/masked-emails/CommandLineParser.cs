@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace masked_emails
 {
@@ -17,11 +18,6 @@ namespace masked_emails
 
         protected OptionSet Options => options_;
 
-        protected CommandLineParser(OptionSet options)
-        {
-            options_ = options;
-        }
-
         public void AddOptions(OptionSet options)
         {
             foreach (var option in options)
@@ -33,10 +29,15 @@ namespace masked_emails
             try
             {
                 var remainders = Options.Parse(args);
-                if (ShowUsage)
-                    ShowHelp();
 
-                ParseRemainingArguments(remainders);
+                if (ShowUsage)
+                {
+                    ShowHelp();
+                }
+                else
+                {
+                    ParseRemainingArguments(remainders);
+                }
             }
             catch (OptionException e)
             {

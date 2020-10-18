@@ -30,9 +30,9 @@ namespace masked_emails.Client
             return client_.GetProfileAsync();
         }
 
-        public Task<MaskedEmailWithPassword> CreateAddress(CreateMaskedEmailRequest request)
+        public Task<MaskedEmailWithPassword> CreateAddress(CreateMaskedEmailRequest request, string email = null)
         {
-            return client_.CreateAddress(request);
+            return client_.CreateAddress(request, email);
         }
 
         public Task<MaskedEmail> GetAddress(string address)

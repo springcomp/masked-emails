@@ -18,7 +18,7 @@ namespace masked_emails.Client
 
         [Post("/profiles/my/addresses")]
         [Headers("Authorization: Bearer")]
-        Task<MaskedEmailWithPassword> CreateAddress([Body] CreateMaskedEmailRequest request);
+        Task<MaskedEmailWithPassword> CreateAddress([Body] CreateMaskedEmailRequest request, string email);
 
         [Get("/profiles/my/addresses")]
         [Headers("Authorization: Bearer")]
