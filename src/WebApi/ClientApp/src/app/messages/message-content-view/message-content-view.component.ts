@@ -19,7 +19,13 @@ export class MessageContentViewComponent implements OnInit {
 
   public getMessageBody(): string {
     if (this.messageContent != null) {
-      return this.messageContent.htmlBody;
+      var html = this.messageContent.htmlBody;
+      var text = this.messageContent.textBody;
+
+      if (html) {
+        return html;
+      }
+      return text;
     }
     return "";
   }
