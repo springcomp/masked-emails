@@ -10,4 +10,7 @@ dist/
 
 package\-lock\.json
 
+ServiceDependencies/
+serviceDependencies\.*
+
 is4*/
