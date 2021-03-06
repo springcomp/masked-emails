@@ -350,7 +350,7 @@ namespace WebApi.Services
 
         private string MakePassword()
         {
-            return PasswordHelper.GeneratePassword(12);
+            return PasswordHelper.GeneratePassword(settings_.Value.PasswordLength);
         }
         private string HashPassword(string clearText)
         {
