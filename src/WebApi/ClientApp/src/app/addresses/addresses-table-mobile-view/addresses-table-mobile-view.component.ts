@@ -50,7 +50,7 @@ export class AddressesTableMobileViewComponent implements OnInit {
     this.updateAddress.emit(address);
   }
 
-  public onDelete(address: MaskedEmail) {
+  public openRemoveDialog(address: MaskedEmail) {
     this.deleteAddress.emit(address);
   }
 

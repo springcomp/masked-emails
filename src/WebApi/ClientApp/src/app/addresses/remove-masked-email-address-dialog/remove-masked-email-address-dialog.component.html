@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Removing a masked email address</h1>
+
+<div mat-dialog-content class="form-width">
+
+  <form [formGroup]="addressForm">
+
+    <abel>
+      You are about to remove the following masked email address.<br>
+      Are you sure you want to proceed?<br>
+    </abel>
+
+    <mat-form-field class="full-width">
+      <input matInput readonly formControlName="address">
+    </mat-form-field>
+
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-stroked-button color="warn" (click)="confirm()">Confirm</button>
+  <button mat-stroked-button (click)="close()">Cancel</button>
+</div>

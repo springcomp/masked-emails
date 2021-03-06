@@ -4,8 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddressService } from '../shared/services/address.service';
 import { LoaderService } from '../shared/services/loader.service'
 import { MatTableDataSource } from '@angular/material/table';
-import { UpdateMaskedEmailAddressDialogComponent } from './update-masked-email-address-dialog/update-masked-email-address-dialog.component'
 import { NewMaskedEmailAddressDialogComponent } from './new-masked-email-address-dialog/new-masked-email-address-dialog.component'
+import { RemoveMaskedEmailAddressDialogComponent } from './remove-masked-email-address-dialog/remove-masked-email-address-dialog.component'
+import { UpdateMaskedEmailAddressDialogComponent } from './update-masked-email-address-dialog/update-masked-email-address-dialog.component'
 import { MaskedEmail, AddressPages } from '../shared/models/model';
 import { ScrollService } from '../shared/services/scroll.service';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -131,12 +132,19 @@ export class AddressesComponent implements OnInit {
       });
   }
 
-  onDelete(address: MaskedEmail): void {
-    this.addressService.deleteAddress(address.emailAddress)
-      .subscribe(_ => {
+  openRemoveDialog(address: MaskedEmail): void {
+    const dialogRef = this.dialog.open(RemoveMaskedEmailAddressDialogComponent, {
+      data: { removingAddress: address }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("openRemoveDialog:afterClosed()");
+      console.log(result);
+      if (result && result.event == 'Confirm') {
         this.addresses = this.dataSource.data.filter(a => a.emailAddress !== address.emailAddress);
         this.updateDatasource();
-      });
+      }
+    });
   }
 
   openCreateDialog(): void {

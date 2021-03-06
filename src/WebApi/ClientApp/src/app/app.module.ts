@@ -29,6 +29,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { MessageDialogComponent } from './messages/message-dialog/message-dialog.component';
 import { NewMaskedEmailAddressDialogComponent } from './addresses/new-masked-email-address-dialog/new-masked-email-address-dialog.component';
 import { ProfileDialogComponent } from './app-container/profile-dialog/profile-dialog.component';
+import { RemoveMaskedEmailAddressDialogComponent } from './addresses/remove-masked-email-address-dialog/remove-masked-email-address-dialog.component';
 import { UpdateMaskedEmailAddressDialogComponent } from './addresses/update-masked-email-address-dialog/update-masked-email-address-dialog.component';
 import { UserButtonComponent } from './app-container/user-button/user-button.component';
 
@@ -91,6 +92,7 @@ export function configureAuth(oidcConfigService: OidcConfigService, httpClient: 
     MessagesComponent,
     NewMaskedEmailAddressDialogComponent,
     ProfileDialogComponent,
+    RemoveMaskedEmailAddressDialogComponent,
     UpdateMaskedEmailAddressDialogComponent,
     UserButtonComponent,
     MessageContentMobileViewComponent,

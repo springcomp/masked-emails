@@ -19,7 +19,7 @@
   <div class="table-view table-container">
     <app-addresses-table-view [dataSource]="dataSource"
                               (updateAddress)="openUpdateDialog($event)"
-                              (deleteAddress)="onDelete($event)"
+                              (deleteAddress)="openRemoveDialog($event)"
                               (checkAddress)="onToggleChecked($event)"
                               (copyToClipboard)="copyToClipboard($event)"
                               (sort)="sorting($event)"></app-addresses-table-view>
@@ -29,7 +29,7 @@
   <div class="mobile-view">
     <app-addresses-table-mobile-view [dataSource]="dataSource"
                                      (updateAddress)="openUpdateDialog($event)"
-                                     (deleteAddress)="onDelete($event)"
+                                     (deleteAddress)="openRemoveDialog($event)"
                                      (checkAddress)="onToggleChecked($event)"
                                      (copyToClipboard)="copyToClipboard($event)"></app-addresses-table-mobile-view>
 

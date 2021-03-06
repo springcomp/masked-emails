@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="column-action">
-          <button class="icon-delete" mat-icon-button aria-label="Remove the masked email address" (click)="$event.stopPropagation();onDelete(element)"><fa-icon [icon]="['fas', 'trash-alt']"></fa-icon></button>
+          <button class="icon-delete" mat-icon-button aria-label="Remove the masked email address" (click)="$event.stopPropagation();openRemoveDialog(element)"><fa-icon [icon]="['fas', 'trash-alt']"></fa-icon></button>
         </div>
 
       </div>
