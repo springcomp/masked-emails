@@ -7,7 +7,7 @@
       </button>
     </div>
     <div class="section font-size">
-      <span class="item-position text-color">From: {{messageSpec.sender.address}}</span><span>{{messageSpec.receivedUtc| date:'short'}}</span>
+      <span class="item-position text-color">From: {{messageSpec.sender.address}}</span><span>{{messageSpec.receivedUtc| date:'medium'}}</span>
     </div>
   </div>
   <div class="content-section" *ngIf="!loadingMessage">
