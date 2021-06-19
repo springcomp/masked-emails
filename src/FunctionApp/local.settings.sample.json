@@ -1,0 +1,12 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "APPINSIGHTS_INSTRUMENTATIONKEY": "3204f77e-c0f2-4f74-ba34-09ed058e4ec7",
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true;",
+    "FtpServer:FileUri": "ftp://host.ftp.azurewebsites.windows.net/site/wwwroot/App_Data/Profiles.db",
+    "FtpServer:Password": "<ftp-password-here>",
+    "FtpServer:UserName": "ftp-username\\$ftp-username",
+    "StorageAccount:SharedAccessKey:Backups:Write": "https://account.blob.core.windows.net/backups?st=...&se=...&sp=...racwl&sv=...&sr=...c&sig=..."
+  }
+}
