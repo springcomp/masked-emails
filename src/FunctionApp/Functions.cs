@@ -1,19 +1,23 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+
 using Azure;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs.Specialized;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-
 namespace FunctionApp
 {
-	public class Functions
+    public class Functions
 	{
 		public Functions(IConfiguration configuration)
 		{
@@ -21,7 +25,10 @@ namespace FunctionApp
 		}
 
 		[FunctionName("backup-masked-emails-on-timer")]
-		public async Task Run([TimerTrigger("0 0 0 * * *")] TimerInfo myTimer, ILogger log)
+		public async Task Run(
+            [TimerTrigger("0 0 0 * * *")] TimerInfo myTimer,
+            ILogger log
+        )
 		{
 			var sasWrite = AppSettings.StorageAccount.SharedAccessKey.Backups.Write;
 
@@ -52,18 +59,21 @@ namespace FunctionApp
 				}
 				else
 				{
+                    log.LogBackupFailed(e.Message);
 					throw;
 				}
 			}
+
+            log.LogBackupSucceeded("Backing up profile database succeeded.");
 		}
 
 		private async Task BackupFileToBlobAsync(Uri sasWrite)
 		{
-			// replace previous existing blob
+			// create non existing blob
 
             var accessCondition = new BlockBlobOpenWriteOptions{
                 OpenConditions = new BlobRequestConditions {
-                    IfMatch = ETag.All,
+                    IfNoneMatch = ETag.All,
                 }
             };
 
@@ -77,6 +87,7 @@ namespace FunctionApp
 			var filePath = AppSettings.FtpServer.FileUri;
 
 			var blobName = Path.GetFileName(filePath);
+            blobName = $"{DateTime.UtcNow:yyyy-MM-ddThh-mm-ss}_{blobName}";
 
 			var container = new BlobContainerClient(sasWrite);
 			var blob = container.GetBlockBlobClient(blobName);
@@ -84,10 +95,6 @@ namespace FunctionApp
 			using (var source = await DownloadFtpFileAsync(filePath, user, password))
 			using (var target = await blob.OpenWriteAsync(true, blobRequestOptions))
 				source.CopyTo(target);
-
-			// make snapshot of current blob
-
-			await blob.CreateSnapshotAsync();
 		}
 
 		private async Task<Stream> DownloadFtpFileAsync(string path, string user, string password)
