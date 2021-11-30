@@ -133,7 +133,7 @@ namespace ElCamino.AspNetCore.Identity.AzureTable
 #else
                 (await _userTable.ExecuteQueryAsync(tq))
 #endif
-                .Where(w => w.Properties[roleName] != null)
+                .Where(w => w.Properties.ContainsKey(roleName) && w.Properties[roleName] != null)
                 .Select(d => d.Properties[roleName].StringValue)
                 .Where(di => !string.IsNullOrWhiteSpace(di));
 
