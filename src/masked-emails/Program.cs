@@ -38,6 +38,7 @@ namespace masked_emails
                 .SetBasePath(basePath)
                 .AddJsonFile("appSettings.json")
                 .AddJsonFile($"appSettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: false)
+                .AddUserSecrets<Program>()
                 .Build()
                 ;
 
