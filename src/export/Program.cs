@@ -17,11 +17,31 @@ var profiles = GetSQLiteProfiles(cs).ToDictionary(
     kv => kv
     );
 
-var addresses = GetSQLiteAddresses(cs, profiles);
+var addresses = GetSQLiteAddresses(cs, profiles)
+    .GroupBy(kv => kv.Profile_Id)
+    ;
 
-Console.WriteLine(
-    JsonConvert.SerializeObject(addresses)
-);
+var users = new List<User>();
+foreach (var group in addresses)
+{
+    var profile = profiles[group.Key];
+    users.Add(new User
+    {
+        Id = profile.Id,
+        DisplayName = profile.DisplayName,
+        CreatedUtc = profile.CreatedUtc,
+        ForwardingAddress = profile.EmailAddress,
+        Addresses = group.ToArray(),
+    });
+};
+
+foreach (var user in users)
+{
+    var name = $"{user.DisplayName.ToLowerInvariant()}.json";
+    using (var output = File.Open(name, FileMode.Create, FileAccess.Write, FileShare.Read))
+    using (var writer = new StreamWriter(output))
+        writer.Write(JsonConvert.SerializeObject(user));
+}
 
 static void GetSQLiteVersion(string connectionString)
 {
@@ -46,7 +66,8 @@ static IEnumerable<Profile> GetSQLiteProfiles(string connectionString)
 
     while (reader.Read())
     {
-        profiles.Add(new Profile { 
+        profiles.Add(new Profile
+        {
             Id = (string)reader["Id"],
             EmailAddress = (string)reader["EmailAddress"],
             DisplayName = (string)reader["DisplayName"],
