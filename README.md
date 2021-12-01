@@ -41,7 +41,7 @@ Because this is a real email server, I can fire up any mail client that I want t
 
 For this, I use the excellent [ThunderBird Portable](https://portableapps.com/apps/internet/thunderbird_portable) on a USB stick that I keep with me all the time.
 
-2. A set of PowerShell scripts and CRON jobs are used to administer the masked email addresses (CRUD) as well as periodically redirect mail messages to a "read" configurable email address.  
+2. A set of PowerShell scripts and CRON jobs are used to administer the masked email addresses (CRUD) as well as periodically redirect mail messages to a "real" configurable email address.  
 Messages from a disabled masked email address are periodically deleted (after a configurable delay that defaults to two days).  
 Messages from an active masked email address are redirected to a target email address.
 
