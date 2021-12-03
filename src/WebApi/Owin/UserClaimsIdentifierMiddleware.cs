@@ -8,12 +8,12 @@ using WebApi.Model;
 
 namespace WebApi.Owin
 {
-    public sealed class UserClaimsIdentifierMiddleware
+    public sealed class SQLiteUserClaimsIdentifierMiddleware
     {
         private readonly RequestDelegate next_;
         private readonly IMaskedEmailsDbContextFactory factory_;
 
-        public UserClaimsIdentifierMiddleware(RequestDelegate next, IMaskedEmailsDbContextFactory factory)
+        public SQLiteUserClaimsIdentifierMiddleware(RequestDelegate next, IMaskedEmailsDbContextFactory factory)
         {
             next_ = next ?? throw new ArgumentNullException(nameof(next));
             factory_ = factory ?? throw new ArgumentNullException(nameof(factory));

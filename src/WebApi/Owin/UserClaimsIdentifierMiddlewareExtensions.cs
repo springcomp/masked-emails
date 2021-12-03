@@ -9,7 +9,7 @@ namespace WebApi.Owin
         public static IApplicationBuilder UseClaimsIdentifier(this IApplicationBuilder app)
         {
             var factory = app.ApplicationServices.GetRequiredService<IMaskedEmailsDbContextFactory>();
-            return app.UseMiddleware<UserClaimsIdentifierMiddleware>(factory);
+            return app.UseMiddleware<SQLiteUserClaimsIdentifierMiddleware>(factory);
         }
     }
 }

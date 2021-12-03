@@ -132,8 +132,8 @@ namespace WebApi
 
             services.AddTransient<IMaskedEmailsDbContextFactory, MaskedEmailsDbContextFactory>();
             services.AddTransient<IMaskedEmailsDbContext, MaskedEmailsDbContext>();
-            services.AddTransient<IMaskedEmailService, MaskedEmailService>();
-            services.AddTransient<IProfilesService, ProfilesService>();
+            services.AddTransient<IMaskedEmailService, SQLiteMaskedEmailService>();
+            services.AddTransient<IProfilesService, SQLiteProfilesService>();
             services.AddTransient<IUniqueIdGenerator, UniqueIdGenerator>();
 
             services.AddTransient<ISequence, StorageTableSequence>(
