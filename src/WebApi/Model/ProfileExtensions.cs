@@ -17,5 +17,14 @@ namespace WebApi.Model
                 CreatedUtc = profile.CreatedUtc,
             };
         }
+        public static User ToModel(this CosmosDb.Model.Profile profile)
+        { 
+            return new User
+            {
+                DisplayName = profile.DisplayName,
+                ForwardingAddress = profile.ForwardingAddress,
+                CreatedUtc = profile.CreatedUtc,
+            };
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Data;
+﻿using CosmosDb.Model.Interop;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,8 +8,8 @@ namespace WebApi.Owin
     { 
         public static IApplicationBuilder UseClaimsIdentifier(this IApplicationBuilder app)
         {
-            var factory = app.ApplicationServices.GetRequiredService<IMaskedEmailsDbContextFactory>();
-            return app.UseMiddleware<SQLiteUserClaimsIdentifierMiddleware>(factory);
+            var context = app.ApplicationServices.GetRequiredService<ICosmosDbContext>();
+            return app.UseMiddleware<CosmosDbUserClaimsIdentifierMiddleware>(context);
         }
     }
 }
