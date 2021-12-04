@@ -47,6 +47,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj" />
     <ProjectReference Include="..\InboxApi.Model\InboxApi.Model.csproj" />
+    <ProjectReference Include="..\MaskedEmails.Utils.CosmosDb\MaskedEmails.Utils.CosmosDb.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />
     <ProjectReference Include="..\Utils\Utils.csproj" />
   </ItemGroup>
