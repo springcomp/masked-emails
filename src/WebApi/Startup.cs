@@ -1,14 +1,16 @@
-﻿using Data;
-using Data.Interop;
+﻿using CosmosDb.Model;
+using CosmosDb.Model.Configuration;
+using CosmosDb.Model.Interop;
+using CosmosDb.Utils;
+using CosmosDb.Utils.Interop;
 using InboxApi.Model.Interop;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using Utils;
 using Utils.Interop;
@@ -34,7 +36,6 @@ namespace WebApi
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddMvcCore(options => { options.EnableEndpointRouting = false; })
                 .AddAuthorization()
                 ;
@@ -73,12 +74,17 @@ namespace WebApi
             var appSettingsSection = Configuration.GetSection("AppSettings");
             appSettingsSection.Bind(appSettings);
 
+            var cosmosDbSettings = new CosmosDbSettings();
+            var cosmosDbSettingsSection = Configuration.GetSection("CosmosDb");
+            cosmosDbSettingsSection.Bind(cosmosDbSettings);
+
             var inboxApiSettings = new InboxApiSettings();
             var inboxApiSettingsSection = Configuration.GetSection("InboxApi");
             inboxApiSettingsSection.Bind(inboxApiSettings);
 
             services.AddOptions();
             services.Configure<AppSettings>(appSettingsSection);
+            services.Configure<CosmosDbSettings>(cosmosDbSettingsSection);
             services.Configure<InboxApiSettings>(inboxApiSettingsSection);
 
             var authHttpBuilder = services
@@ -105,11 +111,6 @@ namespace WebApi
                     options.Audience = appSettings.Audience;
                 });
 
-            services.AddDbContext<MaskedEmailsDbContext>(
-                options =>
-                    options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"))
-            );
-
             if (!Environment.IsDevelopment())
             {
                 services.AddHttpsRedirection(options =>
@@ -130,10 +131,21 @@ namespace WebApi
             services.AddTransient<IRequestToken, RequestToken>();
             services.AddTransient<AuthenticatedParameterizedHttpClientHandler>();
 
-            services.AddTransient<IMaskedEmailsDbContextFactory, MaskedEmailsDbContextFactory>();
-            services.AddTransient<IMaskedEmailsDbContext, MaskedEmailsDbContext>();
-            services.AddTransient<IMaskedEmailService, SQLiteMaskedEmailService>();
-            services.AddTransient<IProfilesService, SQLiteProfilesService>();
+            // CosmosDb
+
+            services.AddSingleton<ICosmosDbClientFactory, CosmosDbClientFactory>();
+            services.AddTransient<ICosmosDbContext, CosmosDbContext>();
+            services.AddTransient<ICosmosOperations>(provider => {
+                var clientFactory = provider.GetRequiredService<ICosmosDbClientFactory>();
+                var client = clientFactory.CreateClient();
+                var logger = provider.GetRequiredService<ILogger<CosmosRequestChargeOperations>>();
+
+                return new CosmosRequestChargeOperations(client, logger);
+            });
+
+            services.AddTransient<IMaskedEmailService, CosmosDbMaskedEmailService>();
+            services.AddTransient<IProfilesService, CosmosDbProfilesService>();
+
             services.AddTransient<IUniqueIdGenerator, UniqueIdGenerator>();
 
             services.AddTransient<ISequence, StorageTableSequence>(

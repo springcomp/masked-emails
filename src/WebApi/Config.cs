@@ -1,8 +1,7 @@
-﻿using System;
+﻿using CosmosDb.Model;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using Data.Model;
 
 namespace WebApi
 {
@@ -31,11 +30,10 @@ namespace WebApi
                         EmailAddress = "alice@example.com",
                         CreatedUtc = DateTime.UtcNow,
                         ForwardingAddress = "alice@example.com",
-                        Addresses = new Collection<Address>(new []
+                        Addresses = new List<Address>(new []
                         {
                             new Address
                             {
-                                Id = 11,
                                 CreatedUtc = DateTime.UtcNow,
                                 Name = "Sample",
                                 Description = "ForwardedTo",
@@ -52,11 +50,10 @@ namespace WebApi
                         EmailAddress = "bobsmith@email.com",
                         CreatedUtc = DateTime.UtcNow,
                         ForwardingAddress = "bob@example.com",
-                        Addresses = new Collection<Address>(new []
+                        Addresses = new List<Address>(new []
                         {
                             new Address
                             {
-                                Id = 21,
                                 CreatedUtc = DateTime.UtcNow,
                                 Name = "Sample",
                                 Description = "ForwardedTo",
