@@ -4,8 +4,8 @@ using System.Globalization;
 
 if (args.Length == 0)
 {
-    Console.WriteLine("Missing path to SQLite database.");
-    Environment.Exit(1);
+	Console.WriteLine("Missing path to SQLite database.");
+	Environment.Exit(1);
 }
 
 string cs = $"URI=file:{args[0]}";
@@ -13,107 +13,128 @@ string cs = $"URI=file:{args[0]}";
 GetSQLiteVersion(cs);
 
 var profiles = GetSQLiteProfiles(cs).ToDictionary(
-    kv => kv.Id,
-    kv => kv
-    );
+	kv => kv.Id,
+	kv => kv
+	);
 
 var addresses = GetSQLiteAddresses(cs, profiles)
-    .GroupBy(kv => kv.Profile_Id)
-    ;
+	.GroupBy(kv => kv.Profile_Id)
+	;
 
 var users = new List<User>();
 foreach (var group in addresses)
 {
-    var profile = profiles[group.Key];
-    users.Add(new User
-    {
-        Id = profile.Id,
-        DisplayName = profile.DisplayName,
-        CreatedUtc = profile.CreatedUtc,
-        ForwardingAddress = profile.EmailAddress,
-        Addresses = group.ToArray(),
-    });
+	var profile = profiles[group.Key];
+	users.Add(new User
+	{
+		Id = profile.Id,
+		DisplayName = profile.DisplayName,
+		CreatedUtc = profile.CreatedUtc,
+		ForwardingAddress = profile.EmailAddress,
+		Addresses = group.ToArray(),
+	});
 };
 
 foreach (var user in users)
 {
-    var name = $"{user.DisplayName.ToLowerInvariant()}.json";
-    using (var output = File.Open(name, FileMode.Create, FileAccess.Write, FileShare.Read))
-    using (var writer = new StreamWriter(output))
-        writer.Write(JsonConvert.SerializeObject(user));
+	var name = $"{user.DisplayName.ToLowerInvariant()}.json";
+	using (var output = File.Open(name, FileMode.Create, FileAccess.Write, FileShare.Read))
+	using (var writer = new StreamWriter(output))
+		writer.Write(JsonConvert.SerializeObject(user));
 }
 
 static void GetSQLiteVersion(string connectionString)
 {
-    const string stm = "SELECT SQLITE_VERSION()";
-    using var con = new SQLiteConnection(connectionString);
-    con.Open();
-    var cmd = new SQLiteCommand(stm, con);
-    string version = cmd.ExecuteScalar().ToString();
+	const string stm = "SELECT SQLITE_VERSION()";
+	using var con = new SQLiteConnection(connectionString);
+	con.Open();
+	var cmd = new SQLiteCommand(stm, con);
+	string version = cmd.ExecuteScalar().ToString();
 
-    Console.WriteLine($"SQLite version: {version}");
+	Console.WriteLine($"SQLite version: {version}");
 }
 static IEnumerable<Profile> GetSQLiteProfiles(string connectionString)
 {
-    var profiles = new List<Profile>();
+	Console.WriteLine("Exporting profiles...");
 
-    const string stm = "SELECT Id, EmailAddress, DisplayName, ForwardingAddress, CreatedUtc FROM Profiles";
-    using var con = new SQLiteConnection(connectionString);
-    con.Open();
+	var profiles = new List<Profile>();
 
-    var cmd = new SQLiteCommand(stm, con);
-    using var reader = cmd.ExecuteReader();
+	const string stm = "SELECT Id, EmailAddress, DisplayName, ForwardingAddress, CreatedUtc FROM Profiles";
+	using var con = new SQLiteConnection(connectionString);
+	con.Open();
 
-    while (reader.Read())
-    {
-        profiles.Add(new Profile
-        {
-            Id = (string)reader["Id"],
-            EmailAddress = (string)reader["EmailAddress"],
-            DisplayName = (string)reader["DisplayName"],
-            ForwardingAddress = (string)reader["ForwardingAddress"],
-            CreatedUtc = ParseDateTime((string)reader["CreatedUtc"]),
-        });
-    }
+	var cmd = new SQLiteCommand(stm, con);
+	using var reader = cmd.ExecuteReader();
 
-    return profiles;
+	while (reader.Read())
+	{
+		var displayName = (string)reader["DisplayName"];
+		Console.WriteLine($"Exporting profile {displayName}");
+		profiles.Add(new Profile
+		{
+			Id = (string)reader["Id"],
+			EmailAddress = (string)reader["EmailAddress"],
+			DisplayName = (string)reader["DisplayName"],
+			ForwardingAddress = (string)reader["ForwardingAddress"],
+			CreatedUtc = ParseDateTime((string)reader["CreatedUtc"]),
+		});
+	}
+
+	return profiles;
 }
 static IEnumerable<Address> GetSQLiteAddresses(string connectionString, IDictionary<string, Profile> profiles)
 {
-    var addresses = new List<Address>();
+	Console.WriteLine("Exporting addresses...");
 
-    const string stm = "SELECT Id, Name, Description, EmailAddress, EnableForwarding, Received, CreatedUtc, Profile_Id FROM Addresses";
-    using var con = new SQLiteConnection(connectionString);
-    con.Open();
+	var addresses = new List<Address>();
 
-    var cmd = new SQLiteCommand(stm, con);
-    using var reader = cmd.ExecuteReader();
+	const string stm = "SELECT Id, Name, Description, EmailAddress, EnableForwarding, Received, CreatedUtc, Profile_Id FROM Addresses";
+	using var con = new SQLiteConnection(connectionString);
+	con.Open();
 
-    while (reader.Read())
-    {
-        var address = new Address
-        {
-            Id = Convert.ToInt32((long)reader["Id"]),
-            Name = (string)reader["Name"],
-            Description = (string)reader["Description"],
-            EmailAddress = (string)reader["EmailAddress"],
-            EnableForwarding = (long)reader["EnableForwarding"] != 0,
-            Received = Convert.ToInt32((long)reader["Received"]),
-            CreatedUtc = ParseDateTime((string)reader["CreatedUtc"]),
-            Profile_Id = (string)reader["Profile_Id"],
-        };
-        if (address.EnableForwarding)
-        {
-            var profile = profiles[address.Profile_Id];
-            address.ForwardToEmailAddress = profile.ForwardingAddress;
-        }
-        addresses.Add(address);
-    }
+	var cmd = new SQLiteCommand(stm, con);
+	using var reader = cmd.ExecuteReader();
 
-    return addresses;
+	while (reader.Read())
+	{
+		var emailAddress = (string)reader["EmailAddress"];
+		Console.WriteLine($"Exporting address {emailAddress}.");
+
+		var address = new Address
+		{
+			Id = Convert.ToInt32((long)reader["Id"]),
+			Name = (string)reader["Name"],
+			Description = (string)reader["Description"],
+			EmailAddress = (string)reader["EmailAddress"],
+			EnableForwarding = (long)reader["EnableForwarding"] != 0,
+			Received = Convert.ToInt32((long)reader["Received"]),
+			CreatedUtc = ParseDateTime(reader["CreatedUtc"] as string),
+			Profile_Id = (string)reader["Profile_Id"],
+		};
+		if (address.EnableForwarding)
+		{
+			var profile = profiles[address.Profile_Id];
+			address.ForwardToEmailAddress = profile.ForwardingAddress;
+		}
+		addresses.Add(address);
+	}
+
+	return addresses;
 }
 
-static DateTime ParseDateTime(string dateTime)
+static DateTime ParseDateTime(string? dateTime)
 {
-    return DateTime.ParseExact(dateTime, "yyyy-MM-dd HH:mm:ss.fffffff", CultureInfo.GetCultureInfo("fr-FR"), DateTimeStyles.None);
+	if (dateTime == null)
+		return new DateTime(2019, 01, 01, 12, 00, 00, 00, DateTimeKind.Utc);
+
+	var splits = dateTime.Split(".");
+	Console.WriteLine($"{dateTime} {splits[1].Length}");
+	if (splits[1].Length != 7)
+	{
+		var before = dateTime;
+		dateTime = dateTime.PadRight(27, '0');
+		Console.WriteLine($"{before} => {dateTime}");
+	}
+
+	return DateTime.ParseExact(dateTime, "yyyy-MM-dd HH:mm:ss.fffffff", CultureInfo.GetCultureInfo("fr-FR"), DateTimeStyles.None);
 }
