@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Data.SQLite;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 if (args.Length == 0)
 {
@@ -35,10 +36,15 @@ foreach (var group in addresses)
 	});
 };
 
+var folder = "./Exports";
+if (!Directory.Exists(folder))
+	Directory.CreateDirectory(folder);
+
 foreach (var user in users)
 {
 	var name = $"{user.DisplayName.ToLowerInvariant()}.json";
-	using (var output = File.Open(name, FileMode.Create, FileAccess.Write, FileShare.Read))
+    var path = Path.Combine(folder, name);
+	using (var output = File.Open(path, FileMode.Create, FileAccess.Write, FileShare.Read))
 	using (var writer = new StreamWriter(output))
 		writer.Write(JsonConvert.SerializeObject(user));
 }
@@ -104,7 +110,7 @@ static IEnumerable<Address> GetSQLiteAddresses(string connectionString, IDiction
 		{
 			Id = Convert.ToInt32((long)reader["Id"]),
 			Name = (string)reader["Name"],
-			Description = (string)reader["Description"],
+			Description = reader["Description"] as string ?? "",
 			EmailAddress = (string)reader["EmailAddress"],
 			EnableForwarding = (long)reader["EnableForwarding"] != 0,
 			Received = Convert.ToInt32((long)reader["Received"]),
@@ -122,12 +128,24 @@ static IEnumerable<Address> GetSQLiteAddresses(string connectionString, IDiction
 	return addresses;
 }
 
+
 static DateTime ParseDateTime(string? dateTime)
 {
 	if (dateTime == null)
 		return new DateTime(2019, 01, 01, 12, 00, 00, 00, DateTimeKind.Utc);
 
+	const string DateTimeRegexPattern = @"^[0-9]{4}(?:\-[0-9]{2}){2}$";
+	Regex DateTimeRegex = new Regex(DateTimeRegexPattern, RegexOptions.Singleline);
+
+	var match = DateTimeRegex.Match(dateTime);
+	if (match.Success)
+		dateTime = dateTime + " 00:00:00.0000000";
+
 	var splits = dateTime.Split(".");
+	if (splits.Length == 1)
+		dateTime = dateTime + ".";
+
+	splits = dateTime.Split(".");
 	Console.WriteLine($"{dateTime} {splits[1].Length}");
 	if (splits[1].Length != 7)
 	{
