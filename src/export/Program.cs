@@ -30,6 +30,7 @@ foreach (var group in addresses)
 	{
 		Id = profile.Id,
 		DisplayName = profile.DisplayName,
+		EmailAddress = profile.EmailAddress,
 		CreatedUtc = profile.CreatedUtc,
 		ForwardingAddress = profile.EmailAddress,
 		Addresses = group.ToArray(),

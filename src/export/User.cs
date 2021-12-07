@@ -6,6 +6,8 @@ public sealed class User
     public string Id { get; set; }
     [JsonProperty("displayName")]
     public string DisplayName { get; set; }
+    [JsonProperty("emailAddress")]
+    public string EmailAddress { get; set; }
     [JsonProperty("createdUtc")]
     public DateTime CreatedUtc { get; set; }
     [JsonProperty("forwardingAddress")]

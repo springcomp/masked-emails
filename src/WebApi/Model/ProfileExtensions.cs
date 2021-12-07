@@ -9,6 +9,7 @@ namespace WebApi.Model
             return new User
             {
                 DisplayName = profile.DisplayName,
+                EmailAddress = profile.EmailAddress,
                 ForwardingAddress = profile.ForwardingAddress,
                 CreatedUtc = profile.CreatedUtc,
             };

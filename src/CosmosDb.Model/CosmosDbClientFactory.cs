@@ -30,6 +30,11 @@ namespace CosmosDb.Model
             var primaryKey = appSettings_.PrimaryKey;
             var ignoreSslCertificate = appSettings_.IgnoreSslServerCertificateValidation;
 
+            logger_.LogInformation("Initializing CosmosDb client:");
+            logger_.LogInformation($"Endpoint: {endpoint}.");
+            logger_.LogInformation($"PrimaryKey: {primaryKey.Substring(0, 4)}***REDACTED***.");
+            logger_.LogInformation($"IgnoreSslServerCertificate: { ignoreSslCertificate}.");
+
             CosmosClientOptions options = ignoreSslCertificate ? GetUnsafeCosmosClientOptions() : new CosmosClientOptions();
             var client = new CosmosClient(endpoint, primaryKey, options);
             return client;
