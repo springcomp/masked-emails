@@ -10,13 +10,13 @@ namespace WebApi
     public sealed class RequestToken : IRequestToken
     {
         private readonly HttpClient client_;
-        private readonly IOptions<InboxApiSettings> config_;
+        private readonly InboxApiSettings config_;
 
         private readonly ILogger logger_;
 
         public RequestToken(IOptions<InboxApiSettings> settings, IHttpClientFactory clientFactory, ILogger<RequestToken> logger)
         {
-            config_ = settings;
+            config_ = settings.Value;
             client_ = clientFactory.CreateClient("inbox-api-oauth");
 
             logger_ = logger;
@@ -24,17 +24,31 @@ namespace WebApi
 
         public async Task<string> GetOAuthToken(HttpRequestMessage request)
         {
-            var clientId = config_.Value.ClientId;
-            var clientSecret = config_.Value.ClientSecret;
+            var clientId = config_.ClientId;
+            var clientSecret = config_.ClientSecret;
+            var audience = config_.Audience;
+            var identityEndpoint = config_.IdentityEndpoint;
+            var authority = config_.Authority;
 
-            return (await RequestClientCredentials(clientId, clientSecret, scopes: "inbox"))
+            return (await RequestClientCredentials(clientId, clientSecret, audience, identityEndpoint, authority))
                 .AccessToken
                 ;
         }
 
-        private async Task<TokenResponse> RequestClientCredentials(string clientId, string clientSecret, string scopes)
+        private async Task<TokenResponse> RequestClientCredentials(string clientId, string clientSecret, string audience, string identityEndpoint, string authority)
         {
-            var disco = await client_.GetDiscoveryDocumentAsync(client_.BaseAddress.OriginalString);
+            var request = new DiscoveryDocumentRequest()
+            {
+                Address = identityEndpoint,
+                Policy = new DiscoveryPolicy()
+                {
+                    Authority = authority,
+                    RequireHttps = true,
+                    ValidateIssuerName = false,
+                    ValidateEndpoints = false,
+                },
+            };
+            var disco = await client_.GetDiscoveryDocumentAsync(request);
             if (disco.IsError)
             {
                 logger_.LogCritical(disco.Error);
@@ -48,7 +62,7 @@ namespace WebApi
                     ClientId = clientId,
                     ClientSecret = clientSecret,
 
-                    Scope = scopes,
+                    Resource = new[] { audience, },
                 });
 
             if (tokenResponse.IsError)
