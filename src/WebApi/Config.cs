@@ -1,28 +1,23 @@
 ﻿using CosmosDb.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace WebApi
-{
 #if DEBUG
-    public static class Config
+public static class Config
+{
+    public static IEnumerable<Address> GetAddresses()
     {
-        public static IEnumerable<Address> GetAddresses()
+        return GetProfiles().SelectMany(p => p.Addresses);
+    }
+    public static IEnumerable<Profile> GetProfiles()
+    {
+        var subjectIds = new[]
         {
-            return GetProfiles().SelectMany(p => p.Addresses);
-        }
-        public static IEnumerable<Profile> GetProfiles()
-        {
-            var subjectIds = new[]
-            {
                 "a1118e83-92e6-4465-91e1-7595d060195c",
                 "fe8ee8d2-5d47-463f-8ad3-bd65fc559246",
             };
 
-            return
-                new[]
-                {
+        return
+            new[]
+            {
                     new Profile
                     {
                         Id = subjectIds[0],
@@ -63,8 +58,7 @@ namespace WebApi
                             }
                         }),
                     },
-                };
-        }
+            };
     }
-#endif
 }
+#endif

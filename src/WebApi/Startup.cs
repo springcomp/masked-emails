@@ -8,15 +8,8 @@ using MaskedEmails.Services;
 using MaskedEmails.Services.Configuration;
 using MaskedEmails.Services.Interop;
 using MaskedEmails.Services.Storage;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 using Utils;
 using Utils.Interop;
 using WebApi.Configuration;
@@ -24,123 +17,127 @@ using WebApi.Owin;
 using WebApi.Services;
 using WebApi.Services.Interop;
 
-namespace WebApi
+public static class Startup
 {
-    public class Startup
+    public static void Configure(WebApplication app)
     {
-        IWebHostEnvironment Environment { get; }
-        IConfiguration Configuration { get; }
-
-        public Startup(IWebHostEnvironment environment, IConfiguration configuration)
+        if (!app.Environment.IsDevelopment())
         {
-            Environment = environment;
-            Configuration = configuration;
+            app.UseHsts();
+            app.UseHttpsRedirection();
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        app.HandleExceptions();
+        app.UseAuthentication();
+        app.UseClaimsIdentifier();
+
+        app.UseStaticFiles();
+
+        app.UseMvc();
+        app.UseSpaStaticFiles();
+        app.UseSpa(spa =>
         {
-            services.AddMvcCore(options => { options.EnableEndpointRouting = false; })
-                .AddAuthorization()
-                ;
+            spa.Options.SourcePath = "ClientApp";
+            //if (Environment.IsDevelopment())
+            //    spa.UseAngularCliServer(npmScript: "start");
+        });
+    }
 
-            ConfigureApplication(services);
-            ConfigureDependencies(services);
-        }
+    public static void ConfigureApplication(WebApplicationBuilder builder)
+    {
+        var services = builder.Services;
+        var configuration = builder.Configuration;
 
-        public void Configure(IApplicationBuilder app)
+        var appSettings = new AppSettings();
+        var appSettingsSection = configuration.GetSection("AppSettings");
+        appSettingsSection.Bind(appSettings);
+
+        var httpSettings = new HttpSettings();
+        var httpSettingsSection = configuration.GetSection("HttpSettings");
+        httpSettingsSection.Bind(httpSettings);
+
+        var cosmosDbSettings = new CosmosDbSettings();
+        var cosmosDbSettingsSection = configuration.GetSection("CosmosDb");
+        cosmosDbSettingsSection.Bind(cosmosDbSettings);
+
+        services.AddOptions();
+        services.Configure<AppSettings>(appSettingsSection);
+        services.Configure<HttpSettings>(httpSettingsSection);
+        services.Configure<CosmosDbSettings>(cosmosDbSettingsSection);
+
+        services.UseInboxApi(configuration);
+
+        services.AddAuthentication("Bearer")
+            .AddJwtBearer("Bearer", options =>
+            {
+                options.Authority = appSettings.Authority;
+                options.RequireHttpsMetadata = appSettings.RequireHttpsMetadata;
+                options.Audience = appSettings.Audience;
+            });
+
+        services.AddMvcCore(options => { options.EnableEndpointRouting = false; })
+            .AddAuthorization()
+            ;
+
+        if (!builder.Environment.IsDevelopment())
         {
-            if (!Environment.IsDevelopment())
+            services.AddHttpsRedirection(options =>
             {
-                app.UseHsts();
-                app.UseHttpsRedirection();
-            }
-
-            app.HandleExceptions();
-            app.UseAuthentication();
-            app.UseClaimsIdentifier();
-
-            app.UseStaticFiles();
-
-            app.UseMvc();
-            app.UseSpaStaticFiles();
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
-                if (Environment.IsDevelopment())
-                    spa.UseAngularCliServer(npmScript: "start");
+                options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
+                options.HttpsPort = httpSettings.HttpsPort;
             });
         }
 
-        private void ConfigureApplication(IServiceCollection services)
+        services.AddSpaStaticFiles(options =>
         {
-            var appSettings = new AppSettings();
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            appSettingsSection.Bind(appSettings);
+            options.RootPath = "ClientApp/dist";
+        });
+    }
 
-            var httpSettings = new HttpSettings();
-            var httpSettingsSection = Configuration.GetSection("HttpSettings");
-            httpSettingsSection.Bind(httpSettings);
+    public static void ConfigureDependencies(WebApplicationBuilder builder)
+    {
+        var services = builder.Services;
+        var configuration = builder.Configuration;
 
-            var cosmosDbSettings = new CosmosDbSettings();
-            var cosmosDbSettingsSection = Configuration.GetSection("CosmosDb");
-            cosmosDbSettingsSection.Bind(cosmosDbSettings);
+        // CosmosDb
 
-            services.AddOptions();
-            services.Configure<AppSettings>(appSettingsSection);
-            services.Configure<HttpSettings>(httpSettingsSection);
-            services.Configure<CosmosDbSettings>(cosmosDbSettingsSection);
-
-            services.UseInboxApi(Configuration);
-
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", options =>
-                {
-                    options.Authority = appSettings.Authority;
-                    options.RequireHttpsMetadata = appSettings.RequireHttpsMetadata;
-                    options.Audience = appSettings.Audience;
-                });
-
-            if (!Environment.IsDevelopment())
-            {
-                services.AddHttpsRedirection(options =>
-                {
-                    options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
-                    options.HttpsPort = httpSettings.HttpsPort;
-                });
-            }
-
-            services.AddSpaStaticFiles(options =>
-            {
-                options.RootPath = "ClientApp/dist";
-            });
-        }
-
-        private void ConfigureDependencies(IServiceCollection services)
+        services.AddSingleton<ICosmosDbClientFactory, CosmosDbClientFactory>();
+        services.AddTransient<ICosmosDbContext, CosmosDbContext>();
+        services.AddTransient<ICosmosOperations>(provider =>
         {
-            // CosmosDb
+            var clientFactory = provider.GetRequiredService<ICosmosDbClientFactory>();
+            var client = clientFactory.CreateClient();
+            var logger = provider.GetRequiredService<ILogger<CosmosRequestChargeOperations>>();
 
-            services.AddSingleton<ICosmosDbClientFactory, CosmosDbClientFactory>();
-            services.AddTransient<ICosmosDbContext, CosmosDbContext>();
-            services.AddTransient<ICosmosOperations>(provider => {
-                var clientFactory = provider.GetRequiredService<ICosmosDbClientFactory>();
-                var client = clientFactory.CreateClient();
-                var logger = provider.GetRequiredService<ILogger<CosmosRequestChargeOperations>>();
+            return new CosmosRequestChargeOperations(client, logger);
+        });
 
-                return new CosmosRequestChargeOperations(client, logger);
-            });
+        services.AddTransient<IMaskedEmailService, CosmosDbMaskedEmailService>();
+        services.AddTransient<IProfilesService, CosmosDbProfilesService>();
 
-            services.AddTransient<IMaskedEmailService, CosmosDbMaskedEmailService>();
-            services.AddTransient<IProfilesService, CosmosDbProfilesService>();
+        services.AddTransient<IUniqueIdGenerator, UniqueIdGenerator>();
 
-            services.AddTransient<IUniqueIdGenerator, UniqueIdGenerator>();
+        services.AddTransient<ISequence, StorageTableSequence>(
+            provider => new StorageTableSequence(configuration));
 
-            services.AddTransient<ISequence, StorageTableSequence>(
-                provider => new StorageTableSequence(Configuration));
-
-            services.AddSingleton<IMaskedEmailCommandService, MaskedEmailCommandQueueService>(
-                provider => new MaskedEmailCommandQueueService(Configuration));
-        }
+        services.AddSingleton<IMaskedEmailCommandService, MaskedEmailCommandQueueService>(
+            provider => new MaskedEmailCommandQueueService(configuration));
     }
 }
+
+static class WebApplicationExtensions
+{
+    public static WebApplicationBuilder ConfigureSerilog(this WebApplicationBuilder builder)
+    {
+        builder.Host.UseSerilog((context, configuration) =>
+        {
+            configuration
+                .Enrich.FromLogContext()
+                .WriteTo.File("App_Data/IdentityServer4_log.txt")
+                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Literate);
+        });
+
+        return builder;
+    }
+}
+
