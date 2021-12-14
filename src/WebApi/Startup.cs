@@ -3,6 +3,7 @@ using CosmosDb.Model.Configuration;
 using CosmosDb.Model.Interop;
 using CosmosDb.Utils;
 using CosmosDb.Utils.Interop;
+using MaskedEmails.Inbox.Http;
 using MaskedEmails.Services;
 using MaskedEmails.Services.Configuration;
 using MaskedEmails.Services.Interop;
@@ -90,6 +91,8 @@ namespace WebApi
             services.Configure<AppSettings>(appSettingsSection);
             services.Configure<HttpSettings>(httpSettingsSection);
             services.Configure<CosmosDbSettings>(cosmosDbSettingsSection);
+
+            services.UseInboxApi(Configuration);
 
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
