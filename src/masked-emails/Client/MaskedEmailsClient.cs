@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Model;
+using MaskedEmails.Model;
 using Refit;
 
 namespace masked_emails.Client

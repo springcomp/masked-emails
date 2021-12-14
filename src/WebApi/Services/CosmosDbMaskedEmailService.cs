@@ -1,8 +1,7 @@
-﻿using System.Threading.Tasks;
-using CosmosDb.Model.Interop;
+﻿using CosmosDb.Model.Interop;
 using MaskedEmails.Services;
 using MaskedEmails.Services.Model;
-using Model;
+using MaskedEmails.Model;
 using WebApi.Services.Interop;
 
 namespace WebApi.Services

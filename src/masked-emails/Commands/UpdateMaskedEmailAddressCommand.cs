@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using masked_emails.Client;
-using Model;
+using MaskedEmails.Model;
 using Refit;
 
 namespace masked_emails.Commands

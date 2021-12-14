@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Model
+namespace MaskedEmails.Model
 {
     public class MaskedEmail
     {

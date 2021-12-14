@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using Model;
-using WebApi.Model;
+﻿using MaskedEmails.Model;
 
 namespace WebApi.Services.Interop
 {

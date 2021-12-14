@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MaskedEmails.Services.Interop;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Model;
+using MaskedEmails.Model;
 
 namespace WebApi.Controllers
 {

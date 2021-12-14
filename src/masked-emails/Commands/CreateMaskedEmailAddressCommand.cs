@@ -4,7 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using masked_emails.Client;
 using masked_emails.Utils;
-using Model;
+using MaskedEmails.Model;
 using Refit;
 using Utils;
 

@@ -1,4 +1,4 @@
-﻿using Model;
+﻿using MaskedEmails.Model;
 
 namespace MaskedEmails.Services.Model
 {

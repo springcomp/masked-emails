@@ -8,15 +8,13 @@ using MaskedEmails.Services.Configuration;
 using MaskedEmails.Services.Interop;
 using MaskedEmails.Services.Model;
 using Microsoft.Extensions.Options;
-using Model;
+using MaskedEmails.Model;
 using Utils;
 using Utils.Interop;
+using CosmosDb.Model;
 
 namespace MaskedEmails.Services
 {
-    using Profile = CosmosDb.Model.Profile;
-    using Address = CosmosDb.Model.Address;
-
     public class CosmosDbProfilesService : IProfilesService
     {
         private readonly ICosmosDbContext context_;
