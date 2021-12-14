@@ -1,4 +1,4 @@
-﻿namespace MaskedEmails.Services.Configuration
+﻿namespace MaskedEmails.Inbox.Configuration
 {
     public class InboxApiSettings
     {

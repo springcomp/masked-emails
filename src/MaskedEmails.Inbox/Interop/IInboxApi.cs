@@ -1,7 +1,8 @@
-﻿using Refit;
+﻿using MaskedEmails.Inbox.Model;
+using Refit;
 using System.Threading.Tasks;
 
-namespace InboxApi.Model.Interop
+namespace MaskedEmails.Inbox.Interop
 {
     public interface IInboxApi
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace InboxApi.Model
+namespace MaskedEmails.Inbox.Model
 {
     public class InboxMessageSpec
     {

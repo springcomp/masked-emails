@@ -3,11 +3,8 @@ using CosmosDb.Model.Configuration;
 using CosmosDb.Model.Interop;
 using CosmosDb.Utils;
 using CosmosDb.Utils.Interop;
-using InboxApi.Model.Interop;
 using MaskedEmails.Services;
 using MaskedEmails.Services.Configuration;
-using MaskedEmails.Services.Http;
-using MaskedEmails.Services.Http.Interop;
 using MaskedEmails.Services.Interop;
 using MaskedEmails.Services.Storage;
 using Microsoft.AspNetCore.Builder;
@@ -18,9 +15,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
+using Microsoft.Extensions.Options;
 using Utils;
 using Utils.Interop;
+using WebApi.Configuration;
 using WebApi.Owin;
 using WebApi.Services;
 using WebApi.Services.Interop;
@@ -80,34 +78,18 @@ namespace WebApi
             var appSettingsSection = Configuration.GetSection("AppSettings");
             appSettingsSection.Bind(appSettings);
 
+            var httpSettings = new HttpSettings();
+            var httpSettingsSection = Configuration.GetSection("HttpSettings");
+            httpSettingsSection.Bind(httpSettings);
+
             var cosmosDbSettings = new CosmosDbSettings();
             var cosmosDbSettingsSection = Configuration.GetSection("CosmosDb");
             cosmosDbSettingsSection.Bind(cosmosDbSettings);
 
-            var inboxApiSettings = new InboxApiSettings();
-            var inboxApiSettingsSection = Configuration.GetSection("InboxApi");
-            inboxApiSettingsSection.Bind(inboxApiSettings);
-
             services.AddOptions();
             services.Configure<AppSettings>(appSettingsSection);
+            services.Configure<HttpSettings>(httpSettingsSection);
             services.Configure<CosmosDbSettings>(cosmosDbSettingsSection);
-            services.Configure<InboxApiSettings>(inboxApiSettingsSection);
-
-            var authHttpBuilder = services
-                .AddHttpClient("inbox-api-oauth", c =>
-                {
-                    c.BaseAddress = new Uri(appSettings.Authority);
-                })
-                ;
-
-            services
-                .AddHttpClient("inbox-api", c =>
-                {
-                    c.BaseAddress = new Uri(inboxApiSettings.Endpoint);
-                })
-                .AddTypedClient(c => Refit.RestService.For<IInboxApi>(c))
-                .AddHttpMessageHandler<AuthenticatedParameterizedHttpClientHandler>()
-                ;
 
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
@@ -122,7 +104,7 @@ namespace WebApi
                 services.AddHttpsRedirection(options =>
                 {
                     options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
-                    options.HttpsPort = appSettings.HttpsPort;
+                    options.HttpsPort = httpSettings.HttpsPort;
                 });
             }
 
@@ -134,9 +116,6 @@ namespace WebApi
 
         private void ConfigureDependencies(IServiceCollection services)
         {
-            services.AddTransient<IRequestToken, RequestToken>();
-            services.AddTransient<AuthenticatedParameterizedHttpClientHandler>();
-
             // CosmosDb
 
             services.AddSingleton<ICosmosDbClientFactory, CosmosDbClientFactory>();

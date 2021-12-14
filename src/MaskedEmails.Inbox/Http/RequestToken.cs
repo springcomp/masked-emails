@@ -1,12 +1,12 @@
 ﻿using IdentityModel.Client;
-using MaskedEmails.Services.Configuration;
-using MaskedEmails.Services.Http.Interop;
+using MaskedEmails.Inbox.Configuration;
+using MaskedEmails.Inbox.Interop;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace MaskedEmails.Services.Http
+namespace MaskedEmails.Inbox.Http
 {
     public sealed class RequestToken : IRequestToken
     {

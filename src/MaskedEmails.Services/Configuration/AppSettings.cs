@@ -6,7 +6,6 @@
         public string Authority { get; set; }
         public bool RequireHttpsMetadata { get; set; }
         public string Audience { get; set; }
-        public int HttpsPort { get; set; } = 443;
         public int PasswordLength { get; set; } = 25;
     }
 }

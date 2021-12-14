@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace MaskedEmails.Services.Http.Interop
+namespace MaskedEmails.Inbox.Interop
 {
     public interface IRequestToken
     {

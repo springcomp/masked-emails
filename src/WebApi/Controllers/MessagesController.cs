@@ -1,4 +1,4 @@
-﻿using InboxApi.Model.Interop;
+﻿using MaskedEmails.Inbox.Interop;
 using MaskedEmails.Services.Interop;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

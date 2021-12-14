@@ -1,4 +1,4 @@
-﻿namespace InboxApi.Model
+﻿namespace MaskedEmails.Inbox.Model
 {
     public sealed class EmailAddress
     {
