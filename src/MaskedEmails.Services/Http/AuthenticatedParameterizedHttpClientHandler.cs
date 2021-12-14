@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebApi
 {
-    class AuthenticatedParameterizedHttpClientHandler : DelegatingHandler
+    public class AuthenticatedParameterizedHttpClientHandler : DelegatingHandler
     {
         readonly IRequestToken getToken_;
 

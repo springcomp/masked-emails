@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Utils;
 using WebApi.Model.QueueRequests;
 using WebApi.Services.Interop;
 
 namespace WebApi.Services
 {
-    public static class MaskedEmailCommandServiceExtensions
+    internal static class MaskedEmailCommandServiceExtensions
     {
         public static async Task CreateMaskedEmailAsync(this IMaskedEmailCommandService service
             , string address
@@ -15,7 +14,6 @@ namespace WebApi.Services
         {
             var addCommand = new CreateMaskedEmailCommand
             {
-
                 Address = address,
                 AlternateAddress = forwardTo,
                 PasswordHash = passwordHash,
