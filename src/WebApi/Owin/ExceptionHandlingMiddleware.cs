@@ -3,9 +3,9 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using MaskedEmails.Services;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using WebApi.Services;
 
 namespace WebApi.Owin
 {

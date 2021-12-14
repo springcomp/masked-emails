@@ -1,12 +1,13 @@
 ﻿using System.Threading.Tasks;
+using MaskedEmails.Services.Configuration.Extensions;
+using MaskedEmails.Services.Interop;
+using MaskedEmails.Services.Storage.QueueRequests;
 using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Queue;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using WebApi.Model.QueueRequests;
-using WebApi.Services.Interop;
 
-namespace WebApi.Services
+namespace MaskedEmails.Services
 {
     public class MaskedEmailCommandQueueService : IMaskedEmailCommandService
     {
@@ -15,7 +16,7 @@ namespace WebApi.Services
         private readonly CloudQueue queue_;
 
         public MaskedEmailCommandQueueService(IConfiguration configuration)
-            : this(ConnectionStringHelper.GetStorageConnectionString(configuration))
+            : this(configuration.GetStorageConnectionString())
         {
         }
         public MaskedEmailCommandQueueService(string connectionString)

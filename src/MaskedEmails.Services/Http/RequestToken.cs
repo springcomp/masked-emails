@@ -1,11 +1,12 @@
 ﻿using IdentityModel.Client;
+using MaskedEmails.Services.Configuration;
+using MaskedEmails.Services.Http.Interop;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Net.Http;
 using System.Threading.Tasks;
-using WebApi.Configuration;
 
-namespace WebApi
+namespace MaskedEmails.Services.Http
 {
     public sealed class RequestToken : IRequestToken
     {

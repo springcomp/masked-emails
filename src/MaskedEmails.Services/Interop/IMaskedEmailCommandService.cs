@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using WebApi.Model.QueueRequests;
+﻿using MaskedEmails.Services.Storage.QueueRequests;
+using System.Threading.Tasks;
 
-namespace WebApi.Services.Interop
+namespace MaskedEmails.Services.Interop
 {
     public interface IMaskedEmailCommandService
     {

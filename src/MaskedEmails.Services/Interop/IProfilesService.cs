@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Model;
 
-namespace WebApi.Services.Interop
+namespace MaskedEmails.Services.Interop
 {
     public interface IProfilesService
     {

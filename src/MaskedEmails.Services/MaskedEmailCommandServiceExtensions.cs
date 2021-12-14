@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using WebApi.Model.QueueRequests;
-using WebApi.Services.Interop;
+﻿using MaskedEmails.Services.Interop;
+using MaskedEmails.Services.Storage.QueueRequests;
+using System.Threading.Tasks;
 
-namespace WebApi.Services
+namespace MaskedEmails.Services
 {
     internal static class MaskedEmailCommandServiceExtensions
     {
@@ -26,7 +26,7 @@ namespace WebApi.Services
 
         public static async Task EnableMaskedEmailAsync(this IMaskedEmailCommandService service
             , string address)
-        { 
+        {
             var addCommand = new EnableMaskedEmailCommand
             {
                 Address = address,
@@ -35,7 +35,7 @@ namespace WebApi.Services
         }
         public static async Task DisableMaskedEmailAsync(this IMaskedEmailCommandService service
             , string address)
-        { 
+        {
             var addCommand = new DisableMaskedEmailCommand
             {
                 Address = address,
@@ -44,7 +44,7 @@ namespace WebApi.Services
         }
         public static async Task RemoveMaskedEmailAsync(this IMaskedEmailCommandService service
             , string address)
-        { 
+        {
             var addCommand = new RemoveMaskedEmailCommand
             {
                 Address = address,

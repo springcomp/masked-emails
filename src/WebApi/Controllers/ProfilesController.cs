@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MaskedEmails.Services.Interop;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model;
-using WebApi.Services.Interop;
 
 namespace WebApi.Controllers
 {

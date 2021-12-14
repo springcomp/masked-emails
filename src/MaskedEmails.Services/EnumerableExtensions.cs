@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using CosmosDb.Model;
+using MaskedEmails.Services;
 
-namespace WebApi.Services
+namespace MaskedEmails.Services
 {
     internal static class EnumerableExtensions
-    { 
+    {
         public static IEnumerable<Address> OrderBy(this IEnumerable<Address> collection, string sort_by, bool descending)
-        { 
+        {
             if (sort_by == "address")
             {
                 collection = descending

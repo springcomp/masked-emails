@@ -1,4 +1,4 @@
-﻿namespace WebApi.Configuration
+﻿namespace MaskedEmails.Services.Configuration
 {
     public class AppSettings
     {

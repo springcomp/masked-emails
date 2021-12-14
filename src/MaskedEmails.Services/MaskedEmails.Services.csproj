@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Inbox\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CosmosDb.Model\CosmosDb.Model.csproj" />
     <ProjectReference Include="..\CosmosDb.Utils\CosmosDb.Utils.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />

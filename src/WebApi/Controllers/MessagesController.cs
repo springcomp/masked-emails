@@ -1,11 +1,11 @@
 ﻿using InboxApi.Model.Interop;
+using MaskedEmails.Services.Interop;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApi.Services.Interop;
 
 namespace WebApi.Controllers
 {

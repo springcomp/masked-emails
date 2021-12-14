@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebApi.Services
+namespace MaskedEmails.Services
 {
     public sealed class Error
     {

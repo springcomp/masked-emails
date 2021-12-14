@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using MaskedEmails.Services.Configuration.Extensions;
 using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Configuration;
 using Utils.Interop;
 
-namespace WebApi.Services
+namespace MaskedEmails.Services.Storage
 {
     public sealed class StorageTableSequence : ISequence
     {
@@ -17,7 +18,7 @@ namespace WebApi.Services
         private const long Seed = 1987654321L;
 
         public StorageTableSequence(IConfiguration configuration)
-            : this(ConnectionStringHelper.GetStorageConnectionString(configuration))
+            : this(configuration.GetStorageConnectionString())
         {
         }
         public StorageTableSequence(string connectionString)
@@ -100,7 +101,7 @@ namespace WebApi.Services
             );
 
             var continuationToken = new TableContinuationToken();
-            var segment = await table_.ExecuteQuerySegmentedAsync<SequenceNumber>(query, continuationToken);
+            var segment = await table_.ExecuteQuerySegmentedAsync(query, continuationToken);
             if (segment.Results.Count != 0)
                 current = segment.Results[0];
 

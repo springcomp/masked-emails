@@ -1,6 +1,6 @@
 ﻿using Model;
 
-namespace WebApi.Model
+namespace MaskedEmails.Services.Model
 {
     public static class AddressExtensions
     {

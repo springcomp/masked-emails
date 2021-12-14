@@ -1,4 +1,4 @@
-﻿namespace WebApi.Model.QueueRequests
+﻿namespace MaskedEmails.Services.Storage.QueueRequests
 {
     public class RemoveMaskedEmailCommand : MaskedEmailCommand
     {

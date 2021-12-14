@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MaskedEmails.Services.Http.Interop;
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace WebApi
+namespace MaskedEmails.Services.Http
 {
     public class AuthenticatedParameterizedHttpClientHandler : DelegatingHandler
     {

@@ -1,7 +1,7 @@
-﻿namespace WebApi.Configuration
+﻿namespace MaskedEmails.Services.Configuration
 {
     public class InboxApiSettings
-    { 
+    {
         public string Endpoint { get; set; }
         public string ClientId { get; set; }
         public string ClientSecret { get; set; }

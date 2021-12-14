@@ -4,15 +4,15 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using CosmosDb.Model.Interop;
+using MaskedEmails.Services.Configuration;
+using MaskedEmails.Services.Interop;
+using MaskedEmails.Services.Model;
 using Microsoft.Extensions.Options;
 using Model;
 using Utils;
 using Utils.Interop;
-using WebApi.Configuration;
-using WebApi.Model;
-using WebApi.Services.Interop;
 
-namespace WebApi.Services
+namespace MaskedEmails.Services
 {
     using Profile = CosmosDb.Model.Profile;
     using Address = CosmosDb.Model.Address;
@@ -101,7 +101,7 @@ namespace WebApi.Services
                 Total = record.Addresses.Count,
             };
 
-            var descending = (sort_by.EndsWith("-desc"));
+            var descending = sort_by.EndsWith("-desc");
             if (descending)
             {
                 sort_by = sort_by.Substring(0, sort_by.Length - "-desc".Length);
@@ -191,11 +191,11 @@ namespace WebApi.Services
             string clearTextPassword = null;
 
             var emailAddress = email;
-            var exists = record.Addresses.ToList().SingleOrDefault(a => String.Compare(a.EmailAddress, emailAddress, true) == 0);
+            var exists = record.Addresses.ToList().SingleOrDefault(a => string.Compare(a.EmailAddress, emailAddress, true) == 0);
             if (exists != null)
                 throw new ArgumentException("The specified email address already exists.");
 
-            if (String.IsNullOrEmpty(passwordHash))
+            if (string.IsNullOrEmpty(passwordHash))
             {
                 clearTextPassword = MakePassword();
                 passwordHash = HashPassword(clearTextPassword);
@@ -278,7 +278,7 @@ namespace WebApi.Services
             // cursor is an ISO-8601 date
 
             DateTime when = DateTime.MinValue;
-            if (String.IsNullOrEmpty(cursor))
+            if (string.IsNullOrEmpty(cursor))
             {
                 if (descending)
                     when = DateTime.MaxValue;
