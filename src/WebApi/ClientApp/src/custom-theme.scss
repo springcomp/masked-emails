@@ -1,35 +1,34 @@
-
 // Custom Theming for Angular Material
+@use '~@angular/material' as mat;
 // For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+@include mat.core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$primary: mat-palette($mat-teal, 300,300, 500);
-$accent: mat-palette($mat-blue-gray, 900,700, 900 );
-$background-color: mat-palette($mat-gray, 100, 100, 200);
+$primary: mat.define-palette(mat.$teal-palette, 300,300, 500);
+$accent: mat.define-palette(mat.$blue-gray-palette, 900,700, 900 );
+$background-color: mat.define-palette(mat.$gray-palette, 100, 100, 200);
 
-$highlight: mat-palette($mat-teal, 50,50, 50);
+$highlight: mat.define-palette(mat.$teal-palette, 50,50, 50);
 // The warn palette is optional (defaults to red).
-$warn: mat-palette($mat-deep-orange, 800);
+$warn: mat.define-palette(mat.$deep-orange-palette, 800);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$ClientApp-theme: mat-light-theme($primary, $accent, $warn);
+$ClientApp-theme: mat.define-light-theme($primary, $accent, $warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($ClientApp-theme);
+@include mat.all-component-themes($ClientApp-theme);
 
 
 ::ng-deep .mat-icon-button {
-  color: mat-color($primary, darker) !important;
+  color: mat.get-color-from-palette($primary, darker) !important;
   font-size: 12px !important; //Icon size
 }

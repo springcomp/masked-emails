@@ -1,16 +1,17 @@
+@use '~@angular/material' as mat;
 @import '../../../custom-theme.scss';
 .mat-row {
   height: 40px; //Table row height
 }
 
 tr.mat-header-row {
-  background-color: mat-color($background-color);
+  background-color: mat.get-color-from-palette($background-color);
 
   .mat-header-cell {
     font-family: Roboto;
     font-size: 15px;
     font-weight: 500;
-    color: mat-color($accent);
+    color: mat.get-color-from-palette($accent);
   }
 }
 

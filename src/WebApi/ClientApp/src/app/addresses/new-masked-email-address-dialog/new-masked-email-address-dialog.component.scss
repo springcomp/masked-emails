@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '../../../custom-theme.scss';
 
 .form-width {
@@ -11,5 +12,5 @@
 }
 
 .timer-color {
-  color: mat-color($warn) !important;
+  color: mat.get-color-from-palette($warn) !important;
 }

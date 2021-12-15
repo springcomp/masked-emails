@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '../../../custom-theme.scss';
 .message-container-padding {
   padding-top: 20px;
@@ -14,7 +15,7 @@
   }
 
   .text-color {
-    color: mat-color($accent, lighter);
+    color: mat.get-color-from-palette($accent, lighter);
   }
 
   .font-size {
@@ -27,7 +28,7 @@
     min-height: 500px;
     margin-top: 30px;
     font-size: 14px;
-    background-color: mat-color($background-color, darker);
+    background-color: mat.get-color-from-palette($background-color, darker);
 
     .padding-content {
       padding: 10px;

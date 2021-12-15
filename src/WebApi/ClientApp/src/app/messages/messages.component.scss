@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 
 @import '../../custom-theme.scss';
 
@@ -10,12 +11,12 @@
 }
 
 .inbox-mails-content {
-  background-color: mat-color($background-color);
+  background-color: mat.get-color-from-palette($background-color);
 }
 
 .message-container {
   border-left: 1px solid;
-  background-color: mat-color($background-color);
+  background-color: mat.get-color-from-palette($background-color);
   width: 40%;
 }
 
@@ -58,22 +59,22 @@
 
   .mails-content {
     padding: 10px;
-    background-color: mat-color($background-color);
+    background-color: mat.get-color-from-palette($background-color);
   }
 
   .header-container {
     position: fixed;
     display: flex;
-    background-color: mat-color($background-color);
+    background-color: mat.get-color-from-palette($background-color);
     left: 20px;
     right: 20px;
     top: 64px;
     z-index: 100;
-    border-bottom: 1px solid mat-color($background-color, darker);
+    border-bottom: 1px solid mat.get-color-from-palette($background-color, darker);
   }
 
   .message-header {
-    border-bottom: 1px solid mat-color($accent);
+    border-bottom: 1px solid mat.get-color-from-palette($accent);
   }
 }
 

@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '../../custom-theme.scss';
 .loader-row {
   flex: 1;
@@ -37,16 +38,16 @@
 }
 
 .mat-row:nth-child(even) {
-  background-color: mat-color($background-color);
+  background-color: mat.get-color-from-palette($background-color);
 }
 
 .mat-row:nth-child(odd) {
-  background-color: mat-color($background-color, darker);
+  background-color: mat.get-color-from-palette($background-color, darker);
 }
 
 tr.mat-row {
   .mat-cell {
-    color: mat-color($accent, lighter);
+    color: mat.get-color-from-palette($accent, lighter);
     font-size: 12px; //Size of the text in the table
   }
 }
@@ -71,7 +72,7 @@ tr.mat-row {
 }
 
 .icon-delete {
-  color: mat-color($warn) !important;
+  color: mat.get-color-from-palette($warn) !important;
 }
 
 @media(max-width:768px) {
@@ -87,12 +88,12 @@ tr.mat-row {
   .header-container {
     position: fixed;
     display: flex;
-    background-color: mat-color($background-color);
+    background-color: mat.get-color-from-palette($background-color);
     left: 10px;
     right: 15px;
     top: 64px;
     z-index: 100;
-    border-bottom: 1px solid mat-color($background-color, darker);
+    border-bottom: 1px solid mat.get-color-from-palette($background-color, darker);
   }
 
   ::ng-deep .mat-fab {
@@ -107,7 +108,7 @@ tr.mat-row {
   }
 
   ::ng-deep .mat-icon-button {
-    color: mat-color($primary, darker) !important;
+    color: mat.get-color-from-palette($primary, darker) !important;
     height: 30px;
     min-width: 0;
     width: 30px;

@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '../../custom-theme.scss';
 
 .container {
@@ -18,7 +19,7 @@
 
 .title {
   text-transform: uppercase;
-  color: mat-color($accent);
+  color: mat.get-color-from-palette($accent);
   font-family: "Roboto";
   font-weight: 800;
   font-size: 20px;
@@ -29,7 +30,7 @@
 }
 
 .logout-text {
-  color: mat-color($warn);
+  color: mat.get-color-from-palette($warn);
 }
 
 ::ng-deep .mat-menu-panel {
@@ -41,14 +42,14 @@
 }
 
 .sidenav-content {
-  background-color: mat-color($background-color);
+  background-color: mat.get-color-from-palette($background-color);
   display: flex;
   flex-direction: column;
   overflow:hidden;
 }
 
 .user-section {
-  color: mat-color($accent);
+  color: mat.get-color-from-palette($accent);
 }
 
 @media(max-width:768px) {

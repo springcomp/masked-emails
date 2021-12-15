@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '../../../custom-theme.scss';
 .mat-table {
   width: 100%;
@@ -5,7 +6,7 @@
 
 tr.mat-row {
   .mat-cell {
-    color: mat-color($accent, lighter);
+    color: mat.get-color-from-palette($accent, lighter);
     font-size: 12px; //Size of the text in the table
   }
 }
@@ -15,25 +16,25 @@ tr.mat-row {
 }
 
 .mat-row:nth-child(even) {
-  background-color: mat-color($background-color);
+  background-color: mat.get-color-from-palette($background-color);
 }
 
 .mat-row:nth-child(odd) {
-  background-color: mat-color($background-color, darker);
+  background-color: mat.get-color-from-palette($background-color, darker);
 }
 
 tr.mat-header-row {
-  background-color: mat-color($background-color);
+  background-color: mat.get-color-from-palette($background-color);
 
   .mat-header-cell {
     font-family: Roboto;
     font-size: 15px;
     font-weight: 500;
-    color: mat-color($accent);
+    color: mat.get-color-from-palette($accent);
   }
 }
 
 .highlight {
-  background-color: mat-color( $highlight) !important;
+  background-color: mat.get-color-from-palette( $highlight) !important;
   font-weight: 500;
 }
