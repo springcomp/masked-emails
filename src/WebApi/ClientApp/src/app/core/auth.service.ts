@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { Observable, Subscription } from 'rxjs';
-
 import { Router } from '@angular/router';
+import { AuthenticatedResult, LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
+import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/internal/operators/map';
 
 @Injectable({
   providedIn: 'root'
@@ -22,14 +22,13 @@ export class AuthService implements OnDestroy {
   public initAuthentication() {
     this.oidcSecurityService
       .checkAuth()
-
-      .subscribe((isAuthenticated) => {
-        if (!isAuthenticated) {
+      .subscribe((response: LoginResponse) => {
+        if (!response.isAuthenticated) {
           if ('/login' !== window.location.pathname) {
             this.router.navigate(['/login']);
           }
         }
-        if (isAuthenticated) {
+        if (response.isAuthenticated) {
           this.router.navigate(['/masked-emails']);
         }
       });
@@ -44,6 +43,11 @@ export class AuthService implements OnDestroy {
   }
 
   public getIsAuthorized(): Observable<boolean> {
-    return this.oidcSecurityService.isAuthenticated$;
+    return this.oidcSecurityService.isAuthenticated$.pipe(
+      map(
+        (authenticatedResult: AuthenticatedResult) => 
+          authenticatedResult.isAuthenticated
+      )
+    );
   }
 }

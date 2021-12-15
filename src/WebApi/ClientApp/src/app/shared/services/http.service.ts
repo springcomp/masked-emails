@@ -25,7 +25,7 @@ export class HttpService {
         headers = headers.set('Content-Type', 'application/json');
         headers = headers.set('Accept', 'application/json');
 
-        const token = this.openid.getToken();
+        const token = this.openid.getAccessToken();
         if (token !== '') {
             const tokenValue = 'Bearer ' + token;
             headers = headers.set('Authorization', tokenValue);
