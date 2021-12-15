@@ -1,10 +1,6 @@
 ﻿using CosmosDb.Model;
 using CosmosDb.Model.Interop;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using WebApi.Model;
 
 namespace WebApi.Owin
@@ -22,7 +18,7 @@ namespace WebApi.Owin
 
         public async Task InvokeAsync(HttpContext httpContext)
         {
-            if (httpContext.User != null && httpContext.User.Identity.IsAuthenticated)
+            if (httpContext.User != null && (httpContext.User.Identity?.IsAuthenticated).GetValueOrDefault())
             {
                 const string emailAddress = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
                 var email = httpContext.User.Claims.FirstOrDefault(c => c.Type == emailAddress);
@@ -31,7 +27,7 @@ namespace WebApi.Owin
                 if (email == null)
                     throw new ApplicationException();
 
-                Profile authenticated = null;
+                Profile? authenticated = null;
 
                 var profiles = context_.QueryProfiles();
                 await foreach (var page in profiles)
@@ -53,7 +49,8 @@ namespace WebApi.Owin
                     throw new ApplicationException();
 
                 var appIdentity = httpContext.User.Identities.FirstOrDefault();
-                appIdentity.AddClaim(new Claim(ClaimIdentifiers.UserId, authenticated.Id));
+                if (appIdentity != null)
+                    appIdentity.AddClaim(new Claim(ClaimIdentifiers.UserId, authenticated.Id));
             }
 
             await next_(httpContext);
