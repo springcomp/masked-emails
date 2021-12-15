@@ -88,6 +88,11 @@ public static class Startup
             });
         }
 
+        // this is required for serving the following static files
+        // https://angular/assets/auth.clientConfiguration.json
+        // https://angular/assets/auth.clientConfiguration.prod.json
+        // https://angular/assets/static/silent-renew.html
+
         services.AddSpaStaticFiles(options =>
         {
             options.RootPath = "ClientApp/dist";
