@@ -66,11 +66,6 @@ import { MessagesTableViewComponent } from './messages/messages-table-view/messa
     MessagesTableMobileViewComponent,
     MessagesTableViewComponent,
   ],
-  entryComponents: [
-    NewMaskedEmailAddressDialogComponent,
-    ProfileDialogComponent,
-    UpdateMaskedEmailAddressDialogComponent,
-  ],
   imports: [
     AppRoutingModule,
     AuthConfigModule,
